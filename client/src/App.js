@@ -14,10 +14,9 @@ function App() {
     // }
 
     return (
-        <body className="bg-gray-50">
-        <div>
-        <nav className="w-full relative flex flex-wrap items-center justify-between navbar-expand-lg">
-            <div className="container px-4 mx-auto flex flex-wrap items-center justify-between bg-white">
+        <div className="w-full h-full absolute bg-gradient-to-t from-purple-400 to-red-500" id="background">
+        <nav className="w-full flex flex-wrap items-center justify-between navbar-expand-lg">
+            <div className=" w-full px-4 flex flex-wrap items-center justify-between bg-white">
                 <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
                     <Link to="/" className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-black">Home</Link>
                     <Link to="/login" className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-black">Login</Link>
@@ -25,14 +24,15 @@ function App() {
                 </div>
             </div>
         </nav>
+            <div className="justify-center">
             <Switch>
                 <Route exact path='/' component={Homepage} />
                 <Route path='/login' component={Login} />
                 <Route path='/register' component={Register} />
                 <Route component={Error} />
             </Switch>
+            </div>
         </div>
-        </body>
     );
 
 }
