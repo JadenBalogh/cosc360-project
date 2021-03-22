@@ -1,14 +1,17 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
-import {jwtAuthenticationMiddleware, isAuthenticatedMiddleware} from "./accounts/middlewares.js";
-import {login, signup} from "./accounts/views.js";
+import { jwtAuthenticationMiddleware, isAuthenticatedMiddleware } from './accounts/middlewares.js';
+import { login, signup } from './accounts/views.js';
 
 const app = express();
 const port = 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(jwtAuthenticationMiddleware);
 
 app.post('/accounts/login', login);
@@ -19,7 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api-test', isAuthenticatedMiddleware, (req, res) => {
-  res.send({'userId': req.userId});
+  res.send({ userId: req.userId });
 });
 
 app.listen(port, () => {
