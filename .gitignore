@@ -19,9 +19,6 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-.idea/cosc360-project.iml
-.idea/modules.xml
-.idea/vcs.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -114,6 +111,5 @@ fabric.properties
 # CodeStream plugin
 # https://plugins.jetbrains.com/plugin/12206-codestream
 .idea/codestream.xml
-
+.idea/
 # End of https://www.toptal.com/developers/gitignore/api/vscode,webstorm
-.idea/jsLibraryMappings.xml
