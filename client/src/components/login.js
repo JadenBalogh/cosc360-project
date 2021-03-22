@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 class Login extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ class Login extends Component {
             email: '',
             password: '',
         };
+        this.loginUrl = 'http://localhost:3001/accounts/login';
     }
 
     changeHandler = (event) => {
@@ -21,6 +23,14 @@ class Login extends Component {
         event.preventDefault();
         console.log(this.state.email);
         console.log(this.state.password);
+        axios.post(this.loginUrl, {
+            email: this.state.email,
+            password: this.state.password
+        }).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     render() {

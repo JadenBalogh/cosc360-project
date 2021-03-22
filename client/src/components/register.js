@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 class Register extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class Register extends Component {
             email: '',
             password: '',
         };
+        this.registerUrl = 'http://localhost:3001/accounts/signup';
     }
 
     changeHandler = (event) => {
@@ -20,9 +22,15 @@ class Register extends Component {
     }
     submit = (event) => {
         event.preventDefault();
-        console.log(this.state.username);
-        console.log(this.state.email);
-        console.log(this.state.password);
+        axios.post(this.registerUrl, {
+            email: this.state.email,
+            password: this.state.password,
+            username: this.state.username
+        }).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     render() {
