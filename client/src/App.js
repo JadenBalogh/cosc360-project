@@ -4,7 +4,9 @@ import './App.css';
 
 function App() {
   function apiTest() {
-    axios.get('http://localhost:3001/api-test').then((response) => {
+    const host = process.env.REACT_APP_HOST || '';
+    console.log(host);
+    axios.get(host + '/').then((response) => {
       console.log(response.data);
     });
   }
