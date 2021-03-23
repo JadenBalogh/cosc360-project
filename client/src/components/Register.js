@@ -59,7 +59,7 @@ class Register extends Component {
                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"/>
                             </div>
                             <div className="flex flex-col pt-4">
-                                <input type="password" id="password" name="password2" placeholder="Repeat Password"
+                                <input type="password" id="password2" name="password2" placeholder="Repeat Password"
                                        onChange={this.changeHandler}
                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline"/>
                             </div>

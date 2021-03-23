@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import './App.css';
 import {Switch, Route, Link} from "react-router-dom";
 import Login from './components/Login';
@@ -6,12 +5,6 @@ import Register from './components/Register';
 import Homepage from "./components/Homepage";
 
 function App() {
-    // Example API GET Method
-    // function apiTest() {
-    //     axios.get('http://localhost:3001/api-test').then((response) => {
-    //         console.log(response.data);
-    //     });
-    // }
 
     return (
         <div className="w-full h-full absolute bg-gradient-to-t from-purple-400 to-red-500" id="background">
