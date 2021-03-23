@@ -10,7 +10,7 @@ import { jwtAuthenticationMiddleware, isAuthenticatedMiddleware } from './accoun
 import { login, signup } from './accounts/views.js';
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
