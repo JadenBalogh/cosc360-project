@@ -1,9 +1,9 @@
 // import axios from 'axios';
 import './App.css';
 import {Switch, Route, Link} from "react-router-dom";
-import Login from './components/login';
-import Register from './components/register';
-import Homepage from "./components/homepage";
+import Login from './components/Login';
+import Register from './components/Register';
+import Homepage from "./components/Homepage";
 
 function App() {
     // Example API GET Method
