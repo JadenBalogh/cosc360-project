@@ -15,7 +15,7 @@ export async function login(req, res) {
 }
 
 export async function signup(req, res) {
-    const {email, password} = req.body;
+    const {email, password, username} = req.body;
     const user = findUser(email, null);
 
     if (user) {
