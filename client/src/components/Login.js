@@ -9,7 +9,7 @@ class Login extends Component {
             email: '',
             password: '',
         };
-        this.loginUrl = 'http://localhost:3001/accounts/login';
+        this.loginUrl = `${process.env.REACT_APP_HOST || ''}/accounts/login`;
     }
 
     changeHandler = (event) => {
