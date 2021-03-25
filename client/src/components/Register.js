@@ -11,7 +11,7 @@ class Register extends Component {
             password: '',
             password2: '',
         };
-        this.registerUrl = 'http://localhost:3001/accounts/signup';
+        this.registerUrl = `${process.env.REACT_APP_HOST || ''}/accounts/signup`;
     }
 
     changeHandler = (event) => {
