@@ -12,7 +12,7 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post(registerURL, {email, password, username})
+      .post(registerURL, {email, password, password2, username})
       .then((response) => {
         console.log(response);
       })

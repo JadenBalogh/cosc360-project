@@ -15,7 +15,7 @@ export async function login(req, res) {
 }
 
 export async function signup(req, res) {
-    const {email, password, username} = req.body;
+    const {email, password, password2, username} = req.body;
     const user = findUser(email, null);
 
     if (user) {
@@ -24,6 +24,20 @@ export async function signup(req, res) {
     }
 
     // TODO actually create the user and save it in db
+    res.status(200);
+    return res.json("success");
+}
+
+export async function updateProfile(req, res) {
+    const {email, password, password2, username} = req.body;
+    const user = findUser(email, null);
+
+    if (user) {
+        res.status(400);
+        return res.json({error: 'An account associated to this email already exists'})
+    }
+
+    // TODO actually update the user and save it in db
     res.status(200);
     return res.json("success");
 }

@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import {useState} from "react";
+import axios from "axios";
 
 function Profile() {
     const [username, setUsername] = useState('');
@@ -10,6 +11,15 @@ function Profile() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        // TODO this will be a put instead of a post.
+        axios
+            .post(profileURL, {email, password, password2, username})
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
     return (
         <>
