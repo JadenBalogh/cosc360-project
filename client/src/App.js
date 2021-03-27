@@ -2,31 +2,12 @@ import {Switch, Route, Link} from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Homepage from './components/Homepage';
+import Header from './components/Header';
 
 function App() {
   return (
     <>
-      <nav
-        className='w-full flex flex-wrap items-center justify-between sm:justify-start py-4 px-6 sticky top-0 left-0 z-50'>
-        <Link
-          to='/'
-          className='text-sm font-bold leading-relaxed inline-block mr-4 whitespace-no-wrap uppercase text-black'
-        >
-          Home
-        </Link>
-        <Link
-          to='/login'
-          className='text-sm font-bold leading-relaxed inline-block mr-4 whitespace-no-wrap uppercase text-black'
-        >
-          Login
-        </Link>
-        <Link
-          to='/register'
-          className='text-sm font-bold leading-relaxed inline-block mr-4 whitespace-no-wrap uppercase text-black'
-        >
-          Register
-        </Link>
-      </nav>
+      <Header/>
       <div>
         <Switch>
           <Route exact path='/' component={Homepage}/>
