@@ -20,7 +20,10 @@ function Homepage() {
   useEffect(loadFeed, [feedURL]);
 
   return (
-    <form className='flex flex-col max-w-screen-md mx-auto my-4 space-y-8'>
+    <form
+      className='flex flex-col max-w-screen-md mx-auto my-4 space-y-8 cursor-pointer'
+      onClick={() => console.log('TODO: Load this Post!')}
+    >
       {feed.map((post) => (
         <div className='flex rounded-xl border border-gray-300 max-h-60 overflow-hidden'>
           {post.image ? <img className='h-full w-60' src={post.image} alt='Logo' /> : ''}
