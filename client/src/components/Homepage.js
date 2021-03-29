@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import PostMenu from './PostMenu';
 
 function Homepage() {
   const [feed, setFeed] = useState([]);
@@ -19,21 +20,25 @@ function Homepage() {
   useEffect(loadFeed, [feedURL]);
 
   return (
-    // <div className='w-full flex flex-wrap mt-7'>
-    //   <div className='w-full flex flex-col'>
-    //     <div className='flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32'>
-    //       <div className='bg-white p-6 rounded-lg shadow-lg'>HomePage</div>
-    //     </div>
-    //   </div>
-    // </div>
-    <form className='flex flex-col max-w-screen-md mx-auto space-y-8'>
+    <form className='flex flex-col max-w-screen-md mx-auto my-4 space-y-8'>
       {feed.map((post) => (
-        <div className='rounded-xl border border-gray-300 space-y-2 max-h-60 p-5 py-3.5'>
-          <h2 className='text-xl font-medium text-black'>{post.title}</h2>
-          <p className='text-sm font-medium text-black'>
-            By <span className='font-bold'>{post.username}</span>
-          </p>
-          <p className='text-base text-black truncate'>{post.body}</p>
+        <div className='flex rounded-xl border border-gray-300 max-h-60 overflow-hidden'>
+          {post.image ? <img className='h-full w-60' src={post.image} alt='Logo' /> : ''}
+          <div className='flex flex-col space-y-2 p-5 py-3.5'>
+            <div className='flex justify-between items-center'>
+              <h2 className='text-2xl font-medium text-black'>{post.title}</h2>
+              <div>
+                <PostMenu />
+              </div>
+            </div>
+            <p className='text-sm font-medium text-black'>
+              By{' '}
+              <span className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
+                {post.username}
+              </span>
+            </p>
+            <p className='text-base text-black overflow-hidden'>{post.body}</p>
+          </div>
         </div>
       ))}
     </form>

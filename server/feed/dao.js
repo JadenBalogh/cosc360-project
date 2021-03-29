@@ -17,6 +17,7 @@ const posts = [
   {
     id: '2',
     title: 'Post 2',
+    image: 'mountain.png',
     username: '@username2',
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vulputate eget velit vitae congue. Quisque iaculis tortor elit, vitae tincidunt libero condimentum in. Morbi sapien purus, accumsan id turpis et, rutrum imperdiet lorem. Etiam hendrerit ligula sed risus blandit, in efficitur nisi venenatis. Mauris rutrum posuere aliquam. Ut vehicula, metus et viverra ultrices, elit odio interdum ex, vitae tincidunt tellus diam sed lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean interdum sem sed purus malesuada, in venenatis eros tempus. Quisque gravida sed metus blandit egestas. Suspendisse porttitor lacus nec erat fermentum, a tempus risus iaculis. Nullam eget est faucibus, euismod enim vitae, interdum risus.
 
@@ -45,6 +46,7 @@ const posts = [
   {
     id: '4',
     title: 'Post 4',
+    image: 'mountain.png',
     username: '@username4',
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vulputate eget velit vitae congue. Quisque iaculis tortor elit, vitae tincidunt libero condimentum in. Morbi sapien purus, accumsan id turpis et, rutrum imperdiet lorem. Etiam hendrerit ligula sed risus blandit, in efficitur nisi venenatis. Mauris rutrum posuere aliquam. Ut vehicula, metus et viverra ultrices, elit odio interdum ex, vitae tincidunt tellus diam sed lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean interdum sem sed purus malesuada, in venenatis eros tempus. Quisque gravida sed metus blandit egestas. Suspendisse porttitor lacus nec erat fermentum, a tempus risus iaculis. Nullam eget est faucibus, euismod enim vitae, interdum risus.
 
