@@ -25,7 +25,7 @@ function Homepage() {
       onClick={() => console.log('TODO: Load this Post!')}
     >
       {feed.map((post) => (
-        <div className='flex rounded-xl border border-gray-300 max-h-60 overflow-hidden'>
+        <div key={post.id} className='flex rounded-xl border border-gray-300 max-h-60 overflow-hidden'>
           {post.image && <img className='h-full w-60' src={post.image} alt='Logo' />}
           <div className='flex flex-col space-y-2 p-5 py-3.5'>
             <div className='flex justify-between items-center'>
