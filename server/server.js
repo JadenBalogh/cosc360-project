@@ -8,6 +8,7 @@ import express from 'express';
 import cors from 'cors';
 import { jwtAuthenticationMiddleware, isAuthenticatedMiddleware } from './accounts/middlewares.js';
 import { login, signup } from './accounts/views.js';
+import { getFeed } from './feed/views.js';
 
 const app = express();
 const port = process.env.PORT;
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.post('/accounts/login', login);
 app.post('/accounts/signup', signup);
+app.get('/feed/get-feed', getFeed);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
