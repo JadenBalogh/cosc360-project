@@ -4,6 +4,7 @@ import Register from './components/Register';
 import Homepage from './components/Homepage';
 import Header from './components/Header';
 import CreatePost from "./components/CreatePost";
+import EditPost from "./components/EditPost";
 import ViewPost from "./components/ViewPost";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
           <Route path='/create' component={CreatePost}/>
+          <Route path='/edit' component={EditPost}/>
           <Route path='/view' component={ViewPost}/>
           <Route component={Error}/>
         </Switch>
