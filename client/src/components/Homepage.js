@@ -26,7 +26,7 @@ function Homepage() {
     >
       {feed.map((post) => (
         <div className='flex rounded-xl border border-gray-300 max-h-60 overflow-hidden'>
-          {post.image ? <img className='h-full w-60' src={post.image} alt='Logo' /> : ''}
+          {post.image && <img className='h-full w-60' src={post.image} alt='Logo' />}
           <div className='flex flex-col space-y-2 p-5 py-3.5'>
             <div className='flex justify-between items-center'>
               <h2 className='text-2xl font-medium text-black'>{post.title}</h2>
