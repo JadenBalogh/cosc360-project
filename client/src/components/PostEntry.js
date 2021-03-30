@@ -35,9 +35,7 @@ function PostEntry(props) {
 
   return (
     <div className='container max-w-3xl md:bg-white md:border border-gray-300 md:rounded-2xl p-6'>
-      <h1 className='text-2xl font-medium w-full text-center text-black'>
-        {props.children}
-      </h1>
+      {props.children}
       <form
         className='flex flex-col'
         onSubmit={handleSubmit}
@@ -48,7 +46,6 @@ function PostEntry(props) {
           id='title'
           name='title'
           placeholder='Title'
-          value={title}
           onChange={event => setTitle(event.target.value)}
           className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-3'
           required={true}
@@ -60,12 +57,12 @@ function PostEntry(props) {
             id='link'
             name='link'
             placeholder='Link'
-            value={imageTitle || link}
+            value={imageTitle}
             onChange={event => setLink(event.target.value)}
             className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-3'
-            disabled={imageSrc || props.edit}
+            disabled={imageSrc}
           />
-          <label className={`flex flex-row flex-nowrap justify-center items-center border border-gray-300 rounded ${props.edit ? 'bg-gray-400 text-gray-700' : 'bg-gray-200 cursor-pointer hover:bg-gray-300 text-black'} py-2 px-3 mt-3 ml-3 focus:outline-none`}>
+          <label className='flex flex-row flex-nowrap justify-center items-center border border-gray-300 rounded bg-gray-200 cursor-pointer py-2 px-3 mt-3 ml-3 focus:outline-none hover:bg-gray-300'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className='h-5'>
               <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
             </svg>
@@ -77,7 +74,6 @@ function PostEntry(props) {
               accept='image/*'
               onChange={updatePreview}
               className='opacity-0 w-0'
-              disabled={props.edit}
             />
           </label>
         </div>
@@ -95,7 +91,6 @@ function PostEntry(props) {
           id='subject'
           name='subject'
           placeholder='Subject'
-          value={subject}
           onChange={event => setSubject(event.target.value)}
           className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-3 h-48'
           required={true}
