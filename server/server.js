@@ -9,8 +9,9 @@ import cors from "cors";
 import {
   jwtAuthenticationMiddleware,
   isAuthenticatedMiddleware,
+  isAdminMiddleware,
 } from "./accounts/middlewares.js";
-import { login, signup } from "./accounts/views.js";
+import * as accountViews from "./accounts/views.js";
 import { getFeed } from "./feed/views.js";
 import { populateDB } from "./db/data/all.js";
 
@@ -29,15 +30,33 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.post("/accounts/login", login);
-app.post("/accounts/signup", signup);
+// Account Views
+app.post("/accounts/login", accountViews.login);
+app.post("/accounts/signup", accountViews.signup);
+app.get(
+  "/accounts/profile",
+  isAuthenticatedMiddleware,
+  accountViews.getProfile
+);
+app.put(
+  "/accounts/profile",
+  isAuthenticatedMiddleware,
+  accountViews.putProfile
+);
+app.post("/accounts/activate", isAdminMiddleware, accountViews.activateUser);
+app.post(
+  "/accounts/deactivate",
+  isAdminMiddleware,
+  accountViews.deactivateUser
+);
+
 app.get("/feed/get-feed", getFeed);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/api-test", isAuthenticatedMiddleware, (req, res) => {
+app.get("/api-test", isAdminMiddleware, (req, res) => {
   res.send({ userId: req.userId });
 });
 

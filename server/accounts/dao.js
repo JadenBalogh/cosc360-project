@@ -32,3 +32,11 @@ export async function createUser(email, password) {
     password: password,
   });
 }
+
+export async function updateUser(id, attributes) {
+  return User.update(attributes, {
+    where: {
+      id: id,
+    },
+  });
+}

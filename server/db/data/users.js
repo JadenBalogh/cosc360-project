@@ -4,10 +4,14 @@ const users = [
   {
     email: "first@gmail.com",
     password: "password",
+    name: "first",
+    isAdmin: true,
   },
   {
     email: "second@gmail.com",
     password: "password",
+    name: "second",
+    isAdmin: false,
   },
 ];
 
