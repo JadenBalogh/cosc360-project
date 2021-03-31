@@ -12,6 +12,7 @@ import {
 } from "./accounts/middlewares.js";
 import { login, signup } from "./accounts/views.js";
 import { getFeed } from "./feed/views.js";
+import { populateDB } from "./db/data/all.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -38,6 +39,14 @@ app.get("/", (req, res) => {
 
 app.get("/api-test", isAuthenticatedMiddleware, (req, res) => {
   res.send({ userId: req.userId });
+});
+
+app.get("/populate-db", async (req, res) => {
+  populateDB()
+    .then((x) => {
+      res.send("success");
+    })
+    .catch(res.send);
 });
 
 app.listen(port, () => {

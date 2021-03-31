@@ -1,7 +1,7 @@
 import { findUser } from "./dao.js";
 import { decodeToken } from "./authentication.js";
 
-export const jwtAuthenticationMiddleware = (req, res, next) => {
+export const jwtAuthenticationMiddleware = async (req, res, next) => {
   const token = req.header("Access-Token");
   if (!token) {
     return next();
@@ -10,7 +10,7 @@ export const jwtAuthenticationMiddleware = (req, res, next) => {
   try {
     const decoded = decodeToken(token);
     const { userId } = decoded;
-    if (findUser(userId)) {
+    if (await findUser(userId)) {
       req.userId = userId;
     }
   } catch (e) {
