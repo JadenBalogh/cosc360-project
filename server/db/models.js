@@ -3,8 +3,14 @@ import { sequelize } from "./sequelize.js";
 
 const { DataTypes, Model } = sequelize_pkg;
 
+// Model definitions
 export class User extends Model {}
 
+export class Post extends Model {}
+
+export class Comment extends Model {}
+
+// Attributes
 User.init(
   {
     email: {
@@ -35,8 +41,44 @@ User.init(
       defaultValue: true,
     },
   },
-  {
-    sequelize,
-    modelName: "User",
-  }
+  { sequelize, modelName: "User" }
 );
+
+Post.init(
+  {
+    title: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  { sequelize, modelName: "Post" }
+);
+
+Comment.init(
+  {
+    text: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  { sequelize, modelName: "Comment" }
+);
+
+// Relations
+User.hasMany(Post, {
+  foreignKey: "userId",
+});
+Post.belongsTo(User, {
+  foreignKey: "userId",
+});
+
+Post.hasMany(Comment, {
+  foreignKey: "postId",
+});
+Comment.belongsTo(Post, {
+  foreignKey: "postId",
+});

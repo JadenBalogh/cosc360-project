@@ -12,7 +12,7 @@ import {
   isAdminMiddleware,
 } from "./accounts/middlewares.js";
 import * as accountViews from "./accounts/views.js";
-import { getFeed } from "./feed/views.js";
+import { getFeed, getComments } from "./feed/views.js";
 import { populateDB } from "./db/data/all.js";
 
 const app = express();
@@ -51,6 +51,7 @@ app.post(
 );
 
 app.get("/feed/get-feed", getFeed);
+app.get("/feed/comments", getComments);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -65,7 +66,9 @@ app.get("/populate-db", async (req, res) => {
     .then((x) => {
       res.send("success");
     })
-    .catch(res.send);
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.listen(port, () => {

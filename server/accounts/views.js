@@ -30,7 +30,7 @@ export async function signup(req, res) {
       res.status(200);
       res.json(user);
     })
-    .catch(res.send);
+    .catch((err) => res.send(err));
 }
 
 export async function getProfile(req, res) {
@@ -39,7 +39,7 @@ export async function getProfile(req, res) {
       res.status(200);
       res.json(user);
     })
-    .catch(res.send);
+    .catch((err) => res.send(err));
 }
 
 export async function putProfile(req, res) {
@@ -55,7 +55,7 @@ export async function putProfile(req, res) {
       res.status(200);
       res.json(user);
     })
-    .catch(res.send);
+    .catch((err) => res.send(err));
 }
 
 export async function deactivateUser(req, res) {
@@ -67,7 +67,7 @@ export async function deactivateUser(req, res) {
       res.status(200);
       res.json(user);
     })
-    .catch(res.send);
+    .catch((err) => res.send(err));
 }
 
 export async function activateUser(req, res) {
@@ -79,5 +79,5 @@ export async function activateUser(req, res) {
       res.status(200);
       res.json(user);
     })
-    .catch(res.send);
+    .catch((err) => res.send(err));
 }
