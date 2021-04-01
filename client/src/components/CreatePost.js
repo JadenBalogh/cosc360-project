@@ -12,7 +12,7 @@ function CreatePost(props) {
     <>
       <div className='flex flex-col justify-center items-center my-5'>
         <PostEntry submitAction={handleSubmit}>
-          <h1 className='text-2xl font-medium w-full text-center text-black'>Create Post</h1>
+          Create Post
         </PostEntry>
       </div>
     </>
