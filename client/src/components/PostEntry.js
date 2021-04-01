@@ -35,7 +35,9 @@ function PostEntry(props) {
 
   return (
     <div className='container max-w-3xl md:bg-white md:border border-gray-300 md:rounded-2xl p-6'>
-      {props.children}
+      <h1 className='text-2xl font-medium w-full text-center text-black'>
+        {props.children}
+      </h1>
       <form
         className='flex flex-col'
         onSubmit={handleSubmit}
