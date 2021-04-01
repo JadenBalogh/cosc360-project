@@ -14,7 +14,6 @@ import {
 import * as accountViews from "./accounts/views.js";
 import { getFeed, getComments } from "./feed/views.js";
 import { populateDB } from "./db/data/all.js";
-import {login, signup, updateProfile} from './accounts/views.js';
 
 const app = express();
 const port = process.env.PORT;
