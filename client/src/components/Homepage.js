@@ -7,9 +7,7 @@ function Homepage({ searchText }) {
   const feedURL = `${process.env.REACT_APP_HOST || ''}/feed/get-feed`;
 
   function loadFeed() {
-    console.log(searchText);
     let searchParams = searchText && '?' + new URLSearchParams({ searchText });
-    console.log(searchParams);
     axios
       .get(feedURL + searchParams)
       .then((response) => {
