@@ -1,11 +1,21 @@
 import React from 'react';
 import PostEntry from './PostEntry'
+import axios from "axios";
 
 function CreatePost(props) {
+  const publishURL = `${process.env.REACT_APP_HOST || ''}/feed/publish-post`;
 
   const handleSubmit = (title, image, link, subject) => {
-    // TODO: handle new post on server side
-    return props.history.push('/');
+    axios
+      .put(publishURL, {title, image, link, subject})
+      .then((res) => {
+        console.log('success creating');
+        return props.history.push('/');
+      })
+      .catch((err) => {
+        // TODO: display error
+        console.log('error');
+      });
   }
 
   return (
