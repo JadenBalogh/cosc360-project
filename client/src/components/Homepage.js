@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostMenu from './PostMenu';
 
-function Homepage() {
+function Homepage({ searchText }) {
   const [feed, setFeed] = useState([]);
   const feedURL = `${process.env.REACT_APP_HOST || ''}/feed/get-feed`;
 
   function loadFeed() {
+    console.log(searchText);
+    let searchParams = searchText && '?' + new URLSearchParams({ searchText });
+    console.log(searchParams);
     axios
-      .get(feedURL)
+      .get(feedURL + searchParams)
       .then((response) => {
         setFeed(response.data);
       })
@@ -17,7 +20,7 @@ function Homepage() {
       });
   }
 
-  useEffect(loadFeed, [feedURL]);
+  useEffect(loadFeed, [feedURL, searchText]);
 
   return (
     <form
