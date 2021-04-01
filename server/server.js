@@ -1,14 +1,19 @@
-import dotenv from 'dotenv';
-
+import dotenv from "dotenv";
 dotenv.config();
 
-import path from 'path';
-
+import path from "path";
 const __dirname = path.resolve();
 
-import express from 'express';
-import cors from 'cors';
-import {jwtAuthenticationMiddleware, isAuthenticatedMiddleware} from './accounts/middlewares.js';
+import express from "express";
+import cors from "cors";
+import {
+  jwtAuthenticationMiddleware,
+  isAuthenticatedMiddleware,
+  isAdminMiddleware,
+} from "./accounts/middlewares.js";
+import * as accountViews from "./accounts/views.js";
+import { getFeed, getComments } from "./feed/views.js";
+import { populateDB } from "./db/data/all.js";
 import {login, signup, updateProfile} from './accounts/views.js';
 
 const app = express();
@@ -19,23 +24,52 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(jwtAuthenticationMiddleware);
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, 'build')));
-    app.get('/*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'build', 'index.html'));
-    });
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "build")));
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
 }
 
-app.post('/accounts/login', login);
-app.post('/accounts/signup', signup);
-app.post('/accounts/profile', updateProfile);
+// Account Views
+app.post("/accounts/login", accountViews.login);
+app.post("/accounts/signup", accountViews.signup);
+app.get(
+  "/accounts/profile",
+  isAuthenticatedMiddleware,
+  accountViews.getProfile
+);
+app.put(
+  "/accounts/profile",
+  isAuthenticatedMiddleware,
+  accountViews.putProfile
+);
+app.post("/accounts/activate", isAdminMiddleware, accountViews.activateUser);
+app.post(
+  "/accounts/deactivate",
+  isAdminMiddleware,
+  accountViews.deactivateUser
+);
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+app.get("/feed/get-feed", getFeed);
+app.get("/feed/comments", getComments);
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-app.get('/api-test', isAuthenticatedMiddleware, (req, res) => {
-    res.send({userId: req.userId});
+app.get("/api-test", isAdminMiddleware, (req, res) => {
+  res.send({ userId: req.userId });
+});
+
+app.get("/populate-db", async (req, res) => {
+  populateDB()
+    .then((x) => {
+      res.send("success");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.listen(port, () => {
