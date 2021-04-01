@@ -24,7 +24,7 @@ function EditPost(props) {
       <div className='flex flex-col justify-center items-center my-5'>
         <PostEntry submitAction={handleSubmit} title={values.title} imageLink={values.imageLink} link={values.link}
                    subject={values.subject} edit={true}>
-          <h1 className='text-2xl font-medium w-full text-center text-black'>Edit Post</h1>
+          Edit Post
         </PostEntry>
       </div>
     </>
