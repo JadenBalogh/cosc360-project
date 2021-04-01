@@ -9,8 +9,6 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
     axios
       .post(loginURL, {email, password})
       .then((response) => {

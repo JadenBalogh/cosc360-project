@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import {usePasswordValidation} from "../hooks/passwordValidation";
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -10,16 +11,26 @@ function Register() {
     const [image, setImage] = useState('');
     const registerURL = `${process.env.REACT_APP_HOST || ''}/accounts/signup`;
 
+    const [match] = usePasswordValidation({
+        password: password,
+        password2: password2
+    })
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios
-            .post(registerURL, {email, password, username, image})
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if (match) {
+            axios
+                .post(registerURL, {email, password, username, image})
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+        else {
+            console.log('The passwords must match!');
+        }
     };
 
     return (
@@ -38,7 +49,6 @@ function Register() {
                         <div className='flex flex-col justify-center items-center'>
                             <img className='inline object-cover w-24 h-24 mr-2 rounded-full border-2'
                                  src={'no-profile-image.jpg'} alt='Logo'/>
-                            {/*<input type='file' id='image' name='image' className="hidden"/>*/}
                             <div
                                 className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                                 <input type='file' id='image' name='image'
@@ -51,6 +61,7 @@ function Register() {
                             name='email'
                             placeholder='Email'
                             onChange={(event) => setEmail(event.target.value)}
+                            required
                             className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5'
                         />
                         <input
@@ -59,6 +70,7 @@ function Register() {
                             name='username'
                             placeholder='Username'
                             onChange={(event) => setUsername(event.target.value)}
+                            required
                             className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5'
                         />
                         <input
@@ -67,6 +79,7 @@ function Register() {
                             name='password'
                             placeholder='Password'
                             onChange={(event) => setPassword(event.target.value)}
+                            required
                             className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5'
                         />
                         <input
@@ -75,6 +88,7 @@ function Register() {
                             name='password2'
                             placeholder='Repeat Password'
                             onChange={(event) => setPassword2(event.target.value)}
+                            required
                             className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5'
                         />
                         <div className="flex flex-wrap justify-end mt-8">

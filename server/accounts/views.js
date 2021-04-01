@@ -15,7 +15,7 @@ export async function login(req, res) {
 }
 
 export async function signup(req, res) {
-  const { email, password } = req.body;
+  const { email, password, username, image } = req.body;
   const user = await findUser(email, null);
 
   if (user) {
@@ -25,7 +25,7 @@ export async function signup(req, res) {
     });
   }
 
-  createUser(email, password)
+  createUser(email, password, username, image)
     .then((user) => {
       res.status(200);
       res.json(user);
