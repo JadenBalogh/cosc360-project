@@ -11,12 +11,12 @@ function Header({ setSearchText }) {
   }
 
   return (
-    <nav className='w-full flex flex-wrap items-center justify-between py-4 px-6 sticky top-0 left-0 z-50'>
-      <Link to='/'>
-        <img className='h-6' src={'logo.svg'} alt='Logo' />
+    <nav className='grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50'>
+      <Link to='/' className='justify-self-start'>
+        <img className='w-20' src={'logo.svg'} alt='Logo'/>
       </Link>
       <form
-        className='flex flex-shrink-0 items-center justify-between w-full max-w-screen-md h-10 px-5 rounded-full border border-gray-300 shadow-lg'
+        className='justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg'
         onSubmit={handleSearch}
       >
         <input
@@ -27,7 +27,7 @@ function Header({ setSearchText }) {
         />
         <button type='submit'>
           <svg
-            className='w-5 h-5 text-gray-500'
+            className='w-5 h-5 text-gray-500 hover:text-gray-600'
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'
             fill='currentColor'
@@ -40,7 +40,7 @@ function Header({ setSearchText }) {
           </svg>
         </button>
       </form>
-      <div>
+      <div className='justify-self-end'>
         <ProfileHeaderDrop />
         <Link to='/login' className='text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'>
           Login
