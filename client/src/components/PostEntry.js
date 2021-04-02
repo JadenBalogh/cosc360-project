@@ -1,12 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 function PostEntry(props) {
-  const [title, setTitle] = useState(props.title || '');
-  const [image, setImage] = useState(props.image || undefined);
-  const [imageSrc, setImageSrc] = useState(props.imageLink || '');
-  const [imageTitle, setImageTitle] = useState(props.imageLink || '');
-  const [link, setLink] = useState(props.link || '');
-  const [subject, setSubject] = useState(props.subject || '');
+  const [title, setTitle] = useState(props.title);
+  const [image, setImage] = useState(props.image);
+  const [imageSrc, setImageSrc] = useState(props.imageLink);
+  const [imageTitle, setImageTitle] = useState(props.imageLink);
+  const [link, setLink] = useState(props.link);
+  const [subject, setSubject] = useState(props.subject);
+
+  useEffect(() => {
+    setTitle(props.title);
+    setImage(props.image);
+    setImageSrc(props.imageLink);
+    setImageTitle(props.imageLink);
+    setLink(props.link);
+    setSubject(props.subject);
+  }, [props.title, props.image, props.imageLink, props.link, props.subject]);
 
   const updatePreview = (input) => {
     const files = input.target.files;
