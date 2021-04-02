@@ -1,3 +1,3 @@
 export * from './handle-response';
-export * from './history';
+export * from './browser-history';
 export * from './auth-header';
