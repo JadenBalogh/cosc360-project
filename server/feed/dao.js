@@ -1,7 +1,7 @@
-import { Post, Comment } from "../db/models.js";
+import { Post, Comment, User } from '../db/models.js';
 
 export async function getAllPosts() {
-  return Post.findAll();
+  return Post.findAll({ include: User });
 }
 
 export async function getAllComments() {

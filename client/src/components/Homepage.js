@@ -10,7 +10,7 @@ function Homepage() {
     axios
       .get(feedURL)
       .then((response) => {
-        setFeed(response.data.posts);
+        setFeed(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -37,7 +37,7 @@ function Homepage() {
             <p className='text-sm font-medium text-black'>
               By{' '}
               <span className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                {post.username}
+                @{post.User.name}
               </span>
             </p>
             <p className='text-base text-black overflow-hidden'>{post.body}</p>
