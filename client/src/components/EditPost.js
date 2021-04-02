@@ -3,18 +3,18 @@ import PostEntry from './PostEntry'
 import axios from "axios";
 
 function EditPost(props) {
-  const [postId, setPostId] = useState(0);
-  const [post, setPost] = useState(undefined)
+  const postId = 1;
+  const [post, setPost] = useState({
+    title: '',
+    link: '',
+    image: null,
+    subject: ''
+  });
   const editURL = `${process.env.REACT_APP_HOST || ''}/feed/edit-post`;
   const postURL = `${process.env.REACT_APP_HOST || ''}/feed/get-post`;
 
   useEffect(() => {
     // TODO: get id
-    setPostId(1);
-  }, []);
-
-  useEffect(() => {
-    // TODO: get values of post from server side
     axios
       .get(postURL, {
         params: {
@@ -28,14 +28,19 @@ function EditPost(props) {
         // TODO: display error
         console.log('error');
       });
-  }, [postId])
+  }, []);
 
   const handleSubmit = (title, image, link, subject) => {
     // TODO: handle new post on server side
     axios
-      .put(editURL, {title, image, link, subject})
+      .put(editURL, {
+        postId: postId,
+        data: {
+          title, image, link, subject
+        }
+      })
       .then((res) => {
-        console.log('success editing');
+        // TODO: success message
         return props.history.push('/');
       })
       .catch((err) => {

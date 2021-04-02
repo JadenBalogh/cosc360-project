@@ -6,8 +6,13 @@ function CreatePost(props) {
   const publishURL = `${process.env.REACT_APP_HOST || ''}/feed/publish-post`;
 
   const handleSubmit = (title, image, link, subject) => {
+    console.log('sub')
     axios
-      .put(publishURL, {title, image, link, subject})
+      .put(publishURL, {
+        data: {
+          title, image, link, subject
+        }
+      })
       .then((res) => {
         console.log('success creating');
         return props.history.push('/');
@@ -21,7 +26,8 @@ function CreatePost(props) {
   return (
     <>
       <div className='flex flex-col justify-center items-center my-5'>
-        <PostEntry submitAction={handleSubmit}>
+        <PostEntry submitAction={handleSubmit} title={''} imageLink={''} link={''}
+                   subject={''} edit={false}>
           Create Post
         </PostEntry>
       </div>
