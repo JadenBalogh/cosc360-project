@@ -1,6 +1,7 @@
-import {Link} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
+import {authenticationService} from "../_services";
+import {history} from "../_helpers";
 
 function Profile() {
     const [username, setUsername] = useState('');
@@ -8,6 +9,22 @@ function Profile() {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const profileURL = `${process.env.REACT_APP_HOST || ''}/accounts/profile`;
+    const user = authenticationService.currentUserValue;
+    let profile = "";
+    let profileInformation = "";
+    axios.get(profileURL,{
+        headers: {
+            Authorization: user.accessToken
+        }
+    })
+        .then((user) => {
+           console.log(user);
+        })
+        .catch((error) => {
+            // history.push("/");
+            // window.location.reload(false);
+            console.log(error);
+        });
 
     const handleSubmit = (event) => {
         event.preventDefault();
