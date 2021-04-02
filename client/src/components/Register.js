@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { usePasswordValidation } from "../hooks/passwordValidation";
 import { history } from "../_helpers";
+import {authenticationService} from "../_services";
 
 function Register() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -21,11 +22,13 @@ function Register() {
     event.preventDefault();
     if (match) {
       axios
-        .post(registerURL, { email, password, username, image })
+        .post(registerURL, { email, password, name, image })
         .then((response) => {
           console.log(response);
-          history.push("/");
-          window.location.reload(false);
+          authenticationService.login(email, password).then(() => {
+            history.push("/");
+            window.location.reload(false);
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -81,7 +84,7 @@ function Register() {
               id="username"
               name="username"
               placeholder="Username"
-              onChange={(event) => setUsername(event.target.value)}
+              onChange={(event) => setName(event.target.value)}
               required
               className="shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5"
             />

@@ -26,11 +26,11 @@ export async function findUser(email, password) {
   }
 }
 
-export async function createUser(email, password, username, image) {
+export async function createUser(email, password, name, image) {
   return User.create({
     email: email,
     password: password,
-    username: username,
+    name: name,
     image: image,
   });
 }

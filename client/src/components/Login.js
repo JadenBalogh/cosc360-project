@@ -2,29 +2,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
 import {authenticationService} from "../_services";
-import axios from "axios";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loginURL = `${process.env.REACT_APP_HOST || ""}/accounts/login`;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authenticationService.login(email, password).then(user => {
+    authenticationService.login(email, password).then(() => {
       history.push("/");
       window.location.reload(false);
     });
-    // axios
-    //   .post(loginURL, { email, password })
-    //   .then((response) => {
-    //     console.log(response);
-    //     history.push("/");
-    //     window.location.reload(false);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
   return (
