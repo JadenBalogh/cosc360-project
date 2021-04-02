@@ -53,8 +53,8 @@ app.post(
 app.get("/feed/get-feed", getFeed);
 app.get("/feed/comments", getComments);
 app.get("/feed/get-post", getPost);
-app.get("/feed/publish-post", publishPost);
-app.get("/feed/edit-post", editPost);
+app.put("/feed/publish-post", publishPost);
+app.put("/feed/edit-post", editPost);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

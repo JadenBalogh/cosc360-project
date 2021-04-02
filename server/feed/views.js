@@ -19,10 +19,10 @@ export async function getPost(req, res) {
 }
 
 export async function publishPost(req, res) {
-  const { title, link, image, body } = req.body;
+  const { title, link, image, subject } = req.body.data;
 
   newPost({
-    title, link, image, body
+    title, link, image, subject
   })
     .then((post) => {
       res.status(200);
@@ -34,11 +34,11 @@ export async function publishPost(req, res) {
 }
 
 export async function editPost(req, res) {
-  const { title, body } = req.body;
-  const id = req.postId;
+  const { title, link, image, subject } = req.body.data;
+  const id = req.body.postId;
 
   updatePost(id, {
-    title, body
+    title, link, image, subject
   })
     .then((post) => {
       res.status(200);
