@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
+import {authenticationService} from "../_services";
 import axios from "axios";
 
 function Login() {
@@ -10,16 +11,20 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post(loginURL, { email, password })
-      .then((response) => {
-        console.log(response);
-        history.push("/");
-        window.location.reload(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    authenticationService.login(email, password).then(user => {
+      history.push("/");
+      window.location.reload(false);
+    });
+    // axios
+    //   .post(loginURL, { email, password })
+    //   .then((response) => {
+    //     console.log(response);
+    //     history.push("/");
+    //     window.location.reload(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   return (
