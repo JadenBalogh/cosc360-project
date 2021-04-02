@@ -10,13 +10,13 @@ export async function login(req, res) {
     return res.json({ error: "Invalid email or password" });
   }
 
-  const accessToken = encodeToken({ userId: user.id });
-  return res.json({ accessToken });
+  user.accessToken = encodeToken({ userId: user.id });
+  return res.json(user);
 }
 
 export async function signup(req, res) {
-    const {email, password, password2, username} = req.body;
-    const user = findUser(email, null);
+  const { email, password, name, image } = req.body;
+  const user = await findUser(email, null);
 
   if (user) {
     res.status(400);
@@ -25,7 +25,7 @@ export async function signup(req, res) {
     });
   }
 
-  createUser(email, password)
+  createUser(email, password, name, image)
     .then((user) => {
       res.status(200);
       res.json(user);

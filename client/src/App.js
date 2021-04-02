@@ -1,14 +1,14 @@
-import {Switch, Route, Link} from 'react-router-dom';
-import Login from './components/Login';
-import Register from './components/Register';
-import Homepage from './components/Homepage';
-import Header from './components/Header';
+import { Switch, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Homepage from "./components/Homepage";
+import Header from "./components/Header";
 import Profile from "./components/Profile";
 
 function App() {
   return (
     <>
-      <Header/>
+      <Header />
       <div>
         <Switch>
           <Route exact path='/' component={Homepage}/>
