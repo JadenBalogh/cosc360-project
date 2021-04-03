@@ -12,7 +12,7 @@ function ProfileHeaderDrop() {
         {({ open }) => (
           <>
             <Menu.Button className="inline-flex justify-center items-center space-x-2 text-base text-black transition duration-50 ease-in-out focus:outline-none hover:text-gray-500 active:text-gray-800">
-              <span>{user?.name}</span>
+              <span>{user?.user.name}</span>
               <span className="rounded-full bg-gray-500 w-10 h-10" />
               {open ? (
                 <svg
@@ -56,7 +56,7 @@ function ProfileHeaderDrop() {
                 <div className="px-4 py-3">
                   <p className="text-sm leading-5">Signed in as</p>
                   <p className="text-sm font-medium leading-5 text-black truncate">
-                    {user?.email}
+                    {user?.user.email}
                   </p>
                 </div>
 

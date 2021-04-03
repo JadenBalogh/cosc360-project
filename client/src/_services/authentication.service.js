@@ -18,10 +18,8 @@ export const authenticationService = {
 function login(email, password) {
   return axios.post(loginURL, { email, password }).then((response) => {
     const user = response.data;
-    console.log(response)
     localStorage.setItem("currentUser", JSON.stringify(user));
     currentUserSubject.next(user);
-    console.log(user);
   });
 }
 

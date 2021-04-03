@@ -10,8 +10,8 @@ export async function login(req, res) {
     return res.json({ error: "Invalid email or password" });
   }
 
-  user.accessToken = encodeToken({ userId: user.id });
-  return res.json(user);
+  const accessToken = encodeToken({ userId: user.id });
+  return res.json({user, accessToken});
 }
 
 export async function signup(req, res) {
