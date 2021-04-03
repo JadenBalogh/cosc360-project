@@ -17,21 +17,26 @@ function Profile() {
     password2: password2,
   });
   let profile = null;
-  axios
-    .get(profileURL, {
-      headers: {
-        Authorization: user.accessToken,
-      },
-    })
-    .then((user) => {
-      profile = user.data;
-      console.log(user);
-    })
-    .catch((error) => {
+  if (user) {
+    axios
+      .get(profileURL, {
+        headers: {
+          Authorization: user.accessToken,
+        },
+      })
+      .then((user) => {
+        profile = user.data;
+        console.log(user);
+      })
+      .catch((error) => {
+        history.push("/");
+        window.location.reload(false);
+        console.log(error);
+      });
+  } else {
       history.push("/");
       window.location.reload(false);
-      console.log(error);
-    });
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
