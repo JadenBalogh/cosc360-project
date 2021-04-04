@@ -5,25 +5,7 @@ import { authenticationService } from '../_services';
 
 function Header({ setSearchText }) {
   const history = useHistory();
-
   const user = authenticationService.currentUserValue;
-  let login = '';
-  let register = '';
-  if (!user) {
-    login = (
-      <Link to='/login' className='text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'>
-        Login
-      </Link>
-    );
-    register = (
-      <Link
-        to='/register'
-        className='text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'
-      >
-        Register
-      </Link>
-    );
-  }
 
   function handleSearch(event) {
     event.preventDefault();
@@ -61,9 +43,21 @@ function Header({ setSearchText }) {
         </button>
       </form>
       <div className='justify-self-end'>
-        <ProfileHeaderDrop />
-        {login}
-        {register}
+        {user ? (
+          <ProfileHeaderDrop />
+        ) : (
+          <>
+            <Link to='/login' className='text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'>
+              Login
+            </Link>
+            <Link
+              to='/register'
+              className='text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'
+            >
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
