@@ -1,9 +1,29 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import ProfileHeaderDrop from './ProfileHeaderDrop';
+import { authenticationService } from '../_services';
 
 function Header({ setSearchText }) {
   const history = useHistory();
+
+  const user = authenticationService.currentUserValue;
+  let login = '';
+  let register = '';
+  if (!user) {
+    login = (
+      <Link to='/login' className='text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'>
+        Login
+      </Link>
+    );
+    register = (
+      <Link
+        to='/register'
+        className='text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'
+      >
+        Register
+      </Link>
+    );
+  }
 
   function handleSearch(event) {
     event.preventDefault();
@@ -13,7 +33,7 @@ function Header({ setSearchText }) {
   return (
     <nav className='grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50'>
       <Link to='/' className='justify-self-start'>
-        <img className='w-20' src={'logo.svg'} alt='Logo'/>
+        <img className='w-20' src={'logo.svg'} alt='Logo' />
       </Link>
       <form
         className='justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg'
@@ -42,15 +62,8 @@ function Header({ setSearchText }) {
       </form>
       <div className='justify-self-end'>
         <ProfileHeaderDrop />
-        <Link to='/login' className='text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'>
-          Login
-        </Link>
-        <Link
-          to='/register'
-          className='text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black'
-        >
-          Register
-        </Link>
+        {login}
+        {register}
       </div>
     </nav>
   );
