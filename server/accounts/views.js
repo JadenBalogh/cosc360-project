@@ -1,5 +1,6 @@
 import { findUser, createUser, updateUser } from "./dao.js";
 import { encodeToken } from "./authentication.js";
+import nodemailer from "nodemailer";
 
 export async function login(req, res) {
   const { email, password } = req.body;
@@ -80,4 +81,35 @@ export async function activateUser(req, res) {
       res.json(user);
     })
     .catch((err) => res.send(err));
+}
+
+export async function resetPassword(req, res) {
+  const { user, password } = req.body;
+  const email = process.env.EMAIL;
+  const emailPassword = process.env.PASSWORD;
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: email,
+      pass: emailPassword,
+    },
+  });
+
+  const mailOptions = {
+    from: email,
+    to: user,
+    subject: "Password Recovery",
+    text: "Here is the password for your account: " + password,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+      return res.json("The email was not sent successfully");
+    } else {
+      console.log("Email sent: " + info.response);
+      res.status(200);
+      return res.json(mailOptions);
+    }
+  });
 }

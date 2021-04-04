@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
+
 dotenv.config();
 
 import path from "path";
+
 const __dirname = path.resolve();
 
 import express from "express";
@@ -33,6 +35,7 @@ if (process.env.NODE_ENV === "production") {
 // Account Views
 app.post("/accounts/login", accountViews.login);
 app.post("/accounts/signup", accountViews.signup);
+app.post("/accounts/password-recovery", accountViews.resetPassword);
 app.get(
   "/accounts/profile",
   isAuthenticatedMiddleware,

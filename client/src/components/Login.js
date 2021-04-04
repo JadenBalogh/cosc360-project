@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
-import {authenticationService} from "../_services";
+import { authenticationService } from "../_services";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -50,7 +50,7 @@ function Login() {
             />
             <div className="flex flex-wrap justify-between mt-8">
               <Link
-                to="/"
+                to="/password-recovery"
                 className="text-sm font-normal text-blue-500 hover:text-blue-700 hover:underline"
               >
                 Forget Password?
