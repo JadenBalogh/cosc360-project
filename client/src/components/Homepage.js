@@ -25,6 +25,8 @@ function Homepage({ searchText }) {
 
   useEffect(loadFeed, [feedURL, searchText, sortOrder]);
 
+  useUpdateCheck(feed, searchText, sortOrder, 10000);
+
   return (
     <div className='flex flex-col max-w-screen-md mx-auto my-4 space-y-4'>
       <div className='flex justify-end'>
@@ -67,7 +69,7 @@ function Homepage({ searchText }) {
               <p className='text-sm font-medium text-black'>
                 By{' '}
                 <span className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{post.userId}
+                  @{post.User.name}
                 </span>
               </p>
               <p className='text-base text-black overflow-hidden'>{post.body}</p>
@@ -77,6 +79,31 @@ function Homepage({ searchText }) {
       </form>
     </div>
   );
+}
+
+function useUpdateCheck(feed, searchText, sortOrder, delay) {
+  useEffect(() => {
+    const feedURL = `${process.env.REACT_APP_HOST || ''}/feed/get-feed`;
+
+    function checkFeed() {
+      console.log('Checking for feed updates 👀');
+      let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
+      axios
+        .get(feedURL + searchParams)
+        .then((response) => {
+          let result = response.data;
+          if (JSON.stringify(result) !== JSON.stringify(feed)) {
+            alert('AHHHHHHHHHHHHHH REFRESH THE PAGE NOWWWWWW');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    let id = setInterval(checkFeed, delay);
+    return () => clearInterval(id);
+  }, [feed, searchText, sortOrder, delay]);
 }
 
 export default Homepage;
