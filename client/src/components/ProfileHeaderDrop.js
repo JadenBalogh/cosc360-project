@@ -5,42 +5,19 @@ import { authenticationService } from "../_services";
 
 function ProfileHeaderDrop() {
   const user = authenticationService.currentUserValue;
-  return (
-    <>
-      <div className="relative inline-block text-left py-0.5">
+  let dropdown = "";
+  if (user) {
+    dropdown = (
+      <div className="realtive inline-block text-left py-0.5">
         <Menu>
           {({ open }) => (
             <>
               <Menu.Button className="inline-flex justify-center items-center space-x-2 text-base text-black transition duration-50 ease-in-out focus:outline-none hover:text-gray-500 active:text-gray-800">
-                <span>{user?.name}</span>
-                <span className="rounded-full bg-gray-500 w-10 h-10" />
-                {open ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-6"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-6"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
+                <span>{user.name}</span>
+                <img
+                  src={user.image}
+                  className="w-10 h-10 mr-2 rounded-full border-2"
+                />
               </Menu.Button>
 
               <Transition
@@ -56,7 +33,7 @@ function ProfileHeaderDrop() {
                   <div className="px-4 py-3">
                     <p className="text-sm leading-5">Signed in as</p>
                     <p className="text-sm font-medium leading-5 text-black truncate">
-                      {user?.email}
+                      {user.email}
                     </p>
                   </div>
 
@@ -79,7 +56,7 @@ function ProfileHeaderDrop() {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          to=''
+                          to=""
                           className={`${
                             active ? "bg-gray-100" : "bg-white"
                           } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
@@ -96,13 +73,18 @@ function ProfileHeaderDrop() {
           )}
         </Menu>
       </div>
+    );
+  }
+  return (
+    <>
+      <div className="relative inline-block text-left py-0.5">{dropdown}</div>
     </>
   );
 }
 
 function logout() {
-    authenticationService.logout();
-    window.location.reload(false);
+  authenticationService.logout();
+  window.location.reload(false);
 }
 
 export default ProfileHeaderDrop;

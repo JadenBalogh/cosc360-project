@@ -10,8 +10,13 @@ export async function login(req, res) {
     return res.json({ error: "Invalid email or password" });
   }
 
-  user.accessToken = encodeToken({ userId: user.id });
-  return res.json(user);
+  const accessToken = encodeToken({ userId: user.id });
+  return res.json({
+      name: user.name,
+      email: user.email,
+      image: user.image.toString(),
+      accessToken: accessToken,
+  });
 }
 
 export async function signup(req, res) {
@@ -36,10 +41,14 @@ export async function signup(req, res) {
 export async function getProfile(req, res) {
   findUser(req.userId)
     .then((user) => {
+      user.image = user.image.toString();
       res.status(200);
       res.json(user);
     })
-    .catch((err) => res.send(err));
+    .catch((err) => {
+      res.send(err);
+      console.log(err);
+    });
 }
 
 export async function putProfile(req, res) {
