@@ -1,16 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import { authenticationService } from "../_services";
-import {authHeader, history} from "../_helpers";
+import { authHeader, history } from "../_helpers";
 import { usePasswordValidation } from "../_hooks/passwordValidation";
-
 
 function Profile() {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [profile, setProfile] = useState("");
   const profileURL = `${process.env.REACT_APP_HOST || ""}/accounts/profile`;
   const user = authenticationService.currentUserValue;
@@ -20,44 +19,43 @@ function Profile() {
   });
   if (user && name === null) {
     axios
-        .get(profileURL, {
-          headers: authHeader(),
-        })
-        .then((user) => {
-          console.log(user);
-          setProfile(user.data);
-          setName(profile.name);
-          setPassword(profile.password);
-          setPassword2(profile.password);
-          setEmail(profile.email);
-          setImage(user.data.image.data);
-          console.log(btoa(user.data.image.toString()));
-          console.log(image);
-        })
-        .catch((error) => {
-          // history.push("/");
-          // window.location.reload(false);
-          console.log(error);
-        });
+      .get(profileURL, {
+        headers: authHeader(),
+      })
+      .then((user) => {
+        console.log(user);
+        setProfile(user.data);
+        setName(profile.name);
+        setPassword(profile.password);
+        setPassword2(profile.password);
+        setEmail(profile.email);
+        setImage(user.data.image);
+      })
+      .catch((error) => {
+        history.push("/");
+        window.location.reload(false);
+        console.log(error);
+      });
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (match) {
       axios
-          .put(
-              profileURL,
-              { email, password, name, image },
-              {
-                headers: authHeader()
-              }
-          )
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        .put(
+          profileURL,
+          { email, password, name, image },
+          {
+            headers: authHeader(),
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       console.log("The passwords must match!");
     }
@@ -72,7 +70,7 @@ function Profile() {
               <div className="flex flex-col justify-center items-center">
                 <img
                   className="inline object-cover w-24 h-24 mr-2 rounded-full border-2"
-                  src={"data:image/png;base64," + btoa(image)}
+                  src={image}
                   alt="Logo"
                 />
                 <div className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
@@ -80,7 +78,14 @@ function Profile() {
                     type="file"
                     id="image"
                     name="image"
-                    // onChange={(event) => setImage(event.target.value)}
+                    onChange={(event) => {
+                      const file = event.target.files[0];
+                      let reader = new FileReader();
+                      reader.readAsDataURL(file);
+                      reader.onload = function () {
+                        setImage(reader.result);
+                      };
+                    }}
                     // value={image}
                   />
                 </div>
