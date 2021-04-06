@@ -12,7 +12,6 @@ function Register() {
   const [password2, setPassword2] = useState("");
   const [image, setImage] = useState("");
   const registerURL = `${process.env.REACT_APP_HOST || ""}/accounts/signup`;
-
   const [match] = usePasswordValidation({
     password: password,
     password2: password2,
@@ -63,10 +62,17 @@ function Register() {
               />
               <div className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                 <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  onChange={(event) => setImage(event.target.value)}
+                    type="file"
+                    id="image"
+                    name="image"
+                    onChange={(event) => {
+                      const file = event.target.files[0];
+                      let reader = new FileReader();
+                      reader.readAsDataURL(file);
+                      reader.onload = function () {
+                        setImage(reader.result);
+                      };
+                    }}
                 />
               </div>
             </div>

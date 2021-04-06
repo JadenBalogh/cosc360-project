@@ -17,6 +17,7 @@ function Profile() {
     password: password,
     password2: password2,
   });
+  let imageHTML = "";
   if (user && name === null) {
     axios
       .get(profileURL, {
@@ -37,7 +38,23 @@ function Profile() {
         console.log(error);
       });
   }
-
+  if (image) {
+    imageHTML = (
+      <img
+        className="inline object-cover w-24 h-24 mr-2 rounded-full border-2"
+        src={image}
+        alt="Logo"
+      />
+    );
+  } else {
+    imageHTML = (
+      <img
+        className="inline object-cover w-24 h-24 mr-2 rounded-full border-2"
+        src={"no-profile-image.jpg"}
+        alt="Logo"
+      />
+    );
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -68,11 +85,7 @@ function Profile() {
           <div className="container max-w-4xl sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
             <form className="flex flex-col" onSubmit={handleSubmit}>
               <div className="flex flex-col justify-center items-center">
-                <img
-                  className="inline object-cover w-24 h-24 mr-2 rounded-full border-2"
-                  src={image}
-                  alt="Logo"
-                />
+                {imageHTML}
                 <div className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                   <input
                     type="file"
@@ -86,7 +99,6 @@ function Profile() {
                         setImage(reader.result);
                       };
                     }}
-                    // value={image}
                   />
                 </div>
               </div>

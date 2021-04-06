@@ -44,6 +44,7 @@ if (process.env.NODE_ENV === "production") {
 // Account Views
 app.post("/accounts/login", accountViews.login);
 app.post("/accounts/signup", accountViews.signup);
+app.post("/accounts/password-recovery", accountViews.resetPassword);
 app.get(
   "/accounts/profile",
   isAuthenticatedMiddleware,

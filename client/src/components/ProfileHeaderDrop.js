@@ -6,7 +6,23 @@ import { authenticationService } from "../_services";
 function ProfileHeaderDrop() {
   const user = authenticationService.currentUserValue;
   let dropdown = "";
+  let image = "";
   if (user) {
+    if (user.image) {
+      image = (
+        <img
+          src={user.image}
+          className="w-10 h-10 mr-2 rounded-full border-2"
+        />
+      );
+    } else {
+      image = (
+        <img
+          src={"no-profile-image.jpg"}
+          className="w-10 h-10 mr-2 rounded-full border-2"
+        />
+      );
+    }
     dropdown = (
       <div className="realtive inline-block text-left py-0.5">
         <Menu>
@@ -14,10 +30,7 @@ function ProfileHeaderDrop() {
             <>
               <Menu.Button className="inline-flex justify-center items-center space-x-2 text-base text-black transition duration-50 ease-in-out focus:outline-none hover:text-gray-500 active:text-gray-800">
                 <span>{user.name}</span>
-                <img
-                  src={user.image}
-                  className="w-10 h-10 mr-2 rounded-full border-2"
-                />
+                {image}
               </Menu.Button>
 
               <Transition
