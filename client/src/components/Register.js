@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { usePasswordValidation } from "../hooks/passwordValidation";
 import { history } from "../_helpers";
-import {authenticationService} from "../_services";
+import { authenticationService } from "../_services";
 
 function Register() {
   const [name, setName] = useState("");

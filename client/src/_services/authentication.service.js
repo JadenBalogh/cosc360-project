@@ -20,7 +20,6 @@ function login(email, password) {
     const user = response.data;
     localStorage.setItem("currentUser", JSON.stringify(user));
     currentUserSubject.next(user);
-    console.log(user);
   });
 }
 

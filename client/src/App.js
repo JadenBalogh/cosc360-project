@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Homepage from "./components/Homepage";
 import Header from "./components/Header";
+import Profile from "./components/Profile";
 import PasswordRecovery from "./components/PasswordRecovery";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           </Route>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/profile" component={Profile} />
           <Route path="/password-recovery" component={PasswordRecovery} />
           <Route component={Error} />
         </Switch>
