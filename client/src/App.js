@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -6,16 +7,20 @@ import Header from "./components/Header";
 import Profile from "./components/Profile";
 
 function App() {
+  const [searchText, setSearchText] = useState("");
+
   return (
     <>
-      <Header />
+      <Header setSearchText={setSearchText} />
       <div>
         <Switch>
-          <Route exact path='/' component={Homepage}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/register' component={Register}/>
-          <Route path='/profile' component={Profile}/>
-          <Route component={Error}/>
+          <Route exact path="/">
+            <Homepage searchText={searchText} />
+          </Route>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/profile" component={Profile} />
+          <Route component={Error} />
         </Switch>
       </div>
     </>
