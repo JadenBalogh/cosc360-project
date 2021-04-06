@@ -86,7 +86,6 @@ function Profile() {
                         setImage(reader.result);
                       };
                     }}
-                    // value={image}
                   />
                 </div>
               </div>
