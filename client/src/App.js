@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Homepage from "./components/Homepage";
-import Header from "./components/Header";
+import Login from './components/Login';
+import Register from './components/Register';
+import Homepage from './components/Homepage';
+import Header from './components/Header';
 import Profile from "./components/Profile";
 import PasswordRecovery from "./components/PasswordRecovery";
+import CreatePost from "./components/CreatePost";
+import EditPost from "./components/EditPost";
+import ViewPost from "./components/ViewPost";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -22,7 +25,11 @@ function App() {
           <Route path="/register" component={Register} />
           <Route path="/profile" component={Profile} />
           <Route path="/password-recovery" component={PasswordRecovery} />
-          <Route component={Error} />
+          <Route path='/create' component={CreatePost}/>
+          <Route path='/view/:id/edit/' component={EditPost}/>
+          <Route path='/view/:id' component={ViewPost}/>
+          <Route exact path='/' component={Homepage}/>
+          <Route component={Error}/>
         </Switch>
       </div>
     </>
