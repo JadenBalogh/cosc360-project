@@ -1,4 +1,4 @@
-import { getAllPosts, getAllComments, getPostByID, newPost, updatePost } from "./dao.js";
+import {getAllPosts, getAllComments, getPostByID, newPost, updatePost, newComment} from "./dao.js";
 
 export async function getFeed(req, res) {
   getAllPosts()
@@ -7,22 +7,36 @@ export async function getFeed(req, res) {
 }
 
 export async function getComments(req, res) {
-  getAllComments()
+  getAllComments(req.query.id)
     .then((comments) => res.json(comments))
     .catch((err) => console.log(err));
 }
 
+export async function addComment(req, res) {
+  const text = req.body.data.comment;
+  const id = req.body.postId;
+
+  newComment(id, { text })
+    .then((post) => {
+      res.status(200);
+      res.json(post);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+}
+
 export async function getPost(req, res) {
-  getPostByID(req.postId)
+  getPostByID(req.query.id)
     .then((post) => res.json(post))
     .catch((err) => res.send(err));
 }
 
 export async function publishPost(req, res) {
-  const { title, link, image, subject } = req.body.data;
+  const { title, link, image, body } = req.body.data;
 
   newPost({
-    title, link, image, subject
+    title, link, image, body
   })
     .then((post) => {
       res.status(200);
@@ -34,11 +48,11 @@ export async function publishPost(req, res) {
 }
 
 export async function editPost(req, res) {
-  const { title, link, image, subject } = req.body.data;
-  const id = req.body.postId;
+  const { title, link, image, body } = req.body.data;
+  const id = req.body.id;
 
   updatePost(id, {
-    title, link, image, subject
+    title, link, image, body
   })
     .then((post) => {
       res.status(200);
@@ -46,5 +60,5 @@ export async function editPost(req, res) {
     })
     .catch((err) => {
       res.send(err);
-    })
+    });
 }

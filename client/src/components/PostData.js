@@ -1,21 +1,40 @@
 import React, {useState, useEffect} from 'react';
+import axios from "axios";
 
-function PostEntry(props) {
-  const [title, setTitle] = useState(props.title);
-  const [image, setImage] = useState(props.image);
-  const [imageSrc, setImageSrc] = useState(props.imageLink);
-  const [imageTitle, setImageTitle] = useState(props.imageLink);
-  const [link, setLink] = useState(props.link);
-  const [subject, setSubject] = useState(props.subject);
+function PostData(props) {
+  const postId = props.match.params.id || -1;
+
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState(null);
+  const [imageSrc, setImageSrc] = useState('');
+  const [imageTitle, setImageTitle] = useState('');
+  const [link, setLink] = useState('');
+  const [body, setBody] = useState('');
+
+  const postURL = `${process.env.REACT_APP_HOST || ''}/feed/get-post`;
+  const editURL = `${process.env.REACT_APP_HOST || ''}/feed/edit-post`;
+  const publishURL = `${process.env.REACT_APP_HOST || ''}/feed/publish-post`;
 
   useEffect(() => {
-    setTitle(props.title);
-    setImage(props.image);
-    setImageSrc(props.imageLink);
-    setImageTitle(props.imageLink);
-    setLink(props.link);
-    setSubject(props.subject);
-  }, [props.title, props.image, props.imageLink, props.link, props.subject]);
+    if (props.edit) {
+      axios
+        .get(postURL, {
+          params: {
+            id: postId
+          }
+        })
+        .then((res) => {
+          setTitle(res.data[0].title || '');
+          setImage(res.data[0].image || null);
+          setLink(res.data[0].link || '');
+          setBody(res.data[0].body || '');
+        })
+        .catch((err) => {
+          // TODO: display error through banner and redirect
+          console.log(err);
+        });
+    }
+  }, [postId, postURL, props.edit]);
 
   const updatePreview = (input) => {
     const files = input.target.files;
@@ -39,7 +58,21 @@ function PostEntry(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.submitAction(title, image, link, subject);
+    axios
+      .put(props.edit ? editURL : publishURL, {
+        id: postId,
+        data: {
+          title, image, link, body
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        return props.history.push('/');
+      })
+      .catch((err) => {
+        // TODO: display error through banner
+        console.log(err);
+      });
   }
 
   return (
@@ -74,9 +107,12 @@ function PostEntry(props) {
             className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-3'
             disabled={imageSrc || props.edit}
           />
-          <label className={`flex flex-row flex-nowrap justify-center items-center border border-gray-300 rounded ${props.edit ? 'bg-gray-400 text-gray-700' : 'bg-gray-200 cursor-pointer hover:bg-gray-300 text-black'} py-2 px-3 mt-3 ml-3 focus:outline-none`}>
+          <label
+            className={`flex flex-row flex-nowrap justify-center items-center border border-gray-300 rounded ${props.edit ? 'bg-gray-400 text-gray-700' : 'bg-gray-200 cursor-pointer hover:bg-gray-300 text-black'} py-2 px-3 mt-3 ml-3 focus:outline-none`}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className='h-5'>
-              <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              <path fillRule="evenodd"
+                    d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"
+                    clipRule="evenodd"/>
             </svg>
             <span className='text-base font-medium'>Upload</span>
             <input
@@ -95,7 +131,9 @@ function PostEntry(props) {
                className='h-6 absolute top-2 right-2 text-white rounded-full bg-gray-700 p-1 hover:bg-gray-800 cursor-pointer shadow-2xl'
                onClick={resetPreview}
           >
-            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            <path fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"/>
           </svg>
           <img src={imageSrc} alt='Uploaded preview' className='w-full h-48 object-cover rounded shadow-md'/>
         </div>}
@@ -104,8 +142,8 @@ function PostEntry(props) {
           id='subject'
           name='subject'
           placeholder='Subject'
-          value={subject}
-          onChange={event => setSubject(event.target.value)}
+          value={body}
+          onChange={event => setBody(event.target.value)}
           className='shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-3 h-48'
           required={true}
         />
@@ -119,4 +157,4 @@ function PostEntry(props) {
   );
 }
 
-export default PostEntry;
+export default PostData;
