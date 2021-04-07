@@ -61,9 +61,10 @@ function ViewPost(props) {
   useEffect(() => {
     getPost();
     refreshComments();
-    setInterval(() => {
+    let refreshTimer = setInterval(() => {
       refreshComments();
     }, 10000);
+    return () => clearInterval(refreshTimer)
   }, []);
 
   return (
