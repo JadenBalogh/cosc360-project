@@ -1,13 +1,26 @@
 import React, {useState} from 'react';
+import axios from "axios";
 
 function AddComment(props) {
   const [comment, setComment] = useState('');
-  const addCommentURL = `${process.env.REACT_APP_HOST || ''}/REPLACEMENT`;
+  const addCommentURL = `${process.env.REACT_APP_HOST || ''}/feed/add-comment`;
 
   const handleSubmit = (event) => {
-    // TODO: Add comment to post in database
     event.preventDefault();
-    props.refreshComments();
+    axios
+      .put(addCommentURL, {
+        postId: props.postId,
+        data: {
+          comment
+        }
+      })
+      .then((res) => {
+        props.refresh();
+      })
+      .catch((err) => {
+        // TODO: display error through banner
+        console.log(err);
+      });
   }
 
   return (

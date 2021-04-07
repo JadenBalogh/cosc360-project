@@ -16,7 +16,7 @@ function Comment(props) {
             </h2>
             <CommentDrop/>
           </div>
-          <p className='text-base text-black overflow-hidden'>{props.body}</p>
+          <p className='text-base text-black overflow-hidden'>{props.comment.text}</p>
         </div>
       </div>
       {props.children &&
