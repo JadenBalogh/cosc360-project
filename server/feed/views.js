@@ -1,4 +1,4 @@
-import {getAllPosts, getAllComments, getPostByID, newPost, updatePost, newComment} from "./dao.js";
+import {getAllPosts, getAllComments, getPostByID, newPost, updatePost, newComment, destroyComment} from "./dao.js";
 
 export async function getFeed(req, res) {
   getAllPosts()
@@ -15,8 +15,20 @@ export async function getComments(req, res) {
 export async function addComment(req, res) {
   const text = req.body.data.comment;
   const id = req.body.postId;
+  const commentId = req.body.commentId;
 
-  newComment(id, { text })
+  newComment(id, { text }, commentId)
+    .then((post) => {
+      res.status(200);
+      res.json(post);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+}
+
+export async function deleteComment(req, res) {
+  destroyComment(req.body.id)
     .then((post) => {
       res.status(200);
       res.json(post);
