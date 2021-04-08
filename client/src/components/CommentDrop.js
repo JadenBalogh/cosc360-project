@@ -1,8 +1,28 @@
 import React from 'react';
 import {Menu, Transition} from "@headlessui/react";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
-function CommentDrop() {
+function CommentDrop(props) {
+  const deleteURL = `${process.env.REACT_APP_HOST || ''}/feed/delete-comment`;
+
+  const removeComment = () => {
+    axios
+      .delete(deleteURL, {
+        data: {
+          id: props.id
+        }
+      })
+      .then((res) => {
+        // TODO: display success through alert
+        props.refresh();
+      })
+      .catch((err) => {
+        // TODO: display error through alert
+        console.log(err);
+      });
+  }
+
   return (
     <>
       <div className="relative inline-block text-left py-0.5">
@@ -38,8 +58,8 @@ function CommentDrop() {
                   <div className="py-1">
                     <Menu.Item>
                       {({active}) => (
-                        <Link
-                          to='/'
+                        <button
+                          onClick={removeComment}
                           className={`${
                             active
                               ? "bg-gray-100"
@@ -47,7 +67,7 @@ function CommentDrop() {
                           } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
                         >
                           Delete
-                        </Link>
+                        </button>
                       )}
                     </Menu.Item>
                   </div>
