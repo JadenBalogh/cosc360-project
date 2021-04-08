@@ -36,8 +36,9 @@ function Alert({ children, visible = false, variant = 'info', callback = () => {
   }, [variant]);
 
   return (
-    <div className={`${!visible && 'hidden'} rounded-md border ${backgroundColor} ${borderColor} p-4 shadow-lg`}>
-      <div className='flex items-center w-full space-x-4 cursor-pointer' onClick={callback}>
+    <div className={`${!visible && 'hidden'} rounded-md border ${backgroundColor} ${borderColor} p-4 shadow-lg sticky top-20 cursor-pointer`}
+         onClick={callback}>
+      <div className='flex items-center w-full space-x-4'>
         {displayIcon}
         <p className={`flex-auto ${textColor} font-medium`}>{children}</p>
         {navIcon}
