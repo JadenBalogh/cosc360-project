@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostMenu from './PostMenu';
+import Alert from './Alert';
 
 // Custom hook for managing page refreshes
 function useUpdateCheck(feed, searchText, sortOrder, delay) {
@@ -55,6 +56,7 @@ function Homepage({ searchText }) {
 
   return (
     <div className='flex flex-col max-w-screen-md mx-auto my-4 space-y-4'>
+      <Alert />
       <div className='flex justify-end'>
         <button className='flex items-center text-md font-medium text-black outline-none' onClick={toggleSortOrder}>
           Sort by Date
