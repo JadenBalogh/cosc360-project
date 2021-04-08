@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
+
 dotenv.config();
 
 import path from "path";
+
 const __dirname = path.resolve();
 
 import express from "express";
@@ -19,8 +21,17 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(
+  express.json({
+    limit: "16MB",
+  })
+);
+app.use(
+  express.urlencoded({
+    extended: false,
+    limit: "16MB",
+  })
+);
 app.use(jwtAuthenticationMiddleware);
 
 if (process.env.NODE_ENV === "production") {
@@ -33,6 +44,7 @@ if (process.env.NODE_ENV === "production") {
 // Account Views
 app.post("/accounts/login", accountViews.login);
 app.post("/accounts/signup", accountViews.signup);
+app.post("/accounts/password-recovery", accountViews.resetPassword);
 app.get(
   "/accounts/profile",
   isAuthenticatedMiddleware,

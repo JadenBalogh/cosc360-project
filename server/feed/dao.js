@@ -2,18 +2,18 @@ import sequelize_pkg from 'sequelize';
 const { Op } = sequelize_pkg;
 import { Post, Comment, User } from '../db/models.js';
 
-export async function getAllPosts(searchText, sortOrder) {
+export async function getAllPosts(options) {
   return Post.findAll({
     include: User,
-    ...(searchText && {
+    ...(options.searchText && {
       where: {
         title: {
-          [Op.iLike]: `%${searchText}%`,
+          [Op.iLike]: `%${options.searchText}%`,
         },
       },
     }),
-    ...(sortOrder && {
-      order: [['createdAt', sortOrder]],
+    ...(options.sortOrder && {
+      order: [['createdAt', options.sortOrder]],
     }),
   });
 }
