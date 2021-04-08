@@ -14,7 +14,7 @@ import {
   isAdminMiddleware,
 } from "./accounts/middlewares.js";
 import * as accountViews from "./accounts/views.js";
-import {getFeed, getComments, getPost, publishPost, editPost, addComment} from "./feed/views.js";
+import {getFeed, getComments, getPost, publishPost, editPost, addComment, deleteComment} from "./feed/views.js";
 import { populateDB } from "./db/data/all.js";
 
 const app = express();
@@ -68,6 +68,7 @@ app.get("/feed/get-post", getPost);
 app.put("/feed/add-comment", addComment);
 app.put("/feed/publish-post", publishPost);
 app.put("/feed/edit-post", editPost);
+app.delete("/feed/delete-comment", deleteComment);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

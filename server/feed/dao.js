@@ -26,10 +26,33 @@ export async function getAllComments(id) {
   });
 }
 
-export async function newComment(postId, attributes) {
-  return Comment.create({
+export async function newComment(postId, attributes, commentId) {
+  let newComment = Comment.create({
     text: attributes.text,
-    postId: postId
+    postId: postId,
+    // comments: []
+  });
+  // , {
+  //   include: Comment
+  // });
+  // console.log(newComment);
+  // if (commentId !== -1) {
+  //   await Comment.update({
+  //     comments: [...this.comments, {id: newComment.id}]
+  //   }, {
+  //     where: {
+  //       id: commentId
+  //     }
+  //   });
+  // }
+  return newComment;
+}
+
+export async function destroyComment(id) {
+  return Comment.destroy({
+    where: {
+      id: id
+    }
   });
 }
 
