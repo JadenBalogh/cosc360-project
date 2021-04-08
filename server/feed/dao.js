@@ -2,19 +2,20 @@ import sequelize_pkg from 'sequelize';
 const { Op } = sequelize_pkg;
 import { Post, Comment, User } from '../db/models.js';
 
-export async function getAllPosts(searchText) {
-  if (searchText) {
-    return Post.findAll({
-      include: User,
+export async function getAllPosts(options) {
+  return Post.findAll({
+    include: User,
+    ...(options.searchText && {
       where: {
         title: {
-          [Op.iLike]: `%${searchText}%`,
+          [Op.iLike]: `%${options.searchText}%`,
         },
       },
-    });
-  } else {
-    return Post.findAll({ include: User });
-  }
+    }),
+    ...(options.sortOrder && {
+      order: [['createdAt', options.sortOrder]],
+    }),
+  });
 }
 
 export async function getAllComments() {

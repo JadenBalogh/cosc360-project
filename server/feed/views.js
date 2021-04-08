@@ -1,7 +1,7 @@
 import { getAllPosts, getAllComments } from './dao.js';
 
 export async function getFeed(req, res) {
-  getAllPosts(req.query.searchText)
+  getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
     .then((posts) => res.json(posts))
     .catch((err) => console.log(err));
 }
