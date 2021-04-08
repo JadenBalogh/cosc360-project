@@ -2,6 +2,32 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostMenu from './PostMenu';
 
+// Custom hook for managing page refreshes
+function useUpdateCheck(feed, searchText, sortOrder, delay) {
+  useEffect(() => {
+    const feedURL = `${process.env.REACT_APP_HOST || ''}/feed/get-feed`;
+
+    function checkFeed() {
+      console.log('Checking for feed updates 👀');
+      let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
+      axios
+        .get(feedURL + searchParams)
+        .then((response) => {
+          let result = response.data;
+          if (JSON.stringify(result) !== JSON.stringify(feed)) {
+            alert('AHHHHHHHHHHHHHH REFRESH THE PAGE NOWWWWWW');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    let id = setInterval(checkFeed, delay);
+    return () => clearInterval(id);
+  }, [feed, searchText, sortOrder, delay]);
+}
+
 function Homepage({ searchText }) {
   const [feed, setFeed] = useState([]);
   const [sortOrder, setSortOrder] = useState('ASC');
@@ -51,7 +77,7 @@ function Homepage({ searchText }) {
           )}
         </button>
       </div>
-      <form className='space-y-8'>
+      <div className='space-y-8'>
         {feed.map((post) => (
           <div
             key={post.id}
@@ -67,43 +93,18 @@ function Homepage({ searchText }) {
                 </div>
               </div>
               <p className='text-sm font-medium text-black'>
-                By{' '}
-                <span className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{post.User.name}
+                By
+                <span className='ml-1 font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
+                  @{post.User && post.User.name}
                 </span>
               </p>
               <p className='text-base text-black overflow-hidden'>{post.body}</p>
             </div>
           </div>
         ))}
-      </form>
+      </div>
     </div>
   );
-}
-
-function useUpdateCheck(feed, searchText, sortOrder, delay) {
-  useEffect(() => {
-    const feedURL = `${process.env.REACT_APP_HOST || ''}/feed/get-feed`;
-
-    function checkFeed() {
-      console.log('Checking for feed updates 👀');
-      let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
-      axios
-        .get(feedURL + searchParams)
-        .then((response) => {
-          let result = response.data;
-          if (JSON.stringify(result) !== JSON.stringify(feed)) {
-            alert('AHHHHHHHHHHHHHH REFRESH THE PAGE NOWWWWWW');
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    let id = setInterval(checkFeed, delay);
-    return () => clearInterval(id);
-  }, [feed, searchText, sortOrder, delay]);
 }
 
 export default Homepage;
