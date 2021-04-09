@@ -73,7 +73,7 @@ User.hasMany(Post, {
   foreignKey: "userId",
 });
 Post.belongsTo(User, {
-  foreignKey: "userId",
+    foreignKey: "userId",
 });
 Post.hasMany(Comment, {
   foreignKey: "postId",
@@ -81,6 +81,12 @@ Post.hasMany(Comment, {
 Comment.belongsTo(Post, {
   foreignKey: "postId",
 });
-// Comment.hasMany(Comment, {
-//   foreignKey: "commentId",
-// });
+Comment.belongsTo(User, {
+    foreignKey: "userId",
+});
+User.hasMany(Comment, {
+    foreignKey: "userId",
+});
+Comment.hasMany(Comment, {
+  foreignKey: "parentId",
+});
