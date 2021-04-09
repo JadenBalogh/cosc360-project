@@ -1,69 +1,62 @@
-import {Post, Comment} from "../db/models.js";
+import { Post, Comment } from "../db/models.js";
 
 export async function getAllPosts() {
   return Post.findAll();
 }
 
-export async function getAllComments(id) {
+export async function getAllPostComments(postId, parentId) {
   return Comment.findAll({
     where: {
-      postId: id
-    }
+      postId: postId,
+      parentId: parentId,
+    },
   });
 }
 
-export async function newComment(postId, attributes, commentId) {
-  let newComment = Comment.create({
-    text: attributes.text,
-    postId: postId,
-    // comments: []
+export async function newComment(attributes) {
+  return Comment.create(attributes);
+}
+
+export async function updateComment(id, attributes) {
+  return Comment.update(attributes, {
+    where: {
+      id: id,
+    },
   });
-  // , {
-  //   include: Comment
-  // });
-  // console.log(newComment);
-  // if (commentId !== -1) {
-  //   await Comment.update({
-  //     comments: [...this.comments, {id: newComment.id}]
-  //   }, {
-  //     where: {
-  //       id: commentId
-  //     }
-  //   });
-  // }
-  return newComment;
 }
 
 export async function destroyComment(id) {
   return Comment.destroy({
     where: {
-      id: id
-    }
+      id: id,
+    },
+  });
+}
+
+export async function getCommentByID(id) {
+  return Comment.findOne({
+    where: {
+      id: id,
+    },
   });
 }
 
 export async function getPostByID(id) {
-  return Post.findAll({
+  return Post.findOne({
     where: {
-      id: id
-    }
+      id: id,
+    },
   });
 }
 
 export async function newPost(attributes) {
-  return Post.create({
-    title: attributes.title,
-    body: attributes.body
-  });
+  return Post.create(attributes);
 }
 
 export async function updatePost(id, attributes) {
-  return Post.update({
-    title: attributes.title,
-    body: attributes.body
-  }, {
+  return Post.update(attributes, {
     where: {
-      id: id
-    }
+      id: id,
+    },
   });
 }
