@@ -15,7 +15,7 @@ export async function login(req, res) {
   return res.json({
       name: user.name,
       email: user.email,
-      image: user.image.toString(),
+      image: user.image?.toString(),
       accessToken: accessToken,
   });
 }
