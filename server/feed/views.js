@@ -87,7 +87,12 @@ export async function getPost(req, res) {
 }
 
 export async function publishPost(req, res) {
-  const { title = null, link = null, image = null, body = null } = req.body;
+  const {
+    title = null,
+    link = null,
+    image = null,
+    body = null
+  } = req.body;
 
   newPost({
     userId: req.user.id,
