@@ -10,28 +10,21 @@ function AddComment(props) {
     setPostComment(comment !== '');
   }, [comment]);
 
-  const setReferenceComment = () => {
-    props.setReferenceComment({
-      username: '',
-      comment: '',
-      commentId: -1
-    });
+  const resetReferenceComment = () => {
+    props.setReferenceComment(null);
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (postComment) {
       axios
-        .put(addCommentURL, {
+        .post(addCommentURL, {
+          text: comment,
           postId: props.postId,
-          data: {
-            comment
-          },
-          commentId: props.referenceComment.commentId
+          parentId: props.referenceComment ? props.referenceComment.id : null
         })
         .then((res) => {
-          console.log(res);
-          props.refresh();
+          props.refreshComments();
           setComment('');
           // TODO: display success banner
         })
@@ -44,7 +37,7 @@ function AddComment(props) {
 
   return (
     <div className='container max-w-3xl fixed bottom-0 md:bottom-9 space-y-0 md:space-y-5'>
-      {props.referenceComment.commentId === -1 ||
+      {props.referenceComment &&
       <div
         className='h-full flex flex-row justify-between items-center p-3 mx-6 md:m-0 bg-white border border-gray-300 md:rounded shadow-lg'>
         <div>
@@ -52,11 +45,11 @@ function AddComment(props) {
             className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400 float-left'>
             @{props.username}
           </span>
-          <p className='text-base text-black overflow-hidden pl-2'>{props.referenceComment.comment}</p>
+          <p className='text-base text-black overflow-hidden pl-2'>{props.referenceComment.text}</p>
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 cursor-pointer hover:text-gray-500"
              viewBox="0 0 20 20" fill="currentColor"
-             onClick={setReferenceComment}>
+             onClick={resetReferenceComment}>
           <path fillRule="evenodd"
                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                 clipRule="evenodd"/>
