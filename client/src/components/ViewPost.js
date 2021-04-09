@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Post from "./Post";
 import Comment from "./Comment";
 import AddComment from "./AddComment";
@@ -6,7 +6,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 
 function ViewPost(props) {
-  const postId = props.match.params.id || -1;
+  const postId = props.match.params.id || null;
   const URL = (props.match.url).split("/");
 
   const [post, setPost] = useState({
@@ -17,11 +17,7 @@ function ViewPost(props) {
     subject: ''
   });
   const [comments, setComments] = useState([]);
-  const [referenceComment, setReferenceComment] = useState({
-    username: '',
-    comment: '',
-    commentId: -1
-  });
+  const [referenceComment, setReferenceComment] = useState(null);
   const commentsURL = `${process.env.REACT_APP_HOST || ''}/feed/comments`;
   const postURL = `${process.env.REACT_APP_HOST || ''}/feed/get-post`;
 
@@ -37,13 +33,17 @@ function ViewPost(props) {
         }
       })
       .then((res) => {
-        setPost({
-          id: res.data[0].id || -1,
-          title: res.data[0].title || '',
-          image: res.data[0].image || null,
-          link: res.data[0].link || '',
-          body: res.data[0].body || ''
-        });
+        if (res.data) {
+          setPost({
+            id: res.data.id || -1,
+            title: res.data.title || '',
+            image: res.data.image || null,
+            link: res.data.link || '',
+            body: res.data.body || ''
+          });
+        } else {
+          props.history.push('/');
+        }
         // TODO: get user to display user info
       })
       .catch((err) => {
@@ -52,22 +52,48 @@ function ViewPost(props) {
       });
   }
 
-  const refreshComments = () => {
-    // TODO: Get and update comments based on id
+  const getComment = (postId, parentId, commentData) => {
     axios
       .get(commentsURL, {
         params: {
-          id: postId
+          postId: postId,
+          parentId: parentId
         }
       })
       .then((res) => {
-        setComments(res.data);
-        // TODO: get users to display user info
+        res.data.forEach(comment => {
+          let cData = {
+            comment: comment,
+            comments: []
+          };
+          getComment(postId, comment.id, cData.comments)
+          commentData.push(cData);
+        });
       })
       .catch((err) => {
         // TODO: display error through banner and redirect
         console.log(err);
+        return null;
       });
+  }
+
+  const refreshCommentsHelper = new Promise(((resolve) => {
+    let commentData = []
+    getComment(postId, null, commentData);
+    setTimeout(() => {
+      resolve(commentData)
+    }, 100);
+  }));
+
+  const refreshComments = () => {
+    refreshCommentsHelper
+      .then((data) => {
+        setComments(data);
+      });
+  }
+
+  const getUser = (userId) => {
+    return null;
   }
 
   useEffect(() => {
@@ -97,17 +123,12 @@ function ViewPost(props) {
       </div>
       <main className='w-full flex flex-col items-center space-y-4 mb-28'>
         <Post post={post}/>
-        {/* TODO: Replace this block of comments with the array 'comments' */}
-        {comments.map((comment, index) => (
-          <Comment key={comment.id} comment={comment} commentIndex={index} setComment={setComment} refresh={refreshComments}/>
+        {comments.map((data, index) => (
+          <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={setComment}
+                   refreshComments={refreshComments}/>
         ))}
-        <Comment comment={{}}>
-          <Comment comment={{}}>
-            <Comment comment={{}}/>
-          </Comment>
-          <Comment comment={{}}/>
-        </Comment>
-        <AddComment refresh={refreshComments} postId={postId} referenceComment={referenceComment} setReferenceComment={setComment}/>
+        <AddComment refreshComments={refreshComments} postId={postId} referenceComment={referenceComment}
+                    setReferenceComment={setComment}/>
       </main>
     </>
   );

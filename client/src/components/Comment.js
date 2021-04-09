@@ -5,11 +5,7 @@ function Comment(props) {
   const [hideChildren, setHideChildren] = useState(false);
 
   const setReferenceComment = () => {
-    props.setComment({
-      username: props.username,
-      comment: props.comment.text,
-      commentId: props.comment.id
-    });
+    props.setComment(props.comment);
   }
 
   return (
@@ -52,7 +48,7 @@ function Comment(props) {
                 </span>
               }
             </div>
-            <CommentDrop id={props.comment.id} refresh={props.refresh}/>
+            <CommentDrop id={props.comment.id} refresh={props.refreshComments}/>
           </div>
           <div>
             {hideChildren ||
@@ -71,9 +67,12 @@ function Comment(props) {
           </div>
         </div>
       </div>
-      {props.children &&
+      {props.comments &&
       <div className={`pl-16 md:pl-32 space-y-4 mt-4 ${!hideChildren ? 'block' : 'hidden'}`}>
-        {props.children}
+        {props.comments.map((data, index) => (
+          <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={props.setComment}
+                   refreshComments={props.refreshComments}/>
+        ))}
       </div>
       }
     </div>
