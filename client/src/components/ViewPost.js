@@ -52,43 +52,30 @@ function ViewPost(props) {
       });
   }
 
-  const getComment = (postId, parentId, commentData) => {
+  const refreshComments = () => {
     axios
       .get(commentsURL, {
         params: {
           postId: postId,
-          parentId: parentId
+          parentId: null
         }
       })
       .then((res) => {
-        res.data.forEach(comment => {
-          let cData = {
-            comment: comment,
-            comments: []
-          };
-          getComment(postId, comment.id, cData.comments)
-          commentData.push(cData);
-        });
+        // res.data.forEach(comment => {
+        //   let cData = {
+        //     comment: comment,
+        //     comments: []
+        //   };
+        //   getComment(postId, comment.id, cData.comments)
+        //   commentData.push(cData);
+        // });
+        console.log(res.data);
+        setComments(res.data);
       })
       .catch((err) => {
         // TODO: display error through banner and redirect
         console.log(err);
         return null;
-      });
-  }
-
-  const refreshCommentsHelper = new Promise(((resolve) => {
-    let commentData = []
-    getComment(postId, null, commentData);
-    setTimeout(() => {
-      resolve(commentData)
-    }, 100);
-  }));
-
-  const refreshComments = () => {
-    refreshCommentsHelper
-      .then((data) => {
-        setComments(data);
       });
   }
 
