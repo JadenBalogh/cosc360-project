@@ -29,7 +29,7 @@ export async function getAllPostComments(postId) {
 
 export async function nestAllPostComments(postId) {
   // TODO: Make this more efficient. Currently checking through all comments until
-  // TODO: the correct comment is found and then inserting.
+  // TODO: the correct comment is found and then inserting, not very efficient.
   let commentsData = [];
   let comments = await getAllPostComments(postId);
 
@@ -105,6 +105,14 @@ export async function newPost(attributes) {
 
 export async function updatePost(id, attributes) {
   return Post.update(attributes, {
+    where: {
+      id: id,
+    },
+  });
+}
+
+export async function destroyPost(id) {
+  return Post.destroy({
     where: {
       id: id,
     },

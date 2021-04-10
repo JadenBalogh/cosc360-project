@@ -7,7 +7,8 @@ import {
   destroyComment,
   updateComment,
   getCommentByID,
-  nestAllPostComments
+  nestAllPostComments,
+  destroyPost
 } from "./dao.js";
 
 export async function getFeed(req, res) {
@@ -135,6 +136,28 @@ export async function editPost(req, res) {
     image,
     body,
   })
+    .then((post) => {
+      res.status(200);
+      res.json(post);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+}
+
+export async function deletePost(req, res) {
+  const { id } = req.body;
+
+  const post = await getPostByID(id);
+
+  if (post.userId !== req.user.id) {
+    res.status(403);
+    res.json({
+      error: "Permission Denied",
+    });
+    return;
+  }
+  destroyPost(id)
     .then((post) => {
       res.status(200);
       res.json(post);
