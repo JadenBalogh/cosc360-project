@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostMenu from './PostMenu';
+import Alert from './Alert';
 
 function Homepage({ searchText }) {
   const [feed, setFeed] = useState([]);
   const [sortOrder, setSortOrder] = useState('ASC');
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
   const feedURL = `${process.env.REACT_APP_HOST || ''}/feed/get-feed`;
 
   function loadFeed() {
@@ -23,10 +25,36 @@ function Homepage({ searchText }) {
     setSortOrder(sortOrder === 'ASC' ? 'DESC' : 'ASC');
   }
 
+  function closeAlert() {
+    loadFeed();
+    setIsAlertVisible(false);
+  }
+
   useEffect(loadFeed, [feedURL, searchText, sortOrder]);
+
+  useEffect(() => {
+    let id = setInterval(() => {
+      let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
+      axios
+        .get(feedURL + searchParams)
+        .then((response) => {
+          let result = response.data;
+          if (JSON.stringify(result) !== JSON.stringify(feed)) {
+            setIsAlertVisible(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, 10000);
+    return () => clearInterval(id);
+  }, [feed, feedURL, searchText, sortOrder, setIsAlertVisible]);
 
   return (
     <div className='flex flex-col max-w-screen-md mx-auto my-4 space-y-4'>
+      <Alert visible={isAlertVisible} callback={closeAlert}>
+        New posts have arrived! Click here to refresh.
+      </Alert>
       <div className='flex justify-end'>
         <button className='flex items-center text-md font-medium text-black outline-none' onClick={toggleSortOrder}>
           Sort by Date
@@ -49,7 +77,7 @@ function Homepage({ searchText }) {
           )}
         </button>
       </div>
-      <form className='space-y-8'>
+      <div className='space-y-8'>
         {feed.map((post) => (
           <div
             key={post.id}
@@ -65,16 +93,16 @@ function Homepage({ searchText }) {
                 </div>
               </div>
               <p className='text-sm font-medium text-black'>
-                By{' '}
-                <span className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{post.userId}
+                By
+                <span className='ml-1 font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
+                  @{post.User && post.User.name}
                 </span>
               </p>
               <p className='text-base text-black overflow-hidden'>{post.body}</p>
             </div>
           </div>
         ))}
-      </form>
+      </div>
     </div>
   );
 }
