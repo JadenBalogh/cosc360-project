@@ -19,9 +19,9 @@ function Post(props) {
         <div className='flex flex-col space-y-2'>
           <div className='flex justify-between items-center'>
             <h2 className='text-2xl font-medium text-black'>{props.post.title}</h2>
-            <div>
-              <PostMenu/>
-            </div>
+            {props.user && props.post.userId === props.user.id &&
+              <PostMenu postId={props.post.id}/>
+            }
           </div>
           <p className='flex flex-row items-center text-sm font-medium text-black'>
             By

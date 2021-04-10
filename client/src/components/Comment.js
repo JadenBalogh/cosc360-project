@@ -48,7 +48,9 @@ function Comment(props) {
                 </span>
               }
             </div>
+            {props.user && props.comment.userId === props.user.id &&
             <CommentDrop id={props.comment.id} refresh={props.refreshComments}/>
+            }
           </div>
           <div>
             {hideChildren ||
@@ -67,8 +69,8 @@ function Comment(props) {
           </div>
         </div>
       </div>
-      {props.comments &&
-      <div className={`pl-16 md:pl-32 space-y-4 mt-4 ${!hideChildren ? 'block' : 'hidden'}`}>
+      {props.comments.length > 0 &&
+      <div className={`pl-12 md:pl-24 mt-4 ${!hideChildren ? 'block' : 'hidden'}`}>
         {props.comments.map((data, index) => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={props.setComment}
                    refreshComments={props.refreshComments}/>

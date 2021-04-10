@@ -24,10 +24,10 @@ function PostData(props) {
           }
         })
         .then((res) => {
-          setTitle(res.data[0].title || '');
-          setImage(res.data[0].image || null);
-          setLink(res.data[0].link || '');
-          setBody(res.data[0].body || '');
+          setTitle(res.data.title || '');
+          setImage(res.data.image || null);
+          setLink(res.data.link || '');
+          setBody(res.data.body || '');
         })
         .catch((err) => {
           // TODO: display error through banner and redirect

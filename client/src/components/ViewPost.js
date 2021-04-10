@@ -4,11 +4,11 @@ import Comment from "./Comment";
 import AddComment from "./AddComment";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {authenticationService} from "../_services";
 
 function ViewPost(props) {
   const postId = props.match.params.id || null;
   const URL = (props.match.url).split("/");
-
   const [post, setPost] = useState({
     id: -1,
     title: '',
@@ -20,6 +20,7 @@ function ViewPost(props) {
   const [referenceComment, setReferenceComment] = useState(null);
   const commentsURL = `${process.env.REACT_APP_HOST || ''}/feed/comments`;
   const postURL = `${process.env.REACT_APP_HOST || ''}/feed/get-post`;
+  const user = authenticationService.currentUserValue;
 
   const setComment = (values) => {
     setReferenceComment(values);
@@ -61,15 +62,6 @@ function ViewPost(props) {
         }
       })
       .then((res) => {
-        // res.data.forEach(comment => {
-        //   let cData = {
-        //     comment: comment,
-        //     comments: []
-        //   };
-        //   getComment(postId, comment.id, cData.comments)
-        //   commentData.push(cData);
-        // });
-        console.log(res.data);
         setComments(res.data);
       })
       .catch((err) => {
@@ -94,7 +86,7 @@ function ViewPost(props) {
 
   return (
     <>
-      <div className='flex flex-row items-center container max-w-3xl mx-auto mb-4 text-gray-400'>
+      <div className='flex flex-row items-center container max-w-3xl mx-auto mb-4 text-gray-400 pl-6'>
         <Link to='/' className='hover:text-gray-700 h-full'>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path
@@ -108,14 +100,14 @@ function ViewPost(props) {
         </svg>
         {post.title}
       </div>
-      <main className='w-full flex flex-col items-center space-y-4 mb-28'>
-        <Post post={post}/>
+      <main className={`w-full flex flex-col items-center space-y-4 ${user ? 'mb-28' : 'mb-4'}`}>
+        <Post post={post} user={user}/>
         {comments.map((data, index) => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={setComment}
-                   refreshComments={refreshComments}/>
+                   refreshComments={refreshComments} user={user}/>
         ))}
         <AddComment refreshComments={refreshComments} postId={postId} referenceComment={referenceComment}
-                    setReferenceComment={setComment}/>
+                    setReferenceComment={setComment} user={user}/>
       </main>
     </>
   );

@@ -62,7 +62,7 @@ function Header({ setSearchText }) {
           </svg>
         </button>
       </form>
-      <div>
+      <div className='justify-self-end'>
         <ProfileHeaderDrop />
         {login}
         {register}

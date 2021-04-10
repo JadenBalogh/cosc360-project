@@ -23,6 +23,7 @@ import {
   addComment,
   deleteComment,
   editComment,
+  deletePost,
 } from "./feed/views.js";
 import { populateDB } from "./db/data/all.js";
 
@@ -76,6 +77,7 @@ app.get("/feed/get-feed", getFeed);
 app.get("/feed/get-post", getPost);
 app.post("/feed/publish-post", isAuthenticatedMiddleware, publishPost);
 app.put("/feed/edit-post", isAuthenticatedMiddleware, editPost);
+app.delete("/feed/delete-post", isAuthenticatedMiddleware, deletePost);
 
 // Comment Views
 app.get("/feed/comments", getPostComments);
