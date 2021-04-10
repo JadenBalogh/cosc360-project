@@ -1,13 +1,13 @@
 import {
   getAllPosts,
-  getAllPostComments,
   getPostByID,
   newPost,
   updatePost,
   newComment,
   destroyComment,
   updateComment,
-  getCommentByID
+  getCommentByID,
+  nestAllPostComments
 } from "./dao.js";
 
 export async function getFeed(req, res) {
@@ -18,7 +18,7 @@ export async function getFeed(req, res) {
 
 export async function getPostComments(req, res) {
   const { postId=null, parentId=null } = req.query;
-  getAllPostComments(postId, parentId)
+  nestAllPostComments(postId)
     .then((comments) => res.json(comments))
     .catch((err) => console.log(err));
 }

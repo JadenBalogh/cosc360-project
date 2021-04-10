@@ -1,6 +1,7 @@
 import sequelize_pkg from 'sequelize';
+import { Comment, Post, User } from '../db/models.js';
+
 const { Op } = sequelize_pkg;
-import { Post, Comment, User } from '../db/models.js';
 
 export async function getAllPosts(options) {
   return Post.findAll({
@@ -18,13 +19,48 @@ export async function getAllPosts(options) {
   });
 }
 
-export async function getAllPostComments(postId, parentId) {
+export async function getAllPostComments(postId) {
   return Comment.findAll({
     where: {
-      postId: postId,
-      parentId: parentId,
+      postId: postId
     },
   });
+}
+
+export async function nestAllPostComments(postId) {
+  // TODO: Make this more efficient. Currently checking through all comments until
+  // TODO: the correct comment is found and then inserting.
+  let commentsData = [];
+  let comments = await getAllPostComments(postId);
+
+  const findCommentArrayInsert = (commentData, parentId, comment) => {
+    commentData.forEach(data => {
+      if (data.comment.id === parentId) {
+        data.comments.push({
+          comment: comment,
+          comments: []
+        });
+      } else {
+        findCommentArrayInsert(data.comments, parentId, comment);
+      }
+    });
+  }
+
+  let count = comments.length;
+  while (count > 0) {
+    comments.map(async comment => {
+      count--;
+      if (!comment.parentId) {
+        await commentsData.push({
+          comment: comment,
+          comments: []
+        });
+      } else {
+        findCommentArrayInsert(commentsData, comment.parentId, comment);
+      }
+    });
+  }
+  return commentsData;
 }
 
 export async function newComment(attributes) {
