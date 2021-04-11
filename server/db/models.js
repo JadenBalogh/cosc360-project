@@ -50,6 +50,14 @@ Post.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    image: {
+      type: DataTypes.BLOB,
+      allowNull: true,
+    },
+    link: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     body: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -73,12 +81,20 @@ User.hasMany(Post, {
   foreignKey: "userId",
 });
 Post.belongsTo(User, {
-  foreignKey: "userId",
+    foreignKey: "userId",
 });
-
 Post.hasMany(Comment, {
   foreignKey: "postId",
 });
 Comment.belongsTo(Post, {
   foreignKey: "postId",
+});
+Comment.belongsTo(User, {
+    foreignKey: "userId",
+});
+User.hasMany(Comment, {
+    foreignKey: "userId",
+});
+Comment.hasMany(Comment, {
+  foreignKey: "parentId",
 });
