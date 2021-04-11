@@ -17,6 +17,7 @@ export async function login(req, res) {
     email: user.email,
     image: user.image?.toString(),
     accessToken: accessToken,
+    isAdmin: user.isAdmin,
   });
 }
 

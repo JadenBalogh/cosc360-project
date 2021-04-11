@@ -34,9 +34,12 @@ function Header({ setSearchText }) {
 
   return (
     <nav className="grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50">
-      <Link to="/" className="justify-self-start">
-        <img className="w-20" src={"logo.svg"} alt="Logo" />
-      </Link>
+      <div className="justify-self-start">
+        <Link to="/">
+          <img className="w-20" src={"logo.svg"} alt="Logo" />
+        </Link>
+        {user?.isAdmin && <Link to="/admin">Admin</Link>}
+      </div>
       <form
         className="justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg"
         onSubmit={handleSearch}
@@ -62,7 +65,7 @@ function Header({ setSearchText }) {
           </svg>
         </button>
       </form>
-      <div className='justify-self-end'>
+      <div className="justify-self-end">
         <ProfileHeaderDrop />
         {login}
         {register}
