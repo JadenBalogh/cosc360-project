@@ -19,7 +19,6 @@ function Login() {
               history.push("/");
               window.location.reload(false);
           } else {
-              console.log("bad");
               setLoginError("Login was unsuccessful.");
               setIsAlertVisible(true);
           }

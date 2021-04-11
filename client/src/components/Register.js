@@ -4,6 +4,7 @@ import axios from "axios";
 import { usePasswordValidation } from "../hooks/passwordValidation";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
+import Alert from "./Alert";
 
 function Register() {
   const [name, setName] = useState("");
@@ -12,6 +13,8 @@ function Register() {
   const [password2, setPassword2] = useState("");
   const [image, setImage] = useState("");
   const registerURL = `${process.env.REACT_APP_HOST || ""}/accounts/signup`;
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const [match] = usePasswordValidation({
     password: password,
     password2: password2,
@@ -31,14 +34,25 @@ function Register() {
         })
         .catch((error) => {
           console.log(error);
+          setLoginError("Registration was unsuccessful.");
+          setIsAlertVisible(true);
         });
     } else {
       console.log("The passwords must match!");
+        setLoginError("The passwords must match!");
+        setIsAlertVisible(true);
     }
   };
 
+    function closeAlert() {
+        setIsAlertVisible(false);
+    }
+
   return (
     <>
+        <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+            {loginError}
+        </Alert>
       <div
         className="h-screen w-screen sm:bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
         style={{ clipPath: "polygon(0 75%, 100% 50%, 100% 100%, 0 100%" }}
@@ -62,17 +76,17 @@ function Register() {
               />
               <div className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                 <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    onChange={(event) => {
-                      const file = event.target.files[0];
-                      let reader = new FileReader();
-                      reader.readAsDataURL(file);
-                      reader.onload = function () {
-                        setImage(reader.result);
-                      };
-                    }}
+                  type="file"
+                  id="image"
+                  name="image"
+                  onChange={(event) => {
+                    const file = event.target.files[0];
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function () {
+                      setImage(reader.result);
+                    };
+                  }}
                 />
               </div>
             </div>
