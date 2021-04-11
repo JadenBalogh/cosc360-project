@@ -89,7 +89,7 @@ function Homepage({ searchText }) {
               <div className='flex justify-between items-center'>
                 <h2 className='text-2xl font-medium text-black'>{post.title}</h2>
                 <div>
-                  <PostMenu />
+                  <PostMenu id={post.id} />
                 </div>
               </div>
               <p className='text-sm font-medium text-black'>

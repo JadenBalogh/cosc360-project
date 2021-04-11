@@ -1,7 +1,7 @@
 import {Menu, Transition} from '@headlessui/react';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {history} from "../_helpers";
+import {authHeader, history} from "../_helpers";
 
 function PostMenu(props) {
   const deleteURL = `${process.env.REACT_APP_HOST || ''}/feed/delete-post`;
@@ -10,8 +10,9 @@ function PostMenu(props) {
     axios
       .delete(deleteURL, {
         data: {
-          id: props.id
-        }
+          id: props.id,
+        },
+        headers: authHeader(),
       })
       .then((res) => {
         // TODO: display success through alert
@@ -52,7 +53,7 @@ function PostMenu(props) {
                   <Menu.Item>
                     {({active}) => (
                       <Link
-                        to={`/view/${props.postId}/edit`}
+                        to={`/view/${props.id}/edit`}
                         className={`${
                           active ? 'bg-gray-100' : 'bg-white'
                         } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
@@ -66,6 +67,7 @@ function PostMenu(props) {
                   <Menu.Item>
                     {({active}) => (
                       <Link
+                        onClick={removePost}
                         to='/'
                         className={`${
                           active ? 'bg-gray-100' : 'bg-white'
