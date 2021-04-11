@@ -12,7 +12,7 @@ import {
 } from "./dao.js";
 
 export async function getFeed(req, res) {
-  getAllPosts()
+  getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
     .then((posts) => res.json(posts))
     .catch((err) => console.log(err));
 }
@@ -83,7 +83,11 @@ export async function deleteComment(req, res) {
 
 export async function getPost(req, res) {
   getPostByID(req.query.id)
-    .then((post) => res.json(post))
+    .then((post) => {
+      if (post.image) post.image = post.image.toString();
+      res.status(200);
+      res.json(post);
+    })
     .catch((err) => res.send(err));
 }
 

@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
+import {authenticationService} from "../_services";
+import {authHeader, history, toBase64} from "../_helpers";
 
 function PostData(props) {
-  const postId = props.match.params.id || -1;
+  const postId = props.match.params.id || null;
+  const user = authenticationService.currentUserValue;
 
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
@@ -14,6 +17,12 @@ function PostData(props) {
   const postURL = `${process.env.REACT_APP_HOST || ''}/feed/get-post`;
   const editURL = `${process.env.REACT_APP_HOST || ''}/feed/edit-post`;
   const publishURL = `${process.env.REACT_APP_HOST || ''}/feed/publish-post`;
+
+  useEffect(() => {
+    if (!user) {
+      history.push('/login');
+    }
+  }, [user]);
 
   useEffect(() => {
     if (props.edit) {
@@ -42,7 +51,7 @@ function PostData(props) {
       return false;
     else {
       for (const image of files) {
-        setImage(image);
+        toBase64(image, setImage);
         setImageSrc(URL.createObjectURL(image))
         setImageTitle(image.name);
       }
@@ -58,21 +67,45 @@ function PostData(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .put(props.edit ? editURL : publishURL, {
-        id: postId,
-        data: {
-          title, image, link, body
-        }
-      })
-      .then((res) => {
-        console.log(res);
-        return props.history.push('/');
-      })
-      .catch((err) => {
-        // TODO: display error through banner
-        console.log(err);
-      });
+    console.log(title, image, link, body);
+    if (props.edit) {
+      axios
+        .put(editURL, {
+          title: title,
+          image: image,
+          link: link,
+          body: body,
+          id: postId
+        }, {
+          headers: authHeader(),
+        })
+        .then((res) => {
+          return props.history.push(`/view/${postId}`);
+        })
+        .catch((err) => {
+          // TODO: display error through banner
+          console.log(err);
+        });
+    } else {
+      axios
+        .post(publishURL, {
+          title: title,
+          image: image,
+          link: link,
+          body: body
+        }, {
+          headers: authHeader(),
+        })
+        .then((res) => {
+          console.log(res)
+          return props.history.push(`/view/${res.data.id}`);
+        })
+        .catch((err) => {
+          // TODO: display error through banner
+          console.log('post');
+          console.log(err);
+        });
+    }
   }
 
   return (
@@ -127,6 +160,7 @@ function PostData(props) {
           </label>
         </div>
         {imageSrc && <div className='relative mt-5'>
+          {props.edit ||
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                className='h-6 absolute top-2 right-2 text-white rounded-full bg-gray-700 p-1 hover:bg-gray-800 cursor-pointer shadow-2xl'
                onClick={resetPreview}
@@ -135,6 +169,7 @@ function PostData(props) {
                   d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                   clipRule="evenodd"/>
           </svg>
+          }
           <img src={imageSrc} alt='Uploaded preview' className='w-full h-48 object-cover rounded shadow-md'/>
         </div>}
         <label htmlFor='title' className='text-xs font-medium mt-5'>Subject</label>

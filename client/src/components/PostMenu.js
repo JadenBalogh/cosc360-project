@@ -1,7 +1,7 @@
 import {Menu, Transition} from '@headlessui/react';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {history} from "../_helpers";
+import {authHeader, history} from "../_helpers";
 
 function PostMenu(props) {
   const deleteURL = `${process.env.REACT_APP_HOST || ''}/feed/delete-post`;
@@ -11,7 +11,8 @@ function PostMenu(props) {
       .delete(deleteURL, {
         data: {
           id: props.id
-        }
+        },
+        headers: authHeader()
       })
       .then((res) => {
         // TODO: display success through alert

@@ -6,13 +6,13 @@ function Post(props) {
     <div className='container max-w-3xl'>
       {
         props.post.image &&
-        <div className='w-full h-60 object-cover rounded-xl border border-gray-300 relative'>
+        <div className='relative mb-6'>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-               className='text-black h-12 p-3 rounded-full bg-gray-300 hover:bg-gray-400 absolute bottom-0 right-0'>
+               className='text-black h-10 p-2 bg-opacity-50 rounded-full bg-gray-300 hover:bg-gray-400 absolute bottom-2 right-2'>
             <path stroke="#374151" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                   d="M3 8V4m0 0h4M3 4l4 4m8 0V4m0 0h-4m4 0l-4 4m-8 4v4m0 0h4m-4 0l4-4m8 4l-4-4m4 4v-4m0 4h-4"/>
           </svg>
-          <img className='w-full h-full' src={props.post.image} alt='Attached to post'/>
+          <img className='w-full h-60 object-cover rounded-xl border border-gray-300' src={props.post.image} alt='Attached to post'/>
         </div>
       }
       <div className='md:bg-white border-t border-b md:border border-gray-300 md:rounded-2xl p-6'>
