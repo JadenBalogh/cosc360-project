@@ -5,6 +5,7 @@ import AddComment from "./AddComment";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {authenticationService} from "../_services";
+import {bufferToImage} from "../_helpers";
 
 function ViewPost(props) {
   const postId = props.match.params.id || null;
@@ -42,6 +43,8 @@ function ViewPost(props) {
             link: res.data.link || '',
             body: res.data.body || ''
           });
+          console.log(res.data.image)
+          console.log(res);
         } else {
           props.history.push('/');
         }

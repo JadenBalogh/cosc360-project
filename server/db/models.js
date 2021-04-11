@@ -50,6 +50,14 @@ Post.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    image: {
+      type: DataTypes.BLOB,
+      allowNull: true,
+    },
+    link: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     body: {
       type: DataTypes.TEXT,
       allowNull: false,

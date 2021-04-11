@@ -2,6 +2,7 @@ import React from 'react';
 import {Menu, Transition} from "@headlessui/react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import {authHeader} from "../_helpers";
 
 function CommentDrop(props) {
   const deleteURL = `${process.env.REACT_APP_HOST || ''}/feed/delete-comment`;
@@ -11,7 +12,8 @@ function CommentDrop(props) {
       .delete(deleteURL, {
         data: {
           id: props.id
-        }
+        },
+        headers: authHeader()
       })
       .then((res) => {
         // TODO: display success through alert

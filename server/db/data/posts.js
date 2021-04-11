@@ -4,6 +4,8 @@ const posts = [
   {
     title: "Post 1",
     userId: 1,
+    image: null,
+    link: null,
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vulputate eget velit vitae congue. Quisque iaculis tortor elit, vitae tincidunt libero condimentum in. Morbi sapien purus, accumsan id turpis et, rutrum imperdiet lorem. Etiam hendrerit ligula sed risus blandit, in efficitur nisi venenatis. Mauris rutrum posuere aliquam. Ut vehicula, metus et viverra ultrices, elit odio interdum ex, vitae tincidunt tellus diam sed lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean interdum sem sed purus malesuada, in venenatis eros tempus. Quisque gravida sed metus blandit egestas. Suspendisse porttitor lacus nec erat fermentum, a tempus risus iaculis. Nullam eget est faucibus, euismod enim vitae, interdum risus.
 
       Fusce posuere id lorem eu sagittis. Suspendisse et sodales dui. Nullam a enim et enim varius porta. Suspendisse nisi felis, feugiat sodales commodo sed, volutpat sed diam. Nunc ut porttitor arcu, in efficitur lorem. Quisque posuere facilisis porttitor. Vestibulum egestas ipsum id posuere malesuada. Cras dapibus, augue vel dignissim euismod, purus mi sodales turpis, congue interdum enim urna quis diam. Aenean sodales neque ut euismod congue. Aliquam a mi ac nulla efficitur euismod. Etiam eget est ullamcorper, sollicitudin odio sit amet, tempus lectus. Vivamus in purus quis ipsum condimentum lacinia. Quisque ornare neque vel metus lacinia aliquam. Nunc id magna volutpat, pharetra lorem at, sodales lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
@@ -17,6 +19,8 @@ const posts = [
   {
     title: "Post 2",
     userId: 1,
+    image: null,
+    link: null,
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vulputate eget velit vitae congue. Quisque iaculis tortor elit, vitae tincidunt libero condimentum in. Morbi sapien purus, accumsan id turpis et, rutrum imperdiet lorem. Etiam hendrerit ligula sed risus blandit, in efficitur nisi venenatis. Mauris rutrum posuere aliquam. Ut vehicula, metus et viverra ultrices, elit odio interdum ex, vitae tincidunt tellus diam sed lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean interdum sem sed purus malesuada, in venenatis eros tempus. Quisque gravida sed metus blandit egestas. Suspendisse porttitor lacus nec erat fermentum, a tempus risus iaculis. Nullam eget est faucibus, euismod enim vitae, interdum risus.
 
       Fusce posuere id lorem eu sagittis. Suspendisse et sodales dui. Nullam a enim et enim varius porta. Suspendisse nisi felis, feugiat sodales commodo sed, volutpat sed diam. Nunc ut porttitor arcu, in efficitur lorem. Quisque posuere facilisis porttitor. Vestibulum egestas ipsum id posuere malesuada. Cras dapibus, augue vel dignissim euismod, purus mi sodales turpis, congue interdum enim urna quis diam. Aenean sodales neque ut euismod congue. Aliquam a mi ac nulla efficitur euismod. Etiam eget est ullamcorper, sollicitudin odio sit amet, tempus lectus. Vivamus in purus quis ipsum condimentum lacinia. Quisque ornare neque vel metus lacinia aliquam. Nunc id magna volutpat, pharetra lorem at, sodales lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
@@ -30,6 +34,8 @@ const posts = [
   {
     title: "Post 3",
     userId: 2,
+    image: null,
+    link: null,
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vulputate eget velit vitae congue. Quisque iaculis tortor elit, vitae tincidunt libero condimentum in. Morbi sapien purus, accumsan id turpis et, rutrum imperdiet lorem. Etiam hendrerit ligula sed risus blandit, in efficitur nisi venenatis. Mauris rutrum posuere aliquam. Ut vehicula, metus et viverra ultrices, elit odio interdum ex, vitae tincidunt tellus diam sed lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean interdum sem sed purus malesuada, in venenatis eros tempus. Quisque gravida sed metus blandit egestas. Suspendisse porttitor lacus nec erat fermentum, a tempus risus iaculis. Nullam eget est faucibus, euismod enim vitae, interdum risus.
 
       Fusce posuere id lorem eu sagittis. Suspendisse et sodales dui. Nullam a enim et enim varius porta. Suspendisse nisi felis, feugiat sodales commodo sed, volutpat sed diam. Nunc ut porttitor arcu, in efficitur lorem. Quisque posuere facilisis porttitor. Vestibulum egestas ipsum id posuere malesuada. Cras dapibus, augue vel dignissim euismod, purus mi sodales turpis, congue interdum enim urna quis diam. Aenean sodales neque ut euismod congue. Aliquam a mi ac nulla efficitur euismod. Etiam eget est ullamcorper, sollicitudin odio sit amet, tempus lectus. Vivamus in purus quis ipsum condimentum lacinia. Quisque ornare neque vel metus lacinia aliquam. Nunc id magna volutpat, pharetra lorem at, sodales lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
@@ -43,6 +49,8 @@ const posts = [
   {
     title: "Post 4",
     userId: 2,
+    image: null,
+    link: null,
     body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vulputate eget velit vitae congue. Quisque iaculis tortor elit, vitae tincidunt libero condimentum in. Morbi sapien purus, accumsan id turpis et, rutrum imperdiet lorem. Etiam hendrerit ligula sed risus blandit, in efficitur nisi venenatis. Mauris rutrum posuere aliquam. Ut vehicula, metus et viverra ultrices, elit odio interdum ex, vitae tincidunt tellus diam sed lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean interdum sem sed purus malesuada, in venenatis eros tempus. Quisque gravida sed metus blandit egestas. Suspendisse porttitor lacus nec erat fermentum, a tempus risus iaculis. Nullam eget est faucibus, euismod enim vitae, interdum risus.
 
       Fusce posuere id lorem eu sagittis. Suspendisse et sodales dui. Nullam a enim et enim varius porta. Suspendisse nisi felis, feugiat sodales commodo sed, volutpat sed diam. Nunc ut porttitor arcu, in efficitur lorem. Quisque posuere facilisis porttitor. Vestibulum egestas ipsum id posuere malesuada. Cras dapibus, augue vel dignissim euismod, purus mi sodales turpis, congue interdum enim urna quis diam. Aenean sodales neque ut euismod congue. Aliquam a mi ac nulla efficitur euismod. Etiam eget est ullamcorper, sollicitudin odio sit amet, tempus lectus. Vivamus in purus quis ipsum condimentum lacinia. Quisque ornare neque vel metus lacinia aliquam. Nunc id magna volutpat, pharetra lorem at, sodales lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
