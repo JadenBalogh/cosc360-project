@@ -12,7 +12,7 @@ import {
 } from "./dao.js";
 
 export async function getFeed(req, res) {
-  getAllPosts()
+  getAllPosts({})
     .then((posts) => res.json(posts))
     .catch((err) => console.log(err));
 }
