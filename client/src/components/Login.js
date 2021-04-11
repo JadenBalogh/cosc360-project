@@ -2,21 +2,39 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
+import Alert from "./Alert";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authenticationService.login(email, password).then(() => {
-      history.push("/");
-      window.location.reload(false);
-    });
+    authenticationService
+      .login(email, password)
+      .then(() => {
+          if(authenticationService.currentUserValue) {
+              history.push("/");
+              window.location.reload(false);
+          } else {
+              console.log("bad");
+              setLoginError("Login was unsuccessful.");
+              setIsAlertVisible(true);
+          }
+      })
   };
+
+  function closeAlert() {
+    setIsAlertVisible(false);
+  }
 
   return (
     <>
+      <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+        {loginError}
+      </Alert>
       <div
         className="h-screen w-screen sm:bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
         style={{ clipPath: "polygon(0 75%, 100% 50%, 100% 100%, 0 100%" }}
