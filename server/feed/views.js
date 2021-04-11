@@ -64,7 +64,7 @@ export async function deleteComment(req, res) {
 
   const comment = await getCommentByID(id);
 
-  if (comment.userId !== req.user.id) {
+  if (!req.user.isAdmin && comment.userId !== req.user.id) {
     res.status(403);
     res.json({
       error: "Permission Denied",
@@ -150,7 +150,7 @@ export async function deletePost(req, res) {
 
   const post = await getPostByID(id);
 
-  if (post.userId !== req.user.id) {
+  if (!req.user.isAdmin && post.userId !== req.user.id) {
     res.status(403);
     res.json({
       error: "Permission Denied",
