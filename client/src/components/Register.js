@@ -14,7 +14,7 @@ function Register() {
   const [image, setImage] = useState("");
   const registerURL = `${process.env.REACT_APP_HOST || ""}/accounts/signup`;
   const [isAlertVisible, setIsAlertVisible] = useState(false);
-  const [loginError, setLoginError] = useState("");
+  const [registerError, setRegisterError] = useState("");
   const [match] = usePasswordValidation({
     password: password,
     password2: password2,
@@ -34,12 +34,12 @@ function Register() {
         })
         .catch((error) => {
           console.log(error);
-          setLoginError("Registration was unsuccessful.");
+          setRegisterError("Registration was unsuccessful.");
           setIsAlertVisible(true);
         });
     } else {
       console.log("The passwords must match!");
-        setLoginError("The passwords must match!");
+        setRegisterError("The passwords must match!");
         setIsAlertVisible(true);
     }
   };
@@ -51,7 +51,7 @@ function Register() {
   return (
     <>
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
-            {loginError}
+            {registerError}
         </Alert>
       <div
         className="h-screen w-screen sm:bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
