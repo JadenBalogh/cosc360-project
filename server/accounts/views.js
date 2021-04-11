@@ -45,7 +45,7 @@ export async function getProfile(req, res) {
   dao
     .findUser(req.userId)
     .then((user) => {
-      user.image = user.image.toString();
+      user.image = user.image?.toString();
       res.status(200);
       res.json(user);
     })
@@ -73,7 +73,7 @@ export async function putProfile(req, res) {
 }
 
 export async function deactivateUser(req, res) {
-  const { id } = req.body;
+  const { id } = req.body.data;
   dao
     .updateUser(id, {
       isActive: false,
@@ -86,7 +86,7 @@ export async function deactivateUser(req, res) {
 }
 
 export async function activateUser(req, res) {
-  const { id } = req.body;
+  const { id } = req.body.data;
   dao
     .updateUser(id, {
       isActive: true,
@@ -141,6 +141,9 @@ export async function getUsers(req, res) {
     })
     .then((result) => {
       res.status(200);
+      for(let i = 0; i < result.length; i++){
+        result[i].image = result[i].image?.toString();
+      }
       res.json(result);
     })
     .catch((err) => res.send(err));

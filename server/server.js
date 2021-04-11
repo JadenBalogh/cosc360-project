@@ -71,8 +71,8 @@ app.post(
   isAdminMiddleware,
   accountViews.deactivateUser
 );
-// TODO add middlewares
-app.get("/accounts/users",  accountViews.getUsers);
+
+app.get("/accounts/users", isAdminMiddleware,  accountViews.getUsers);
 
 // Post Views
 app.get("/feed/get-feed", getFeed);
