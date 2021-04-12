@@ -135,14 +135,12 @@ export async function resetPassword(req, res) {
 export async function getUsers(req, res) {
   dao
     .retrieveUsers({
-      searchName: req.query.searchName,
-      searchEmail: req.query.searchEmail,
-      searchPost: req.query.searchPost,
+      searchText: req.query.searchText
     })
     .then((result) => {
       res.status(200);
       for(let i = 0; i < result.length; i++){
-        result[i].image = result[i].image?.toString();
+        result[i].image ? result[i].image = result[i].image?.toString() : 1;
       }
       res.json(result);
     })
