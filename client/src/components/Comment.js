@@ -46,7 +46,7 @@ function Comment(props) {
                 :
                 <span
                   className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{props.username}
+                  @{props.comment.User && props.comment.User.name}
                 </span>
               }
             </div>
