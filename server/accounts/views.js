@@ -13,6 +13,7 @@ export async function login(req, res) {
 
   const accessToken = encodeToken({ userId: user.id });
   return res.json({
+      id: user.id,
       name: user.name,
       email: user.email,
       image: user.image?.toString(),

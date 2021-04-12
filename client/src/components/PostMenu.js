@@ -15,7 +15,6 @@ function PostMenu(props) {
         headers: authHeader()
       })
       .then((res) => {
-        // TODO: display success through alert
         history.push('/')
       })
       .catch((err) => {
@@ -66,14 +65,14 @@ function PostMenu(props) {
                 <div className='py-1'>
                   <Menu.Item>
                     {({active}) => (
-                      <Link
-                        to='/'
+                      <button
+                        onClick={removePost}
                         className={`${
                           active ? 'bg-gray-100' : 'bg-white'
                         } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
                       >
                         Delete
-                      </Link>
+                      </button>
                     )}
                   </Menu.Item>
                 </div>

@@ -3,6 +3,8 @@ import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { authenticationService } from "../_services";
 
+import noProfileImage from "../assets/images/no-profile-image.jpg";
+
 function ProfileHeaderDrop() {
   const user = authenticationService.currentUserValue;
   let dropdown = "";
@@ -13,13 +15,15 @@ function ProfileHeaderDrop() {
         <img
           src={user.image}
           className="w-10 h-10 mr-2 rounded-full border-2"
+          alt="profile"
         />
       );
     } else {
       image = (
         <img
-          src={"no-profile-image.jpg"}
+          src={noProfileImage}
           className="w-10 h-10 mr-2 rounded-full border-2"
+          alt="profile"
         />
       );
     }

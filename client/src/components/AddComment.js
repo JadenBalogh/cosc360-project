@@ -29,6 +29,7 @@ function AddComment(props) {
         .then((res) => {
           props.refreshComments();
           setComment('');
+          resetReferenceComment();
           // TODO: display success banner
         })
         .catch((err) => {

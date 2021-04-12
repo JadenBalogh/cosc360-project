@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import ProfileHeaderDrop from "./ProfileHeaderDrop";
 import { authenticationService } from "../_services";
 
+import logoImage from "../assets/images/logo.svg";
+
 function Header({ setSearchText }) {
   const history = useHistory();
   const user = authenticationService.currentUserValue;
@@ -35,7 +37,7 @@ function Header({ setSearchText }) {
   return (
     <nav className="grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50">
       <Link to="/" className="justify-self-start">
-        <img className="w-20" src={"logo.svg"} alt="Logo" />
+        <img className="w-20" src={logoImage} alt="Logo" />
       </Link>
       <form
         className="justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg"
