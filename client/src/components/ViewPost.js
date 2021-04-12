@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Post from "./Post";
 import Comment from "./Comment";
 import AddComment from "./AddComment";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {authenticationService} from "../_services";
-import {bufferToImage} from "../_helpers";
 
 function ViewPost(props) {
   const postId = props.match.params.id || null;
-  const URL = (props.match.url).split("/");
   const [post, setPost] = useState({
     id: -1,
     title: '',
@@ -27,7 +25,7 @@ function ViewPost(props) {
     setReferenceComment(values);
   }
 
-  const getPost = () => {
+  const getPost = useCallback(() => {
     axios
       .get(postURL, {
         params: {
@@ -36,15 +34,7 @@ function ViewPost(props) {
       })
       .then((res) => {
         if (res.data) {
-          setPost({
-            id: res.data.id || -1,
-            title: res.data.title || '',
-            image: res.data.image || null,
-            link: res.data.link || '',
-            body: res.data.body || ''
-          });
-          console.log(res.data.image)
-          console.log(res);
+          setPost(res.data);
         } else {
           props.history.push('/');
         }
@@ -54,9 +44,9 @@ function ViewPost(props) {
         // TODO: display error through banner and redirect
         console.log(err);
       });
-  }
+  }, [postId, postURL, props.history])
 
-  const refreshComments = () => {
+  const refreshComments = useCallback(() => {
     axios
       .get(commentsURL, {
         params: {
@@ -72,11 +62,7 @@ function ViewPost(props) {
         console.log(err);
         return null;
       });
-  }
-
-  const getUser = (userId) => {
-    return null;
-  }
+  }, [commentsURL, postId])
 
   useEffect(() => {
     getPost();
@@ -85,7 +71,7 @@ function ViewPost(props) {
       refreshComments();
     }, 10000);
     return () => clearInterval(refreshTimer)
-  }, []);
+  }, [getPost, refreshComments]);
 
   return (
     <>
@@ -103,7 +89,7 @@ function ViewPost(props) {
         </svg>
         {post.title}
       </div>
-      <main className={`w-full flex flex-col items-center space-y-4 ${user ? 'mb-28' : 'mb-4'}`}>
+      <main className={`w-full flex flex-col items-center ${user ? 'mb-28' : 'mb-4'}`}>
         <Post post={post} user={user}/>
         {comments.map((data, index) => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={setComment}

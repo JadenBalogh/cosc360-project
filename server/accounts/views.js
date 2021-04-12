@@ -13,6 +13,7 @@ export async function login(req, res) {
 
   const accessToken = encodeToken({ userId: user.id });
   return res.json({
+    id: user.id,
     name: user.name,
     email: user.email,
     image: user.image?.toString(),
@@ -45,7 +46,7 @@ export async function getProfile(req, res) {
   dao
     .findUser(req.userId)
     .then((user) => {
-      user.image = user.image?.toString();
+      user.image = user.image.toString();
       res.status(200);
       res.json(user);
     })

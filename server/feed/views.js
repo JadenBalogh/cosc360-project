@@ -85,6 +85,7 @@ export async function getPost(req, res) {
   getPostByID(req.query.id)
     .then((post) => {
       if (post.image) post.image = post.image.toString();
+      if (post.User.image) post.User.image = post.User.image.toString();
       res.status(200);
       res.json(post);
     })
