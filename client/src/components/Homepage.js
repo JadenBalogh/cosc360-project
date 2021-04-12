@@ -51,11 +51,11 @@ function Homepage({ searchText }) {
   }, [feed, feedURL, searchText, sortOrder, setIsAlertVisible]);
 
   return (
-    <div className='flex flex-col max-w-screen-md mx-auto my-4 space-y-4'>
+    <div className='flex flex-col max-w-screen-md mx-auto mb-4 space-y-4'>
       <Alert visible={isAlertVisible} callback={closeAlert}>
         New posts have arrived! Click here to refresh.
       </Alert>
-      <div className='flex justify-end'>
+      <div className='flex justify-end mt-2'>
         <button className='flex items-center text-md font-medium text-black outline-none' onClick={toggleSortOrder}>
           Sort by Date
           {sortOrder === 'ASC' ? (

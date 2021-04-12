@@ -50,9 +50,6 @@ function Register() {
 
   return (
     <>
-        <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
-            {registerError}
-        </Alert>
       <div
         className="h-screen w-screen sm:bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
         style={{ clipPath: "polygon(0 75%, 100% 50%, 100% 100%, 0 100%" }}
@@ -61,9 +58,12 @@ function Register() {
         className="h-screen w-screen bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
         style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
       />
-      <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 sm:mb-20" src={"logo.svg"} alt="Logo" />
-        <div className="container max-w-md sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
+      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
+        <img className="h-10 sm:mb-20 w-full" src={"logo.svg"} alt="Logo" />
+        <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+          {registerError}
+        </Alert>
+        <div className="w-full sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6 mt-6">
           <h2 className="text-2xl font-medium text-black text-center py-5">
             Register
           </h2>
