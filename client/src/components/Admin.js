@@ -17,7 +17,6 @@ function Admin({ searchText }) {
         headers: authHeader(),
       })
       .then((response) => {
-        console.log(response.data);
         setUsers(response.data)
       })
       .catch((err) => console.log(err));

@@ -51,7 +51,7 @@ function Header({ setSearchText }) {
       >
         <input
           className="w-full outline-none"
-          placeholder={url.pathname === "/admin" ? "Search For a User" : "Search"}
+          placeholder={url.pathname === "/admin" ? "Search using 'user:user' or 'post:post'" : "Search"}
           type="text"
           onChange={(event) => setSearchText(event.target.value)}
         />
