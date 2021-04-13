@@ -172,7 +172,7 @@ function PostData(props) {
           }
           <img src={imageSrc} alt='Uploaded preview' className='w-full h-48 object-cover rounded shadow-md'/>
         </div>}
-        <label htmlFor='title' className='text-xs font-medium mt-5'>Subject</label>
+        <label htmlFor='subject' className='text-xs font-medium mt-5'>Subject</label>
         <textarea
           id='subject'
           name='subject'
