@@ -4,6 +4,7 @@ import axios from "axios";
 import { usePasswordValidation } from "../hooks/passwordValidation";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
+import Alert from "./Alert";
 
 function Register() {
   const [name, setName] = useState("");
@@ -12,6 +13,8 @@ function Register() {
   const [password2, setPassword2] = useState("");
   const [image, setImage] = useState("");
   const registerURL = `${process.env.REACT_APP_HOST || ""}/accounts/signup`;
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [registerError, setRegisterError] = useState("");
   const [match] = usePasswordValidation({
     password: password,
     password2: password2,
@@ -31,11 +34,19 @@ function Register() {
         })
         .catch((error) => {
           console.log(error);
+          setRegisterError("Registration was unsuccessful.");
+          setIsAlertVisible(true);
         });
     } else {
       console.log("The passwords must match!");
+        setRegisterError("The passwords must match!");
+        setIsAlertVisible(true);
     }
   };
+
+    function closeAlert() {
+        setIsAlertVisible(false);
+    }
 
   return (
     <>
@@ -47,9 +58,12 @@ function Register() {
         className="h-screen w-screen bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
         style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
       />
-      <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 sm:mb-20" src={"logo.svg"} alt="Logo" />
-        <div className="container max-w-md sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
+      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
+        <img className="h-10 sm:mb-20 w-full" src={"logo.svg"} alt="Logo" />
+        <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+          {registerError}
+        </Alert>
+        <div className="w-full sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6 mt-6">
           <h2 className="text-2xl font-medium text-black text-center py-5">
             Register
           </h2>
@@ -62,17 +76,17 @@ function Register() {
               />
               <div className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                 <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    onChange={(event) => {
-                      const file = event.target.files[0];
-                      let reader = new FileReader();
-                      reader.readAsDataURL(file);
-                      reader.onload = function () {
-                        setImage(reader.result);
-                      };
-                    }}
+                  type="file"
+                  id="image"
+                  name="image"
+                  onChange={(event) => {
+                    const file = event.target.files[0];
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function () {
+                      setImage(reader.result);
+                    };
+                  }}
                 />
               </div>
             </div>

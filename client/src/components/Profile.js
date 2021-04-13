@@ -3,6 +3,7 @@ import axios from "axios";
 import { authenticationService } from "../_services";
 import { authHeader, history } from "../_helpers";
 import { usePasswordValidation } from "../_hooks/passwordValidation";
+import Alert from "./Alert";
 
 function Profile() {
   const [name, setName] = useState(null);
@@ -11,6 +12,8 @@ function Profile() {
   const [password2, setPassword2] = useState("");
   const [image, setImage] = useState(null);
   const [profile, setProfile] = useState("");
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [profileError, setProfileError] = useState("");
   const profileURL = `${process.env.REACT_APP_HOST || ""}/accounts/profile`;
   const user = authenticationService.currentUserValue;
   const [match] = usePasswordValidation({
@@ -33,10 +36,14 @@ function Profile() {
         setImage(user.data.image);
       })
       .catch((error) => {
-        history.push("/");
-        window.location.reload(false);
         console.log(error);
+        setProfileError("Could not get profile.");
+        setIsAlertVisible(true);
       });
+  }
+  if(!user) {
+    history.push("/");
+    window.location.reload(false);
   }
   if (image) {
     imageHTML = (
@@ -72,14 +79,25 @@ function Profile() {
         })
         .catch((error) => {
           console.log(error);
+          setProfileError(error);
+          setIsAlertVisible(true);
         });
     } else {
       console.log("The passwords must match!");
+      setProfileError("The passwords must match!");
+      setIsAlertVisible(true);
     }
   };
 
+  function closeAlert() {
+    setIsAlertVisible(false);
+  }
+
   return (
     <>
+      <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+        {profileError}
+      </Alert>
       <div className="h-screen w-screen}}">
         <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
           <div className="container max-w-4xl sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
@@ -135,7 +153,7 @@ function Profile() {
                 name="password2"
                 placeholder="Repeat Password"
                 onChange={(event) => setPassword2(event.target.value)}
-                value={password}
+                value={password2}
                 className="shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5"
               />
               <input
