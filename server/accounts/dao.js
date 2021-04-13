@@ -47,31 +47,40 @@ export async function updateUser(id, attributes) {
 }
 
 export async function retrieveUsers(options) {
-  return User.findAll({
-    where: options.searchText === "" ? {} : {
-      [Op.or]: {
-        ...(options.searchText && {
-          name: {
-            [Op.iLike]: `%${options.searchText}%`,
-          },
-        }),
-        ...(options.searchText && {
-          email: {
-            [Op.iLike]: `%${options.searchText}%`,
-          },
-        }),
+  if (options.searchType === "user" || options.searchType === "") {
+    return User.findAll({
+      where: options.searchText === "" ? {} : {
+        [Op.or]: {
+          ...(options.searchText && {
+            name: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+          ...(options.searchText && {
+            email: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+        }
       }
-    },
-    include: options.searchText === "" ? null : {
-      model: Post,
-        where: options.searchText === "" ? {} : {
-          ...(options.searchPost && {
+    });
+  } else if (options.searchType === "post") {
+    return Post.findAll({
+      include: User,
+      where: options.searchText === "" ? {} : {
+        [Op.or]: {
+          ...(options.searchText && {
             title: {
               [Op.iLike]: `%${options.searchText}%`,
             },
           }),
-        },
-      attributes: ["id"],
-    },
-  });
+          ...(options.searchText && {
+            body: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+        }
+      }
+    });
+  }
 }
