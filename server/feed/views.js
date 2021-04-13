@@ -12,14 +12,14 @@ import {
 } from "./dao.js";
 
 export async function getFeed(req, res) {
-  getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
+  return getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
     .then((posts) => res.json(posts))
     .catch((err) => console.log(err));
 }
 
 export async function getPostComments(req, res) {
   const { postId=null, parentId=null } = req.query;
-  nestAllPostComments(postId)
+  return nestAllPostComments(postId)
     .then((comments) => res.json(comments))
     .catch((err) => console.log(err));
 }
