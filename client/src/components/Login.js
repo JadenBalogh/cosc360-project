@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
 
+import logoImage from "../assets/images/logo.svg";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +28,7 @@ function Login() {
         style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
       />
       <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 sm:mb-20" src={"logo.svg"} alt="Logo" />
+        <img className="h-10 sm:mb-20" src={logoImage} alt="Logo" />
         <div className="container max-w-md sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
           <h2 className="text-2xl font-medium text-black text-center py-5">
             Login

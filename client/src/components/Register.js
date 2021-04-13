@@ -5,6 +5,9 @@ import { usePasswordValidation } from "../hooks/passwordValidation";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
 
+import logoImage from "../assets/images/logo.svg";
+import noProfileImage from "../assets/images/no-profile-image.jpg";
+
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,7 +51,7 @@ function Register() {
         style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
       />
       <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 sm:mb-20" src={"logo.svg"} alt="Logo" />
+        <img className="h-10 sm:mb-20" src={logoImage} alt="Logo" />
         <div className="container max-w-md sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
           <h2 className="text-2xl font-medium text-black text-center py-5">
             Register
@@ -57,7 +60,7 @@ function Register() {
             <div className="flex flex-col justify-center items-center">
               <img
                 className="inline object-cover w-24 h-24 mr-2 rounded-full border-2"
-                src={"no-profile-image.jpg"}
+                src={noProfileImage}
                 alt="Logo"
               />
               <div className="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
