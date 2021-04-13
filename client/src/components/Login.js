@@ -4,6 +4,8 @@ import { history } from "../_helpers";
 import { authenticationService } from "../_services";
 import Alert from "./Alert";
 
+import logoImage from "../assets/images/logo.svg";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +42,7 @@ function Login() {
         style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
       />
       <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 w-full sm:mb-20" src={"logo.svg"} alt="Logo" />
+        <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
           {loginError}
         </Alert>
