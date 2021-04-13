@@ -85,7 +85,7 @@ function Homepage({ searchText }) {
         <div className='space-y-8'>
           {feed.map((post) => (
             <div key={post.id} className='flex rounded-xl border border-gray-300 max-h-60 cursor-pointer overflow-hidden relative'>
-              <Link to={`/view/${post.id}`} className='flex overflow-clip'>
+              <Link to={`/view/${post.id}`} className='flex overflow-clip bg-white w-full'>
                 {post.image && <img className='h-full w-60' src={post.image} alt='Logo' />}
                 <div className='flex flex-col space-y-2 p-5 py-3.5'>
                   <div className='flex justify-between items-center'>
