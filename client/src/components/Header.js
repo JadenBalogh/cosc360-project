@@ -1,9 +1,10 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import ProfileHeaderDrop from "./ProfileHeaderDrop";
 import { authenticationService } from "../_services";
 
 function Header({ setSearchText }) {
+  const url = useLocation();
   const history = useHistory();
   const user = authenticationService.currentUserValue;
   let login = "";
@@ -28,17 +29,21 @@ function Header({ setSearchText }) {
   }
 
   function handleSearch(event) {
+    console.log("search", url.pathname)
     event.preventDefault();
-    history.push("/");
+    if (url.pathname === "/admin")
+      history.push("/admin");
+    else
+      history.push("/");
   }
 
   return (
     <nav className="grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50">
-      <div className="justify-self-start">
+      <div className="justify-self-start flex space-x-4 items-center">
         <Link to="/">
           <img className="w-20" src={"logo.svg"} alt="Logo" />
         </Link>
-        {user?.isAdmin && <Link to="/admin">Admin</Link>}
+        {user?.isAdmin && <Link to="/admin" className="text-lg">Admin</Link>}
       </div>
       <form
         className="justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg"
@@ -46,7 +51,7 @@ function Header({ setSearchText }) {
       >
         <input
           className="w-full outline-none"
-          placeholder="Search"
+          placeholder={url.pathname === "/admin" ? "Search using 'user:user' or 'post:post'" : "Search"}
           type="text"
           onChange={(event) => setSearchText(event.target.value)}
         />
