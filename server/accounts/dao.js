@@ -1,5 +1,8 @@
+import sequelize_pkg from "sequelize";
+
+const { Op } = sequelize_pkg;
 import dotenv from "dotenv";
-import { User } from "../db/models.js";
+import { User, Post } from "../db/models.js";
 
 dotenv.config();
 
@@ -39,6 +42,32 @@ export async function updateUser(id, attributes) {
   return User.update(attributes, {
     where: {
       id: id,
+    },
+  });
+}
+
+export async function retrieveUsers(options) {
+  return User.findAll({
+    where: {
+      ...(options.searchName && {
+        name: {
+          [Op.iLike]: `%${options.searchName}%`,
+        },
+      }),
+      ...(options.searchEmail && {
+        email: {
+          [Op.iLike]: `%${options.searchEmail}%`,
+        },
+      }),
+    },
+    include: {
+      model: Post,
+      ...(options.searchPost && {
+        where: {
+          id: `${options.searchPost}`,
+        },
+      }),
+      attributes: ["id"],
     },
   });
 }

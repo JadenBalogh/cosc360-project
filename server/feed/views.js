@@ -12,14 +12,14 @@ import {
 } from "./dao.js";
 
 export async function getFeed(req, res) {
-  getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
+  return getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
     .then((posts) => res.json(posts))
     .catch((err) => console.log(err));
 }
 
 export async function getPostComments(req, res) {
   const { postId=null, parentId=null } = req.query;
-  nestAllPostComments(postId)
+  return nestAllPostComments(postId)
     .then((comments) => res.json(comments))
     .catch((err) => console.log(err));
 }
@@ -64,7 +64,7 @@ export async function deleteComment(req, res) {
 
   const comment = await getCommentByID(id);
 
-  if (comment.userId !== req.user.id) {
+  if (!req.user.isAdmin && comment.userId !== req.user.id) {
     res.status(403);
     res.json({
       error: "Permission Denied",
@@ -154,7 +154,7 @@ export async function deletePost(req, res) {
 
   const post = await getPostByID(id);
 
-  if (post.userId !== req.user.id) {
+  if (!req.user.isAdmin && post.userId !== req.user.id) {
     res.status(403);
     res.json({
       error: "Permission Denied",

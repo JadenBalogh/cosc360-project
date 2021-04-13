@@ -72,6 +72,8 @@ app.post(
   accountViews.deactivateUser
 );
 
+app.get("/accounts/users", isAdminMiddleware,  accountViews.getUsers);
+
 // Post Views
 app.get("/feed/get-feed", getFeed);
 app.get("/feed/get-post", getPost);

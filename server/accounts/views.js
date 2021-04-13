@@ -1,10 +1,10 @@
-import { findUser, createUser, updateUser } from "./dao.js";
+import * as dao from "./dao.js";
 import { encodeToken } from "./authentication.js";
 import nodemailer from "nodemailer";
 
 export async function login(req, res) {
   const { email, password } = req.body;
-  const user = await findUser(email, password);
+  const user = await dao.findUser(email, password);
 
   if (!user) {
     res.status(401);
@@ -13,16 +13,17 @@ export async function login(req, res) {
 
   const accessToken = encodeToken({ userId: user.id });
   return res.json({
-      name: user.name,
-      email: user.email,
-      image: user.image?.toString(),
-      accessToken: accessToken,
+    name: user.name,
+    email: user.email,
+    image: user.image?.toString(),
+    accessToken: accessToken,
+    isAdmin: user.isAdmin,
   });
 }
 
 export async function signup(req, res) {
   const { email, password, name, image } = req.body;
-  const user = await findUser(email, null);
+  const user = await dao.findUser(email, null);
 
   if (user) {
     res.status(400);
@@ -31,7 +32,8 @@ export async function signup(req, res) {
     });
   }
 
-  createUser(email, password, name, image)
+  dao
+    .createUser(email, password, name, image)
     .then((user) => {
       res.status(200);
       res.json(user);
@@ -40,9 +42,10 @@ export async function signup(req, res) {
 }
 
 export async function getProfile(req, res) {
-  findUser(req.userId)
+  dao
+    .findUser(req.userId)
     .then((user) => {
-      user.image = user.image.toString();
+      user.image = user.image?.toString();
       res.status(200);
       res.json(user);
     })
@@ -55,12 +58,13 @@ export async function getProfile(req, res) {
 export async function putProfile(req, res) {
   const { email, password, name, image } = req.body;
   const id = req.userId;
-  updateUser(id, {
-    email: email,
-    password: password,
-    name: name,
-    image: image,
-  })
+  dao
+    .updateUser(id, {
+      email: email,
+      password: password,
+      name: name,
+      image: image,
+    })
     .then((user) => {
       res.status(200);
       res.json(user);
@@ -69,10 +73,11 @@ export async function putProfile(req, res) {
 }
 
 export async function deactivateUser(req, res) {
-  const { id } = req.body;
-  updateUser(id, {
-    isActive: false,
-  })
+  const { id } = req.body.data;
+  dao
+    .updateUser(id, {
+      isActive: false,
+    })
     .then((user) => {
       res.status(200);
       res.json(user);
@@ -81,10 +86,11 @@ export async function deactivateUser(req, res) {
 }
 
 export async function activateUser(req, res) {
-  const { id } = req.body;
-  updateUser(id, {
-    isActive: true,
-  })
+  const { id } = req.body.data;
+  dao
+    .updateUser(id, {
+      isActive: true,
+    })
     .then((user) => {
       res.status(200);
       res.json(user);
@@ -94,8 +100,8 @@ export async function activateUser(req, res) {
 
 export async function resetPassword(req, res) {
   const { userEmail } = req.body;
-  const user = await findUser(userEmail, null);
-  if(user) {
+  const user = await dao.findUser(userEmail, null);
+  if (user) {
     const email = process.env.EMAIL;
     const emailPassword = process.env.PASSWORD;
     const transporter = nodemailer.createTransport({
@@ -124,4 +130,21 @@ export async function resetPassword(req, res) {
       }
     });
   }
+}
+
+export async function getUsers(req, res) {
+  dao
+    .retrieveUsers({
+      searchName: req.query.searchName,
+      searchEmail: req.query.searchEmail,
+      searchPost: req.query.searchPost,
+    })
+    .then((result) => {
+      res.status(200);
+      for(let i = 0; i < result.length; i++){
+        result[i].image = result[i].image?.toString();
+      }
+      res.json(result);
+    })
+    .catch((err) => res.send(err));
 }
