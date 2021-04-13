@@ -16,11 +16,17 @@ export const authenticationService = {
 };
 
 function login(email, password) {
-  return axios.post(loginURL, { email, password }).then((response) => {
-    const user = response.data;
-    localStorage.setItem("currentUser", JSON.stringify(user));
-    currentUserSubject.next(user);
-  });
+  return axios
+    .post(loginURL, { email, password })
+    .then((response) => {
+      const user = response.data;
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      currentUserSubject.next(user);
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
 }
 
 function logout() {
