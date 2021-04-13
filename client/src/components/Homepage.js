@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PostMenu from './PostMenu';
 import Alert from './Alert';
-import CreatePostButton from "./CreatePostButton";
-import {Link} from "react-router-dom";
-import {authenticationService} from "../_services";
+import CreatePostButton from './CreatePostButton';
+import { Link } from 'react-router-dom';
+import { authenticationService } from '../_services';
 
-function Homepage({searchText}) {
+function Homepage({ searchText }) {
   const [feed, setFeed] = useState([]);
   const [sortOrder, setSortOrder] = useState('ASC');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
@@ -14,7 +14,7 @@ function Homepage({searchText}) {
   const user = authenticationService.currentUserValue;
 
   function loadFeed() {
-    let searchParams = '?' + new URLSearchParams({searchText, sortOrder});
+    let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
     axios
       .get(feedURL + searchParams)
       .then((response) => {
@@ -38,7 +38,7 @@ function Homepage({searchText}) {
 
   useEffect(() => {
     let id = setInterval(() => {
-      let searchParams = '?' + new URLSearchParams({searchText, sortOrder});
+      let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
       axios
         .get(feedURL + searchParams)
         .then((response) => {
@@ -84,36 +84,29 @@ function Homepage({searchText}) {
         </div>
         <div className='space-y-8'>
           {feed.map((post) => (
-            <div
-              key={post.id}
-              className='flex rounded-xl border border-gray-300 max-h-60 cursor-pointer relative'
-            >
-              <Link to={`/view/${post.id}`}
-              className='overflow-clip'>
-                {post.image && <img className='h-full w-60' src={post.image} alt='Logo'/>}
+            <div key={post.id} className='flex rounded-xl border border-gray-300 max-h-60 cursor-pointer overflow-hidden relative'>
+              <Link to={`/view/${post.id}`} className='flex overflow-clip'>
+                {post.image && <img className='h-full w-60' src={post.image} alt='Logo' />}
                 <div className='flex flex-col space-y-2 p-5 py-3.5'>
                   <div className='flex justify-between items-center'>
                     <h2 className='text-2xl font-medium text-black'>{post.title}</h2>
                   </div>
                   <p className='text-sm font-medium text-black'>
                     By
-                    <span
-                      className='ml-1 font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{post.User && post.User.name}
-                </span>
+                    <span className='ml-1 font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
+                      @{post.User && post.User.name}
+                    </span>
                   </p>
                   <p className='text-base text-black line-clamp-6'>{post.body}</p>
                 </div>
               </Link>
               <div className='absolute top-5 right-5'>
-                {user && post.userId === user.id &&
-                <PostMenu postId={post.id}/>
-                }
+                {user && post.userId === user.id && <PostMenu postId={post.id} />}
               </div>
             </div>
           ))}
         </div>
-        <CreatePostButton/>
+        <CreatePostButton />
       </div>
     </>
   );

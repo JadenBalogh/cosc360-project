@@ -8,17 +8,25 @@ import {
   updateComment,
   getCommentByID,
   nestAllPostComments,
-  destroyPost
-} from "./dao.js";
+  destroyPost,
+} from './dao.js';
 
 export async function getFeed(req, res) {
   getAllPosts({ searchText: req.query.searchText, sortOrder: req.query.sortOrder })
-    .then((posts) => res.json(posts))
+    .then((posts) => {
+      for (let i = 0; i < posts.length; i++) {
+        let post = posts[i];
+        if (post.image) posts[i].image = post.image.toString();
+        if (post.User.image) posts[i].User.image = post.User.image.toString();
+      }
+      res.status(200);
+      res.json(posts);
+    })
     .catch((err) => console.log(err));
 }
 
 export async function getPostComments(req, res) {
-  const { postId=null, parentId=null } = req.query;
+  const { postId = null, parentId = null } = req.query;
   nestAllPostComments(postId)
     .then((comments) => res.json(comments))
     .catch((err) => console.log(err));
@@ -46,7 +54,7 @@ export async function editComment(req, res) {
   if (comment.userId !== req.user.id) {
     res.status(403);
     res.json({
-      error: "Permission Denied",
+      error: 'Permission Denied',
     });
   }
   updateComment(id, { text })
@@ -67,7 +75,7 @@ export async function deleteComment(req, res) {
   if (comment.userId !== req.user.id) {
     res.status(403);
     res.json({
-      error: "Permission Denied",
+      error: 'Permission Denied',
     });
     return;
   }
@@ -93,12 +101,7 @@ export async function getPost(req, res) {
 }
 
 export async function publishPost(req, res) {
-  const {
-    title = null,
-    link = null,
-    image = null,
-    body = null
-  } = req.body;
+  const { title = null, link = null, image = null, body = null } = req.body;
 
   newPost({
     userId: req.user.id,
@@ -117,20 +120,14 @@ export async function publishPost(req, res) {
 }
 
 export async function editPost(req, res) {
-  const {
-    title = null,
-    link = null,
-    image = null,
-    body = null,
-    id = null,
-  } = req.body;
+  const { title = null, link = null, image = null, body = null, id = null } = req.body;
 
   const post = await getPostByID(id);
 
   if (post.userId !== req.user.id) {
     res.status(403);
     res.json({
-      error: "Permission Denied",
+      error: 'Permission Denied',
     });
     return;
   }
@@ -158,7 +155,7 @@ export async function deletePost(req, res) {
   if (post.userId !== req.user.id) {
     res.status(403);
     res.json({
-      error: "Permission Denied",
+      error: 'Permission Denied',
     });
     return;
   }
