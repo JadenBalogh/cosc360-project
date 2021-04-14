@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
@@ -33,8 +33,10 @@ function Login() {
 
   return (
     <>
-      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
+      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative">
+        <Link to="/">
+          <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
+        </Link>
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
           {loginError}
         </Alert>

@@ -64,7 +64,10 @@ function Register() {
 
   return (
     <>
-      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
+      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative">
+        <Link to="/">
+          <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
+        </Link>
         <img className="h-10 sm:mb-20 w-full" src={logoImage} alt="Logo" />
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
           {registerError}
