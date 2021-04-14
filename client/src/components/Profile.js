@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { authenticationService } from "../_services";
 import { authHeader, history } from "../_helpers";
 import { usePasswordValidation } from "../_hooks/passwordValidation";
+import Alert from "./Alert";
 
 function Profile() {
   const [name, setName] = useState("");
@@ -10,6 +10,8 @@ function Profile() {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [image, setImage] = useState("");
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [profileError, setProfileError] = useState("");
   const profileURL = `${process.env.REACT_APP_HOST || ""}/accounts/profile`;
   const [match] = usePasswordValidation({
     password: password,
@@ -30,9 +32,9 @@ function Profile() {
         setImage(user.data.image);
       })
       .catch((error) => {
-        history.push("/");
-        window.location.reload(false);
         console.log(error);
+        setProfileError("Could not get profile.");
+        setIsAlertVisible(true);
       });
   }
   useEffect(loadData, []);
@@ -72,14 +74,25 @@ function Profile() {
         })
         .catch((error) => {
           console.log(error);
+          setProfileError(error);
+          setIsAlertVisible(true);
         });
     } else {
       console.log("The passwords must match!");
+      setProfileError("The passwords must match!");
+      setIsAlertVisible(true);
     }
   };
 
+  function closeAlert() {
+    setIsAlertVisible(false);
+  }
+
   return (
     <>
+      <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+        {profileError}
+      </Alert>
       <div className="h-screen w-screen}}">
         <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
           <div className="container max-w-4xl sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">

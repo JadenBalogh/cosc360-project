@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { authHeader, history } from "../_helpers";
+import React from "react";
 
 function AdminMenu({ user }) {
   const deactivateURL = `${
@@ -54,14 +55,12 @@ function AdminMenu({ user }) {
     };
 
   return (
-    <div className="relative inline-block text-left py-0.5 flex-grow">
+    <div className="relative inline-block text-left py-0.5">
       <Menu>
         {({ open }) => (
           <>
             <Menu.Button
-              className="flex justify-end w-32 transition duration-50 ease-in-out focus:outline-none hover:text-gray-500 active:text-gray-800
-            float-right"
-            >
+              className="inline-flex justify-center items-center space-x-2 text-base text-black transition duration-50 ease-in-out focus:outline-none hover:text-gray-500 active:text-gray-800">
               <div className="w-5 h-5 mx-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +81,9 @@ function AdminMenu({ user }) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="w-32 mt-2 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-xl outline-none">
+              <Menu.Items
+                className="absolute z-20 right-0 w-32 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-xl outline-none"
+              >
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (

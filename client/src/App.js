@@ -29,7 +29,9 @@ function App() {
           <Route path='/create' component={CreatePost}/>
           <Route path='/view/:id/edit/' component={EditPost}/>
           <Route path='/view/:id' component={ViewPost}/>
-          <Route path='/admin' component={Admin}/>
+          <Route path='/admin'>
+            <Admin searchText={searchText} />
+          </Route>
           <Route exact path='/' component={Homepage}/>
           <Route component={Error}/>
         </Switch>

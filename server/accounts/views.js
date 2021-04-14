@@ -133,17 +133,26 @@ export async function resetPassword(req, res) {
 }
 
 export async function getUsers(req, res) {
+  const [type, ...parameters] = req.query.searchText.includes(":") ?
+    req.query.searchText.split(":") : ["", req.query.searchText];
+
   dao
     .retrieveUsers({
-      searchName: req.query.searchName,
-      searchEmail: req.query.searchEmail,
-      searchPost: req.query.searchPost,
+      searchType: type || "",
+      searchText: parameters.join(" ") || ""
     })
     .then((result) => {
-      res.status(200);
-      for(let i = 0; i < result.length; i++){
-        result[i].image = result[i].image?.toString();
+      if (type === "post") {
+        result = result.map(res => {
+          return res.User;
+        });
+        let userIds = result.map(user => user.id)
+        result = result.filter(({id}, index) => !userIds.includes(id, index+1))
       }
+      for (let i = 0; i < result.length; i++){
+        result[i].image ? result[i].image = result[i].image?.toString() : 1;
+      }
+      res.status(200);
       res.json(result);
     })
     .catch((err) => res.send(err));
