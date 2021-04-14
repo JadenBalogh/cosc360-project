@@ -66,7 +66,7 @@ function Login() {
                 to="/password-recovery"
                 className="text-sm font-normal text-blue-500 hover:text-blue-700 hover:underline"
               >
-                Forget Password?
+                Forgot Password?
               </Link>
               <Link
                 to="/register"
