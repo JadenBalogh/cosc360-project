@@ -1,8 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
 import Alert from "./Alert";
+
+import logoImage from "../assets/images/logo.svg";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -31,16 +33,10 @@ function Login() {
 
   return (
     <>
-      <div
-        className="h-screen w-screen sm:bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
-        style={{ clipPath: "polygon(0 75%, 100% 50%, 100% 100%, 0 100%" }}
-      />
-      <div
-        className="h-screen w-screen bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
-        style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
-      />
-      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 w-full sm:mb-20" src={"logo.svg"} alt="Logo" />
+      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative">
+        <Link to="/">
+          <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
+        </Link>
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
           {loginError}
         </Alert>

@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Post from "./Post";
 import Comment from "./Comment";
 import AddComment from "./AddComment";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import {authenticationService} from "../_services";
-import {bufferToImage} from "../_helpers";
+import Alert from "./Alert";
 
 function ViewPost(props) {
   const postId = props.match.params.id || null;
-  const URL = (props.match.url).split("/");
   const [post, setPost] = useState({
     id: -1,
     title: '',
@@ -19,6 +18,9 @@ function ViewPost(props) {
   });
   const [comments, setComments] = useState([]);
   const [referenceComment, setReferenceComment] = useState(null);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [alertVariant, setAlertVariant] = useState("error");
+  const [profileError, setProfileError] = useState("");
   const commentsURL = `${process.env.REACT_APP_HOST || ''}/feed/comments`;
   const postURL = `${process.env.REACT_APP_HOST || ''}/feed/get-post`;
   const user = authenticationService.currentUserValue;
@@ -27,7 +29,11 @@ function ViewPost(props) {
     setReferenceComment(values);
   }
 
-  const getPost = () => {
+  function closeAlert() {
+    setIsAlertVisible(false);
+  }
+
+  const getPost = useCallback(() => {
     axios
       .get(postURL, {
         params: {
@@ -36,27 +42,19 @@ function ViewPost(props) {
       })
       .then((res) => {
         if (res.data) {
-          setPost({
-            id: res.data.id || -1,
-            title: res.data.title || '',
-            image: res.data.image || null,
-            link: res.data.link || '',
-            body: res.data.body || ''
-          });
-          console.log(res.data.image)
-          console.log(res);
+          setPost(res.data);
         } else {
           props.history.push('/');
         }
-        // TODO: get user to display user info
       })
-      .catch((err) => {
-        // TODO: display error through banner and redirect
-        console.log(err);
+      .catch(() => {
+        setProfileError("Unable to get post!");
+        setIsAlertVisible(true);
+        setAlertVariant("error");
       });
-  }
+  }, [postId, postURL, props.history])
 
-  const refreshComments = () => {
+  const refreshComments = useCallback(() => {
     axios
       .get(commentsURL, {
         params: {
@@ -67,16 +65,12 @@ function ViewPost(props) {
       .then((res) => {
         setComments(res.data);
       })
-      .catch((err) => {
-        // TODO: display error through banner and redirect
-        console.log(err);
-        return null;
+      .catch(() => {
+        setProfileError("Unable to get comments!");
+        setIsAlertVisible(true);
+        setAlertVariant("error");
       });
-  }
-
-  const getUser = (userId) => {
-    return null;
-  }
+  }, [commentsURL, postId])
 
   useEffect(() => {
     getPost();
@@ -85,32 +79,39 @@ function ViewPost(props) {
       refreshComments();
     }, 10000);
     return () => clearInterval(refreshTimer)
-  }, []);
+  }, [getPost, refreshComments]);
 
   return (
     <>
-      <div className='flex flex-row items-center container max-w-3xl mx-auto mb-4 text-gray-400 pl-6'>
-        <Link to='/' className='hover:text-gray-700 h-full'>
+      <main className={`w-full flex flex-col items-center ${user ? 'mb-28' : 'mb-4'}`}>
+        <div className='container max-w-3xl mx-auto pb-4 sticky top-20'>
+          <Alert visible={isAlertVisible} callback={closeAlert} variant={alertVariant}>
+            {profileError}
+          </Alert>
+        </div>
+        <div className='flex flex-row items-center container max-w-3xl mx-auto mb-4 text-gray-400 pl-6'>
+          <Link to='/' className='hover:text-gray-700 h-full'>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+          </Link>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            <path fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"/>
           </svg>
-        </Link>
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"/>
-        </svg>
-        {post.title}
-      </div>
-      <main className={`w-full flex flex-col items-center space-y-4 ${user ? 'mb-28' : 'mb-4'}`}>
+          {post.title}
+        </div>
         <Post post={post} user={user}/>
         {comments.map((data, index) => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={setComment}
-                   refreshComments={refreshComments} user={user}/>
+                   refreshComments={refreshComments} user={user} setProfileError={setProfileError}
+                   setAlertVariant={setAlertVariant} setIsAlertVisible={setIsAlertVisible}/>
         ))}
         <AddComment refreshComments={refreshComments} postId={postId} referenceComment={referenceComment}
-                    setReferenceComment={setComment} user={user}/>
+                    setReferenceComment={setComment} user={user} setProfileError={setProfileError}
+                    setAlertVariant={setAlertVariant} setIsAlertVisible={setIsAlertVisible}/>
       </main>
     </>
   );

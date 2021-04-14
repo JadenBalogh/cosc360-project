@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import CommentDrop from "./CommentDrop";
 
+import noProfileImage from "../assets/images/no-profile-image.jpg";
+
 function Comment(props) {
   const [hideChildren, setHideChildren] = useState(false);
 
@@ -10,7 +12,7 @@ function Comment(props) {
 
   return (
     <div className='container max-w-3xl'>
-      <div className='md:bg-white border-t border-b md:border border-gray-300 md:rounded-2xl p-6'>
+      <div className='md:bg-white border-t border-b md:border border-gray-300 md:rounded-2xl p-6 mt-4'>
         <div className='flex flex-col'>
           <div className='flex justify-between items-center'>
             <div className='flex flex-row space-x-3 items-center'>
@@ -44,12 +46,13 @@ function Comment(props) {
                 :
                 <span
                   className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{props.username}
+                  @{props.comment.User && props.comment.User.name}
                 </span>
               }
             </div>
             {props.user && props.comment.userId === props.user.id &&
-            <CommentDrop id={props.comment.id} refresh={props.refreshComments}/>
+            <CommentDrop id={props.comment.id} refresh={props.refreshComments} setProfileError={props.setProfileError}
+                         setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}/>
             }
           </div>
           <div>
@@ -58,9 +61,9 @@ function Comment(props) {
               <h2 className='flex flex-row items-center text-sm font-medium text-black mt-4'>
               <span
                 className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                @{props.username}
+                @{props.comment.User && props.comment.User.name}
               </span>
-                <img className='h-7 w-7 bg-gray-300 object-contain rounded-full ml-2' src={props.profilePic}
+                <img className='h-7 w-7 bg-gray-300 object-contain rounded-full ml-2' src={props.comment.User && props.comment.User.image ? props.comment.User.image : noProfileImage}
                      alt='User profile'/>
               </h2>
               <p className='text-base text-black overflow-hidden mt-2'>{props.comment.text}</p>
@@ -71,9 +74,9 @@ function Comment(props) {
       </div>
       {props.comments.length > 0 &&
       <div className={`pl-12 md:pl-24 mt-4 ${!hideChildren ? 'block' : 'hidden'}`}>
-        {props.comments.map((data, index) => (
+        {props.comments.map(data => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={props.setComment}
-                   refreshComments={props.refreshComments}/>
+                   refreshComments={props.refreshComments} user={props.user}/>
         ))}
       </div>
       }

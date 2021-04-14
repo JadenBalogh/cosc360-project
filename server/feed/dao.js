@@ -21,6 +21,7 @@ export async function getAllPosts(options) {
 
 export async function getAllPostComments(postId) {
   return Comment.findAll({
+    include: User,
     where: {
       postId: postId
     },
@@ -50,6 +51,7 @@ export async function nestAllPostComments(postId) {
   while (count > 0) {
     comments.map(async comment => {
       count--;
+      if (comment.User.image) comment.User.image = comment.User.image.toString();
       if (!comment.parentId) {
         await commentsData.push({
           comment: comment,
@@ -93,6 +95,7 @@ export async function getCommentByID(id) {
 
 export async function getPostByID(id) {
   return Post.findOne({
+    include: User,
     where: {
       id: id,
     },

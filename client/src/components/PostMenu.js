@@ -10,13 +10,13 @@ function PostMenu(props) {
     axios
       .delete(deleteURL, {
         data: {
-          id: props.id,
+          id: props.postId
         },
-        headers: authHeader(),
+        headers: authHeader()
       })
       .then((res) => {
-        // TODO: display success through alert
-        history.push('/')
+        history.push('/');
+        window.location.reload(false);
       })
       .catch((err) => {
         // TODO: display error through alert
@@ -53,7 +53,7 @@ function PostMenu(props) {
                   <Menu.Item>
                     {({active}) => (
                       <Link
-                        to={`/view/${props.id}/edit`}
+                        to={`/view/${props.postId}/edit`}
                         className={`${
                           active ? 'bg-gray-100' : 'bg-white'
                         } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
@@ -66,15 +66,14 @@ function PostMenu(props) {
                 <div className='py-1'>
                   <Menu.Item>
                     {({active}) => (
-                      <Link
+                      <button
                         onClick={removePost}
-                        to='/'
                         className={`${
                           active ? 'bg-gray-100' : 'bg-white'
                         } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
                       >
                         Delete
-                      </Link>
+                      </button>
                     )}
                   </Menu.Item>
                 </div>

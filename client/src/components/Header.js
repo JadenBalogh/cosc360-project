@@ -3,6 +3,8 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import ProfileHeaderDrop from "./ProfileHeaderDrop";
 import { authenticationService } from "../_services";
 
+import logoImage from "../assets/images/logo.svg";
+
 function Header({ setSearchText }) {
   const url = useLocation();
   const history = useHistory();
@@ -13,7 +15,7 @@ function Header({ setSearchText }) {
     login = (
       <Link
         to="/login"
-        className="text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black"
+        className="text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black hover:text-gray-700"
       >
         Login
       </Link>
@@ -21,7 +23,7 @@ function Header({ setSearchText }) {
     register = (
       <Link
         to="/register"
-        className="text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black"
+        className="text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black hover:text-gray-700"
       >
         Register
       </Link>
@@ -29,7 +31,6 @@ function Header({ setSearchText }) {
   }
 
   function handleSearch(event) {
-    console.log("search", url.pathname)
     event.preventDefault();
     if (url.pathname === "/admin")
       history.push("/admin");
@@ -38,10 +39,10 @@ function Header({ setSearchText }) {
   }
 
   return (
-    <nav className="grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50">
+    <nav className={`${url.pathname === "/login" || url.pathname === "/register" ? "hidden" : "block"} grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50`}>
       <div className="justify-self-start flex space-x-4 items-center">
         <Link to="/">
-          <img className="w-20" src={"logo.svg"} alt="Logo" />
+          <img className="w-20" src={logoImage} alt="Logo" />
         </Link>
         {user?.isAdmin && <Link to="/admin" className="text-lg">Admin</Link>}
       </div>
@@ -71,7 +72,7 @@ function Header({ setSearchText }) {
         </button>
       </form>
       <div className="justify-self-end">
-        <ProfileHeaderDrop />
+        { user && <ProfileHeaderDrop /> }
         {login}
         {register}
       </div>

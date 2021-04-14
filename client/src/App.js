@@ -9,6 +9,7 @@ import PasswordRecovery from "./components/PasswordRecovery";
 import CreatePost from "./components/CreatePost";
 import EditPost from "./components/EditPost";
 import ViewPost from "./components/ViewPost";
+import Background from "./components/Background";
 import Admin from "./components/Admin";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route component={Error}/>
         </Switch>
       </div>
+      <Background/>
     </>
   );
 }
