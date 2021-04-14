@@ -51,7 +51,7 @@ export async function editComment(req, res) {
 
   const comment = await getCommentByID(id);
 
-  if (comment.userId !== req.user.id) {
+  if (comment.userId !== req.user.id && !req.user.isAdmin) {
     res.status(403);
     res.json({
       error: "Permission Denied",
@@ -135,7 +135,7 @@ export async function editPost(req, res) {
 
   const post = await getPostByID(id);
 
-  if (post.userId !== req.user.id) {
+  if (post.userId !== req.user.id && !req.user.isAdmin) {
     res.status(403);
     res.json({
       error: "Permission Denied",
