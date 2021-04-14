@@ -1,35 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { authenticationService } from "../_services";
 import { authHeader, history } from "../_helpers";
 import { usePasswordValidation } from "../_hooks/passwordValidation";
 
 function Profile() {
-  const [name, setName] = useState(null);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [image, setImage] = useState(null);
-  const [profile, setProfile] = useState("");
+  const [image, setImage] = useState("");
   const profileURL = `${process.env.REACT_APP_HOST || ""}/accounts/profile`;
-  const user = authenticationService.currentUserValue;
   const [match] = usePasswordValidation({
     password: password,
     password2: password2,
   });
-  let imageHTML = "";
-  if (user && name === null) {
+
+  function loadData() {
     axios
       .get(profileURL, {
         headers: authHeader(),
       })
       .then((user) => {
         console.log(user);
-        setProfile(user.data);
-        setName(profile.name);
-        setPassword(profile.password);
-        setPassword2(profile.password);
-        setEmail(profile.email);
+        setName(user.data.name);
+        setPassword(user.data.password);
+        setPassword2(user.data.password);
+        setEmail(user.data.email);
         setImage(user.data.image);
       })
       .catch((error) => {
@@ -38,6 +35,9 @@ function Profile() {
         console.log(error);
       });
   }
+  useEffect(loadData, []);
+
+  let imageHTML = "";
   if (image) {
     imageHTML = (
       <img
@@ -107,8 +107,8 @@ function Profile() {
                 id="email"
                 name="email"
                 placeholder="Email"
-                onChange={(event) => setEmail(event.target.value)}
                 value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 className="shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5"
               />
               <input
@@ -116,8 +116,8 @@ function Profile() {
                 id="username"
                 name="username"
                 placeholder="Username"
-                onChange={(event) => setName(event.target.value)}
                 value={name}
+                onChange={(event) => setName(event.target.value)}
                 className="shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5"
               />
               <input
@@ -125,8 +125,8 @@ function Profile() {
                 id="password"
                 name="password"
                 placeholder="Password"
-                onChange={(event) => setPassword(event.target.value)}
                 value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 className="shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5"
               />
               <input
@@ -134,8 +134,8 @@ function Profile() {
                 id="password2"
                 name="password2"
                 placeholder="Repeat Password"
+                value={password2}
                 onChange={(event) => setPassword2(event.target.value)}
-                value={password}
                 className="shadow-inner appearance-none border border-gray-300 rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:ring mt-5"
               />
               <input
