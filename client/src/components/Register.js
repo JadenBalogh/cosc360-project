@@ -68,7 +68,6 @@ function Register() {
         <Link to="/">
           <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
         </Link>
-        <img className="h-10 sm:mb-20 w-full" src={logoImage} alt="Logo" />
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
           {registerError}
         </Alert>
