@@ -64,14 +64,6 @@ function Register() {
 
   return (
     <>
-      <div
-        className="h-screen w-screen sm:bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
-        style={{ clipPath: "polygon(0 75%, 100% 50%, 100% 100%, 0 100%" }}
-      />
-      <div
-        className="h-screen w-screen bg-gradient-to-t from-purple-400 via-red-500 to-red-500 absolute bottom-0"
-        style={{ clipPath: "polygon(0 90%, 100% 80%, 100% 100%, 0 100%)" }}
-      />
       <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
         <img className="h-10 sm:mb-20 w-full" src={logoImage} alt="Logo" />
         <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
