@@ -45,7 +45,7 @@ function Admin({ searchText }) {
         {users.map((user) => (
           <div
             key={user.id}
-            className="flex flex-row items-center justify-between rounded-xl border border-gray-300 h-16"
+            className="flex flex-row items-center justify-between rounded-xl border border-gray-300 h-16 bg-white"
           >
             <div className="flex items-center">
               <p className="text-sm font-medium text-black m-3">
