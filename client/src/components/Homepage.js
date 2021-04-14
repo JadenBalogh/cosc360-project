@@ -101,7 +101,7 @@ function Homepage({ searchText }) {
                 </div>
               </Link>
               <div className='absolute top-5 right-5'>
-                {user && post.userId === user.id && <PostMenu postId={post.id} />}
+                {user && (post.userId === user.id || user.isAdmin) && <PostMenu postId={post.id} />}
               </div>
             </div>
           ))}

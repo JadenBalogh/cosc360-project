@@ -25,7 +25,7 @@ function Post(props) {
         <div className='flex flex-col space-y-2'>
           <div className='flex justify-between items-center'>
             <h2 className='text-2xl font-medium text-black'>{props.post.title}</h2>
-            {props.user && props.post.userId === props.user.id &&
+            {props.user && (props.post.userId === props.user.id || props.user.isAdmin) &&
             <PostMenu postId={props.post.id}/>
             }
           </div>

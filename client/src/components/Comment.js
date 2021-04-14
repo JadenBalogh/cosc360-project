@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import CommentDrop from "./CommentDrop";
 
 import noProfileImage from "../assets/images/no-profile-image.jpg";
+import AddComment from "./AddComment";
 
 function Comment(props) {
   const [hideChildren, setHideChildren] = useState(false);
@@ -50,7 +51,7 @@ function Comment(props) {
                 </span>
               }
             </div>
-            {props.user && props.comment.userId === props.user.id &&
+            {props.user && (props.comment.userId === props.user.id || props.user.isAdmin) &&
             <CommentDrop id={props.comment.id} refresh={props.refreshComments} setProfileError={props.setProfileError}
                          setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}/>
             }
@@ -76,7 +77,8 @@ function Comment(props) {
       <div className={`pl-12 md:pl-24 mt-4 ${!hideChildren ? 'block' : 'hidden'}`}>
         {props.comments.map(data => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={props.setComment}
-                   refreshComments={props.refreshComments} user={props.user}/>
+                   refreshComments={props.refreshComments} user={props.user} setProfileError={props.setProfileError}
+                   setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}/>
         ))}
       </div>
       }
