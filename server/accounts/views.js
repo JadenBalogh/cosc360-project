@@ -42,10 +42,37 @@ export async function signup(req, res) {
     .catch((err) => res.send(err));
 }
 
+export async function getUpdatedProfile(req, res) {
+  dao
+    .findUser(req.userId)
+    .then((user) => {
+      const accessToken = encodeToken({ userId: user.id });
+      res.status(200);
+      return res.json({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image?.toString(),
+        accessToken: accessToken,
+        isAdmin: user.isAdmin,
+      });
+    })
+    .catch((err) => {
+      res.send(err);
+      console.log(err);
+    });
+}
+
 export async function getProfile(req, res) {
   dao
     .findUser(req.userId)
     .then((user) => {
+      if (!req.user.isAdmin && user.id !== req.user.id) {
+        res.status(403);
+        res.json({
+          error: "Permission Denied",
+        });
+      }
       user.image = user.image.toString();
       res.status(200);
       res.json(user);

@@ -26,15 +26,18 @@ function AddComment(props) {
         }, {
           headers: authHeader(),
         })
-        .then((res) => {
+        .then(() => {
           props.refreshComments();
           setComment('');
           resetReferenceComment();
-          // TODO: display success banner
+          props.setProfileError("Posted comment!");
+          props.setIsAlertVisible(true);
+          props.setAlertVariant("success");
         })
         .catch((err) => {
-          // TODO: display error through banner
-          console.log(err);
+          props.setProfileError("Error while commenting, please try again.");
+          props.setIsAlertVisible(true);
+          props.setAlertVariant("error");
         });
     }
   }

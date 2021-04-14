@@ -14,13 +14,16 @@ function CommentDrop(props) {
         },
         headers: authHeader()
       })
-      .then((res) => {
-        // TODO: display success through alert
+      .then(() => {
+        props.setProfileError("Deleted comment!");
+        props.setIsAlertVisible(true);
+        props.setAlertVariant("success");
         props.refresh();
       })
-      .catch((err) => {
-        // TODO: display error through alert
-        console.log(err);
+      .catch(() => {
+        props.setProfileError("Error while deleting comment!");
+        props.setIsAlertVisible(true);
+        props.setAlertVariant("error");
       });
   }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import ProfileHeaderDrop from "./ProfileHeaderDrop";
 import { authenticationService } from "../_services";
 
@@ -15,7 +15,7 @@ function Header({ setSearchText }) {
     login = (
       <Link
         to="/login"
-        className="text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black"
+        className="text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black hover:text-gray-700"
       >
         Login
       </Link>
@@ -23,7 +23,7 @@ function Header({ setSearchText }) {
     register = (
       <Link
         to="/register"
-        className="text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black"
+        className="text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black hover:text-gray-700"
       >
         Register
       </Link>
@@ -72,7 +72,7 @@ function Header({ setSearchText }) {
         </button>
       </form>
       <div className="justify-self-end">
-        <ProfileHeaderDrop />
+        { user && <ProfileHeaderDrop /> }
         {login}
         {register}
       </div>

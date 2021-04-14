@@ -29,7 +29,6 @@ function Register() {
       axios
         .post(registerURL, { email, password, name, image })
         .then((response) => {
-          console.log(response);
           authenticationService.login(email, password).then(() => {
             history.push("/");
             window.location.reload(false);

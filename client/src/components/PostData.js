@@ -97,7 +97,6 @@ function PostData(props) {
           headers: authHeader(),
         })
         .then((res) => {
-          console.log(res)
           return props.history.push(`/view/${res.data.id}`);
         })
         .catch((err) => {
