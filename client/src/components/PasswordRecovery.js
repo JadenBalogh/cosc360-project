@@ -22,8 +22,10 @@ function PasswordRecovery() {
   };
   return (
     <>
-      <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 sm:mb-20" src={logoImage} alt="Logo" />
+      <div className="min-h-screen flex flex-col justify-center items-center relative">
+        <Link to="/">
+          <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
+        </Link>
         <div className="container max-w-md sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
           <h2 className="text-2xl font-medium text-black text-center py-5">
             Enter Email

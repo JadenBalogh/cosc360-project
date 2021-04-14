@@ -106,7 +106,9 @@ function Homepage({ searchText }) {
             </div>
           ))}
         </div>
-        <CreatePostButton />
+        {user &&
+        <CreatePostButton/>
+        }
       </div>
     </>
   );
