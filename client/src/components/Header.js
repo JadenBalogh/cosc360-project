@@ -53,7 +53,7 @@ function Header({ setSearchText }) {
         url.pathname === '/login' || url.pathname === '/register' || url.pathname === '/password-recovery'
           ? 'hidden'
           : 'block'
-      } grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50`}
+      } grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 bg-white sticky top-0 left-0 z-50`}
     >
       <div className='justify-self-start flex space-x-4 items-center'>
         <Link to='/'>
