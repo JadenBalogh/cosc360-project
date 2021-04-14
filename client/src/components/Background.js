@@ -9,11 +9,12 @@ function Background(props) {
   const bounceBalls = (targets) => {
     gsap.utils.toArray(targets).forEach((ball, index) => {
       gsap.to(ball, {
-        y: (Math.random() * 2 - 1) * ball.clientHeight / 6 * (index + 1),
+        y: Math.random() < 0.5 ? -1 * (Math.random() * 2 + 2.5) * 3 : (Math.random() * 2 + 2.5) * 3,
         repeat: -1,
         yoyo: true,
+        ease: "sine",
         duration: 5
-      })
+      });
     });
   }
 
