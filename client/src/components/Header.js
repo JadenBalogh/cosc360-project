@@ -1,11 +1,12 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import ProfileHeaderDrop from "./ProfileHeaderDrop";
 import { authenticationService } from "../_services";
 
 import logoImage from "../assets/images/logo.svg";
 
 function Header({ setSearchText }) {
+  const url = useLocation();
   const history = useHistory();
   const user = authenticationService.currentUserValue;
   let login = "";
@@ -14,7 +15,7 @@ function Header({ setSearchText }) {
     login = (
       <Link
         to="/login"
-        className="text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black"
+        className="text-base leading-relaxed inline-block mr-4 whitespace-no-wrap text-black hover:text-gray-700"
       >
         Login
       </Link>
@@ -22,7 +23,7 @@ function Header({ setSearchText }) {
     register = (
       <Link
         to="/register"
-        className="text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black"
+        className="text-base font-normal leading-relaxed inline-block mr-4 whitespace-no-wrap text-black hover:text-gray-700"
       >
         Register
       </Link>
@@ -31,21 +32,27 @@ function Header({ setSearchText }) {
 
   function handleSearch(event) {
     event.preventDefault();
-    history.push("/");
+    if (url.pathname === "/admin")
+      history.push("/admin");
+    else
+      history.push("/");
   }
 
   return (
     <nav className="grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 sticky top-0 left-0 z-50">
-      <Link to="/" className="justify-self-start">
-        <img className="w-20" src={logoImage} alt="Logo" />
-      </Link>
+      <div className="justify-self-start flex space-x-4 items-center">
+        <Link to="/">
+          <img className="w-20" src={logoImage} alt="Logo" />
+        </Link>
+        {user?.isAdmin && <Link to="/admin" className="text-lg">Admin</Link>}
+      </div>
       <form
         className="justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg"
         onSubmit={handleSearch}
       >
         <input
           className="w-full outline-none"
-          placeholder="Search"
+          placeholder={url.pathname === "/admin" ? "Search using 'user:user' or 'post:post'" : "Search"}
           type="text"
           onChange={(event) => setSearchText(event.target.value)}
         />
@@ -64,8 +71,8 @@ function Header({ setSearchText }) {
           </svg>
         </button>
       </form>
-      <div className='justify-self-end'>
-        <ProfileHeaderDrop />
+      <div className="justify-self-end">
+        { user && <ProfileHeaderDrop /> }
         {login}
         {register}
       </div>

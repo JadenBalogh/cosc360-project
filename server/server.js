@@ -54,6 +54,11 @@ if (process.env.NODE_ENV === "production") {
 // Account Views
 app.post("/accounts/login", accountViews.login);
 app.post("/accounts/signup", accountViews.signup);
+app.get(
+  "/accounts/updated-user",
+  isAuthenticatedMiddleware,
+  accountViews.getUpdatedProfile
+);
 app.post("/accounts/password-recovery", accountViews.resetPassword);
 app.get(
   "/accounts/profile",
@@ -71,6 +76,8 @@ app.post(
   isAdminMiddleware,
   accountViews.deactivateUser
 );
+
+app.get("/accounts/users", isAdminMiddleware,  accountViews.getUsers);
 
 // Post Views
 app.get("/feed/get-feed", getFeed);

@@ -10,12 +10,13 @@ function PostMenu(props) {
     axios
       .delete(deleteURL, {
         data: {
-          id: props.id
+          id: props.postId
         },
         headers: authHeader()
       })
       .then((res) => {
-        history.push('/')
+        history.push('/');
+        window.location.reload(false);
       })
       .catch((err) => {
         // TODO: display error through alert

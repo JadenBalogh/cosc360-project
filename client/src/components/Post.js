@@ -1,6 +1,8 @@
 import React from 'react';
 import PostMenu from "./PostMenu";
 
+import noProfileImage from "../assets/images/no-profile-image.jpg";
+
 function Post(props) {
   return (
     <div className='container max-w-3xl'>
@@ -29,7 +31,7 @@ function Post(props) {
               className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400 ml-2'>
                 @{props.post.User && props.post.User.name}
             </span>
-            <img className='h-7 w-7 bg-gray-300 object-contain rounded-full ml-2' src={props.post.User && props.post.User.image}
+            <img className='h-7 w-7 bg-gray-300 object-contain rounded-full ml-2' src={props.post.User && props.post.User.image ? props.post.User.image : noProfileImage}
                  alt='User profile'/>
           </p>
           <p

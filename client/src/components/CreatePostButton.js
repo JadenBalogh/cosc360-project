@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-function CreatePostButton(props) {
+function CreatePostButton() {
   return (
     <Link to='/create' id='create-post'
           className='w-12 h-12 self-center rounded-full shadow-lg text-white flex justify-center items-center fixed bottom-5 bg-gradient-to-br from-purple-400 to-red-500 hover:from-purple-500 transition'>

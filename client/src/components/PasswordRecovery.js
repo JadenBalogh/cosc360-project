@@ -16,9 +16,8 @@ function PasswordRecovery() {
         userEmail: email,
       })
       .then((response) => {
-        console.log(response);
-          history.push("/login");
-          window.location.reload(false);
+        history.push("/login");
+        window.location.reload(false);
       });
   };
   return (

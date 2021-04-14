@@ -2,26 +2,43 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { history } from "../_helpers";
 import { authenticationService } from "../_services";
+import Alert from "./Alert";
 
 import logoImage from "../assets/images/logo.svg";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authenticationService.login(email, password).then(() => {
-      history.push("/");
-      window.location.reload(false);
-    });
+    authenticationService
+      .login(email, password)
+      .then(() => {
+          if(authenticationService.currentUserValue) {
+              history.push("/");
+              window.location.reload(false);
+          } else {
+              setLoginError("Login was unsuccessful.");
+              setIsAlertVisible(true);
+          }
+      })
   };
+
+  function closeAlert() {
+    setIsAlertVisible(false);
+  }
 
   return (
     <>
-      <div className="min-h-screen flex flex-col justify-center items-center relative -mt-20">
-        <img className="h-10 sm:mb-20" src={logoImage} alt="Logo" />
-        <div className="container max-w-md sm:bg-white sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6">
+      <div className="min-h-screen container max-w-md mx-auto flex flex-col justify-center items-center relative -mt-20">
+        <img className="h-10 w-full sm:mb-20" src={logoImage} alt="Logo" />
+        <Alert visible={isAlertVisible} callback={closeAlert} variant="error">
+          {loginError}
+        </Alert>
+        <div className="sm:bg-white w-full sm:border border-gray-300 sm:rounded-2xl sm:shadow-xl p-6 mt-6">
           <h2 className="text-2xl font-medium text-black text-center py-5">
             Login
           </h2>

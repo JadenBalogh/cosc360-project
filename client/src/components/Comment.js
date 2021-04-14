@@ -51,7 +51,8 @@ function Comment(props) {
               }
             </div>
             {props.user && props.comment.userId === props.user.id &&
-            <CommentDrop id={props.comment.id} refresh={props.refreshComments}/>
+            <CommentDrop id={props.comment.id} refresh={props.refreshComments} setProfileError={props.setProfileError}
+                         setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}/>
             }
           </div>
           <div>
