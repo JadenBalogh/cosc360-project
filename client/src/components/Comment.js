@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import CommentDrop from "./CommentDrop";
 
 import noProfileImage from "../assets/images/no-profile-image.jpg";
-import AddComment from "./AddComment";
 
 function Comment(props) {
   const [hideChildren, setHideChildren] = useState(false);
@@ -33,27 +32,32 @@ function Comment(props) {
                   </svg>
                 }
               </div>
-              {!hideChildren ?
-                <span className='flex items-center cursor-pointer hover:text-gray-500 text-base'
-                      onClick={setReferenceComment}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20"
-                       fill="currentColor">
-                    <path fillRule="evenodd"
-                          d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                          clipRule="evenodd"/>
-                  </svg>
-                  Reply
-                </span>
-                :
-                <span
-                  className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
-                  @{props.comment.User && props.comment.User.name}
-                </span>
+              {props.user &&
+                <>
+                {!hideChildren ?
+                  <span className='flex items-center cursor-pointer hover:text-gray-500 text-base'
+                        onClick={setReferenceComment}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20"
+                         fill="currentColor">
+                      <path fillRule="evenodd"
+                            d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                            clipRule="evenodd"/>
+                    </svg>
+                    Reply
+                  </span>
+                  :
+                  <span
+                    className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
+                    @{props.comment.User && props.comment.User.name}
+                  </span>
+                }
+                </>
               }
             </div>
             {props.user && (props.comment.userId === props.user.id || props.user.isAdmin) &&
-            <CommentDrop id={props.comment.id} refresh={props.refreshComments} setProfileError={props.setProfileError}
-                         setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}/>
+            <CommentDrop comment={props.comment} refresh={props.refreshComments} setProfileError={props.setProfileError}
+                         setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}
+                         setComment={props.setComment} setEditComment={props.setEditComment}/>
             }
           </div>
           <div>
@@ -64,7 +68,8 @@ function Comment(props) {
                 className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400'>
                 @{props.comment.User && props.comment.User.name}
               </span>
-                <img className='h-7 w-7 bg-gray-300 object-contain rounded-full ml-2' src={props.comment.User && props.comment.User.image ? props.comment.User.image : noProfileImage}
+                <img className='h-7 w-7 bg-gray-300 object-contain rounded-full ml-2'
+                     src={props.comment.User && props.comment.User.image ? props.comment.User.image : noProfileImage}
                      alt='User profile'/>
               </h2>
               <p className='text-base text-black overflow-hidden mt-2'>{props.comment.text}</p>
@@ -78,7 +83,8 @@ function Comment(props) {
         {props.comments.map(data => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={props.setComment}
                    refreshComments={props.refreshComments} user={props.user} setProfileError={props.setProfileError}
-                   setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}/>
+                   setAlertVariant={props.setAlertVariant} setIsAlertVisible={props.setIsAlertVisible}
+                   setEditComment={props.setEditComment}/>
         ))}
       </div>
       }

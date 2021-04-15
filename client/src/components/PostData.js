@@ -67,7 +67,6 @@ function PostData(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title, image, link, body);
     if (props.edit) {
       axios
         .put(editURL, {
