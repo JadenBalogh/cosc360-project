@@ -6,19 +6,48 @@ function AddComment(props) {
   const [comment, setComment] = useState('');
   const [postComment, setPostComment] = useState(false);
   const addCommentURL = `${process.env.REACT_APP_HOST || ''}/feed/add-comment`;
+  const editCommentURL = `${process.env.REACT_APP_HOST || ''}/feed/edit-comment`;
 
   useEffect(() => {
     setPostComment(comment !== '');
   }, [comment]);
 
+  useEffect(() => {
+    if (props.editComment) setComment(props.referenceComment ? props.referenceComment.text : "");
+  }, [props.editComment, props.referenceComment])
+
   const resetReferenceComment = () => {
     props.setReferenceComment(null);
+    props.setEditComment(false);
+    setComment('');
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (postComment) {
-      axios
+      if (props.editComment) {
+        axios
+          .put(editCommentURL, {
+            id: props.referenceComment.id,
+            text: comment
+          }, {
+            headers: authHeader(),
+          })
+          .then((res) => {
+            props.refreshComments();
+            resetReferenceComment();
+            props.setProfileError("Edited comment!");
+            props.setIsAlertVisible(true);
+            props.setAlertVariant("success");
+          })
+          .catch(() => {
+            resetReferenceComment();
+            props.setProfileError("Error while editing, please try again.");
+            props.setIsAlertVisible(true);
+            props.setAlertVariant("error");
+          });
+      } else {
+        axios
         .post(addCommentURL, {
           text: comment,
           postId: props.postId,
@@ -28,17 +57,18 @@ function AddComment(props) {
         })
         .then(() => {
           props.refreshComments();
-          setComment('');
           resetReferenceComment();
           props.setProfileError("Posted comment!");
           props.setIsAlertVisible(true);
           props.setAlertVariant("success");
         })
-        .catch((err) => {
+        .catch(() => {
+          resetReferenceComment();
           props.setProfileError("Error while commenting, please try again.");
           props.setIsAlertVisible(true);
           props.setAlertVariant("error");
         });
+      }
     }
   }
 
@@ -48,11 +78,11 @@ function AddComment(props) {
       <div className='container max-w-3xl fixed bottom-0 md:bottom-9 space-y-0 md:space-y-5'>
         {props.referenceComment &&
         <div
-          className='h-full flex flex-row justify-between items-center p-3 mx-6 md:m-0 bg-white border border-gray-300 md:rounded shadow-lg'>
+          className={`h-full flex flex-row justify-between items-center p-3 mx-6 md:m-0 bg-white border ${props.editComment ? "border-yellow-300" : "border-gray-300"} md:rounded shadow-lg`}>
           <div>
           <span
             className='font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-purple-400 float-left'>
-            @{props.username}
+            {props.editComment && "Editing "}@{props.referenceComment.User.name}:
           </span>
             <p className='text-base text-black overflow-hidden pl-2'>{props.referenceComment.text}</p>
           </div>

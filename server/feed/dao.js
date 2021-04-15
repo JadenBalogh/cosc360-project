@@ -25,6 +25,7 @@ export async function getAllPostComments(postId) {
     where: {
       postId: postId
     },
+    order: [['createdAt', 'ASC']],
   });
 }
 
@@ -87,6 +88,7 @@ export async function destroyComment(id) {
 
 export async function getCommentByID(id) {
   return Comment.findOne({
+    include: User,
     where: {
       id: id,
     },

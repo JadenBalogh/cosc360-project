@@ -10,7 +10,7 @@ function CommentDrop(props) {
     axios
       .delete(deleteURL, {
         data: {
-          id: props.id
+          id: props.comment.id
         },
         headers: authHeader()
       })
@@ -25,6 +25,11 @@ function CommentDrop(props) {
         props.setIsAlertVisible(true);
         props.setAlertVariant("error");
       });
+  }
+
+  const editComment = () => {
+    props.setComment(props.comment);
+    props.setEditComment(true);
   }
 
   return (
@@ -57,8 +62,24 @@ function CommentDrop(props) {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items
-                  className="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-xl outline-none"
+                  className="absolute right-0 w-32 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-xl outline-none"
                 >
+                  <div className="py-1">
+                    <Menu.Item>
+                      {({active}) => (
+                        <button
+                          onClick={editComment}
+                          className={`${
+                            active
+                              ? "bg-gray-100"
+                              : "bg-white"
+                          } flex justify-between w-full px-4 py-2 text-sm leading-5 text-left`}
+                        >
+                          Edit
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
                   <div className="py-1">
                     <Menu.Item>
                       {({active}) => (

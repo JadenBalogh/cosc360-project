@@ -18,6 +18,7 @@ function ViewPost(props) {
   });
   const [comments, setComments] = useState([]);
   const [referenceComment, setReferenceComment] = useState(null);
+  const [editComment, setEditComment] = useState(false);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
   const [alertVariant, setAlertVariant] = useState("error");
   const [profileError, setProfileError] = useState("");
@@ -104,14 +105,17 @@ function ViewPost(props) {
           {post.title}
         </div>
         <Post post={post} user={user}/>
-        {comments.map((data, index) => (
+        {comments.map((data) => (
           <Comment key={data.comment.id} comment={data.comment} comments={data.comments} setComment={setComment}
                    refreshComments={refreshComments} user={user} setProfileError={setProfileError}
-                   setAlertVariant={setAlertVariant} setIsAlertVisible={setIsAlertVisible}/>
+                   setAlertVariant={setAlertVariant} setIsAlertVisible={setIsAlertVisible}
+                   setEditComment={setEditComment}/>
         ))}
         <AddComment refreshComments={refreshComments} postId={postId} referenceComment={referenceComment}
                     setReferenceComment={setComment} user={user} setProfileError={setProfileError}
-                    setAlertVariant={setAlertVariant} setIsAlertVisible={setIsAlertVisible}/>
+                    setAlertVariant={setAlertVariant} setIsAlertVisible={setIsAlertVisible}
+                    setEditComment={setEditComment}
+                    editComment={editComment}/>
       </main>
     </>
   );
