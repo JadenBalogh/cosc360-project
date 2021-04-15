@@ -90,7 +90,7 @@ function ViewPost(props) {
             {profileError}
           </Alert>
         </div>
-        <div className='flex flex-row items-center container max-w-3xl mx-auto mb-4 text-gray-400 pl-10'>
+        <div className='flex flex-row items-center container max-w-3xl mx-auto mb-4 text-gray-400 pl-10 md:pl-6'>
           <Link to='/' className='hover:text-gray-700 h-full'>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path
