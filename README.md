@@ -107,4 +107,4 @@ run `nodemon server.js` to launch the server
  - https://github.com/carson-ricca
 
 ##
-###✨ Thanks for reading ✨
+✨ Thanks for reading ✨
