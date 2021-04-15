@@ -46,9 +46,6 @@ app.use(jwtAuthenticationMiddleware);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "build")));
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
 }
 
 // Account Views
@@ -108,6 +105,10 @@ app.get("/populate-db", async (req, res) => {
     .catch((err) => {
       console.log(err);
     });
+});
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(port, () => {
