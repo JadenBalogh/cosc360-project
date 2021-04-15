@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/JadenBalogh/cosc360-project/master/client/src/assets/images/logo.svg" style="text-align:center; width:100%" width="100" height="100">
+# ![logo](https://raw.githubusercontent.com/JadenBalogh/cosc360-project/master/client/src/assets/images/logo.svg)
 
 Postn is a discussion forum website. It allows registered users to participate in online discussions
 in a similar format to Reddit. Unregistered users will be allowed to view the discussions but will be unable to comment
