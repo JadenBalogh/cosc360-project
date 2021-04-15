@@ -21,7 +21,7 @@ function Post(props) {
                src={props.post.image} alt='Attached to post'/>
         </div>
       }
-      <div className='bg-white border border-gray-300 rounded-2xl p-6 m-4'>
+      <div className='bg-white border border-gray-300 rounded-2xl p-6 m-4 md:m-0'>
         <div className='flex flex-col space-y-2'>
           <div className='flex justify-between items-center'>
             <h2 className='text-2xl font-medium text-black'>{props.post.title}</h2>
