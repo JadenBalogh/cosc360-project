@@ -11,8 +11,8 @@ function Comment(props) {
   }
 
   return (
-    <div className='container max-w-3xl'>
-      <div className='md:bg-white border-t border-b md:border border-gray-300 md:rounded-2xl p-6 mt-4'>
+    <div className='container max-w-3xl mx-auto'>
+      <div className='bg-white border-t border-b border border-gray-300 rounded-2xl p-6 mt-4'>
         <div className='flex flex-col'>
           <div className='flex justify-between items-center'>
             <div className='flex flex-row space-x-3 items-center'>
