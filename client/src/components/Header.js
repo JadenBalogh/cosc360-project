@@ -53,9 +53,9 @@ function Header({ setSearchText }) {
         url.pathname === '/login' || url.pathname === '/register' || url.pathname === '/password-recovery'
           ? 'hidden'
           : 'block'
-      } grid grid-rows-1 grid-cols-header gap-x-4 items-center w-full py-4 px-6 bg-white sticky top-0 left-0 z-50`}
+      } grid grid-rows-2 grid-cols-header-md md:grid-rows-1 md:grid-cols-header gap-x-4 items-center w-full py-4 px-6 bg-white sticky top-0 left-0 z-50`}
     >
-      <div className='justify-self-start flex space-x-4 items-center'>
+      <div className='justify-self-start col-start-1 col-span-1 row-start-1 row-span-1 flex space-x-4 items-center'>
         <Link to='/'>
           <img className='w-20' src={logoImage} alt='Logo' />
         </Link>
@@ -66,7 +66,7 @@ function Header({ setSearchText }) {
         )}
       </div>
       <form
-        className='justify-self-center flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg'
+        className='justify-self-center col-start-1 col-span-2 md:col-start-2 md:col-span-1 row-start-2 row-span-1 md:row-start-1 flex flex-shrink-0 items-center justify-between w-full h-10 px-5 rounded-full border border-gray-300 bg-white shadow-lg'
         onSubmit={handleSearch}
       >
         <input
@@ -90,7 +90,7 @@ function Header({ setSearchText }) {
           </svg>
         </button>
       </form>
-      <div className='justify-self-end'>
+      <div className='justify-self-end col-start-2 col-span-1 md:col-start-3 row-start-1 row-span-1'>
         {user && <ProfileHeaderDrop />}
         {login}
         {register}
