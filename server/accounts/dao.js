@@ -1,47 +1,86 @@
-import dotenv from 'dotenv';
+import sequelize_pkg from "sequelize";
+
+const { Op } = sequelize_pkg;
+import dotenv from "dotenv";
+import { User, Post } from "../db/models.js";
+
 dotenv.config();
 
-import pg from 'pg';
-
-const client = new pg.Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-client.connect();
-
-// TODO: Use database
-const users = [
-  {
-    id: '1',
-    email: 'first@gmail.com',
-    password: 'password',
-  },
-  {
-    id: '2',
-    email: 'second@gmail.com',
-    password: 'password',
-  },
-];
-
-export function testDB() {
-  client.query('SELECT table_schema, table_name FROM information_schema.tables;', (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      console.log(JSON.stringify(row));
+export async function findUser(email, password) {
+  try {
+    if (isFinite(email)) {
+      return await User.findByPk(email);
     }
-    client.end();
+    if (password == null) {
+      return await User.findOne({
+        where: {
+          email: email,
+        },
+      });
+    }
+    return await User.findOne({
+      where: {
+        email: email,
+        password: password,
+      },
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function createUser(email, password, name, image) {
+  return User.create({
+    email: email,
+    password: password,
+    name: name,
+    image: image,
   });
 }
 
-export function findUser(email, password) {
-  if (isFinite(email)) {
-    const userId = email;
-    return users.find((user) => user.id === userId);
+export async function updateUser(id, attributes) {
+  return User.update(attributes, {
+    where: {
+      id: id,
+    },
+  });
+}
+
+export async function retrieveUsers(options) {
+  if (options.searchType === "user" || options.searchType === "") {
+    return User.findAll({
+      where: options.searchText === "" ? {} : {
+        [Op.or]: {
+          ...(options.searchText && {
+            name: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+          ...(options.searchText && {
+            email: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+        }
+      }
+    });
+  } else if (options.searchType === "post") {
+    return Post.findAll({
+      include: User,
+      where: options.searchText === "" ? {} : {
+        [Op.or]: {
+          ...(options.searchText && {
+            title: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+          ...(options.searchText && {
+            body: {
+              [Op.iLike]: `%${options.searchText}%`,
+            },
+          }),
+        }
+      }
+    });
   }
-  if (password == null) {
-    return users.find((user) => user.email === email);
-  }
-  return users.find((user) => user.email === email && user.password === password);
 }

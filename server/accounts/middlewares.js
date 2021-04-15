@@ -1,29 +1,39 @@
-import {findUser} from "./dao.js";
-import {decodeToken} from "./authentication.js";
+import { findUser } from "./dao.js";
+import { decodeToken } from "./authentication.js";
 
-export const jwtAuthenticationMiddleware = (req, res, next) => {
-    const token = req.header('Access-Token');
-    if (!token) {
-        return next();
-    }
+export const jwtAuthenticationMiddleware = async (req, res, next) => {
+  const token = req.header("Authorization");
+  if (!token) {
+    return next();
+  }
 
-    try {
-        const decoded = decodeToken(token);
-        const {userId} = decoded;
-        if (findUser(userId)) {
-            req.userId = userId;
-        }
-    } catch (e) {
-        return next();
+  try {
+    const decoded = decodeToken(token);
+    const { userId } = decoded;
+    const user = await findUser(userId);
+    if (user) {
+      req.userId = userId;
+      req.user = user;
     }
-    next();
+  } catch (e) {
+    return next();
+  }
+  next();
 };
 
 export async function isAuthenticatedMiddleware(req, res, next) {
-    if (req.userId) {
-        return next();
-    }
+  if (req.userId) {
+    return next();
+  }
 
-    res.status(401);
-    return res.json({error: 'User not authenticated'});
+  res.status(401);
+  return res.json({ error: "User not authenticated" });
+}
+
+export async function isAdminMiddleware(req, res, next) {
+  if (req.user?.isAdmin) {
+    return next();
+  }
+  res.status(403);
+  return res.json({ error: "Permission Denied" });
 }

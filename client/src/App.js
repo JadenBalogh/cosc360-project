@@ -1,33 +1,45 @@
-import './App.css';
-import {Switch, Route, Link} from "react-router-dom";
+import { useState } from "react";
+import { Switch, Route } from "react-router-dom";
 import Login from './components/Login';
 import Register from './components/Register';
-import Homepage from "./components/Homepage";
+import Homepage from './components/Homepage';
+import Header from './components/Header';
+import Profile from "./components/Profile";
+import PasswordRecovery from "./components/PasswordRecovery";
+import CreatePost from "./components/CreatePost";
+import EditPost from "./components/EditPost";
+import ViewPost from "./components/ViewPost";
+import Background from "./components/Background";
+import Admin from "./components/Admin";
 
 function App() {
+  const [searchText, setSearchText] = useState("");
 
-    return (
-        <div className="w-full h-full absolute bg-gradient-to-t from-purple-400 to-red-500" id="background">
-        <nav className="w-full flex flex-wrap items-center justify-between navbar-expand-lg">
-            <div className=" w-full px-4 flex flex-wrap items-center justify-between bg-white">
-                <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                    <Link to="/" className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-black">Home</Link>
-                    <Link to="/login" className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-black">Login</Link>
-                    <Link to="/register" className="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-black">Register</Link>
-                </div>
-            </div>
-        </nav>
-            <div className="justify-center">
-            <Switch>
-                <Route exact path='/' component={Homepage} />
-                <Route path='/login' component={Login} />
-                <Route path='/register' component={Register} />
-                <Route component={Error} />
-            </Switch>
-            </div>
-        </div>
-    );
-
+  return (
+    <>
+      <Header setSearchText={setSearchText} />
+      <div>
+        <Switch>
+          <Route exact path="/">
+            <Homepage searchText={searchText} />
+          </Route>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/password-recovery" component={PasswordRecovery} />
+          <Route path='/create' component={CreatePost}/>
+          <Route path='/view/:id/edit/' component={EditPost}/>
+          <Route path='/view/:id' component={ViewPost}/>
+          <Route path='/admin'>
+            <Admin searchText={searchText} />
+          </Route>
+          <Route exact path='/' component={Homepage}/>
+          <Route component={Error}/>
+        </Switch>
+      </div>
+      <Background/>
+    </>
+  );
 }
 
 export default App;
