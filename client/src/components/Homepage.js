@@ -14,14 +14,10 @@ function Homepage({ searchText }) {
   const user = authenticationService.currentUserValue;
 
   function loadFeed() {
-    console.log('Loading feed.');
-    console.log('URL: ' + feedURL);
     let searchParams = '?' + new URLSearchParams({ searchText, sortOrder });
     axios
       .get(feedURL + searchParams)
       .then((response) => {
-        console.log('Received result.');
-        console.log(response.data);
         setFeed(response.data);
       })
       .catch((error) => {
